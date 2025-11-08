@@ -1,33 +1,31 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useRef } from 'react'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const formRef = useRef<HTMLDivElement | null>(null);
+
+  // @ts-expect-error - scrollToForm will be used in task 4 when CTA button is implemented
+  const scrollToForm = () => {
+    formRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      {/* Header section - to be implemented in task 3 */}
+      
+      {/* Hero section - to be implemented in task 4 */}
+      
+      {/* Problem section - to be implemented in task 5 */}
+      
+      {/* Solution section - to be implemented in task 6 */}
+      
+      {/* Waitlist form section - to be implemented in task 7 */}
+      <div ref={formRef}>
+        {/* Form content will go here */}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      
+      {/* Trust section - to be implemented in task 8 */}
+      
+      {/* Footer section - to be implemented in task 9 */}
     </>
   )
 }
