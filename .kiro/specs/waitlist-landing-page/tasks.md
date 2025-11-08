@@ -47,7 +47,7 @@
   - Use exact Spanish copy for all content
   - _Requirements: 1.4, 1.5_
 
-- [ ] 7. Build waitlist form section with Airtable embed
+- [x] 7. Build waitlist form section with Airtable embed
   - Create section with centered column layout (col-12 col-lg-8)
   - Add H2 heading "Únete a la lista de espera"
   - Add intro text above form
