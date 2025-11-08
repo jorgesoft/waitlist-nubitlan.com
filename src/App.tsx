@@ -83,7 +83,6 @@ function App() {
                 <div className="ratio ratio-4x3" style={{ minHeight: '560px' }}>
                   <iframe
                     src="https://airtable.com/embed/appG2ASoHmZ4gwLGO/pagks1Wtc4fa7dzwU/form"
-                    frameBorder="0"
                     width="100%"
                     height="100%"
                     style={{ background: 'transparent', border: '1px solid #ccc' }}
@@ -99,9 +98,33 @@ function App() {
         </div>
       </section>
       
-      {/* Trust section - to be implemented in task 8 */}
+      {/* Trust section */}
+      <section className="py-4">
+        <div className="container">
+          <div className="bg-white border rounded-3 p-3 p-md-4">
+            <p className="mb-0">
+              Creado por profesionales de ciberseguridad con experiencia en estándares internacionales y entornos cloud.
+            </p>
+          </div>
+        </div>
+      </section>
       
-      {/* Footer section - to be implemented in task 9 */}
+      {/* Footer section */}
+      <footer className="py-4 border-top">
+        <div className="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+          <div className="mb-2 mb-md-0">
+            © {new Date().getFullYear()} Nubitlan. Todos los derechos reservados.
+          </div>
+          <div className="d-flex flex-column flex-md-row align-items-center gap-3">
+            <a href="#privacy" id="privacy" className="text-decoration-none">
+              Privacy Policy
+            </a>
+            <a href="mailto:contacto@nubitlan.com" className="text-decoration-none">
+              contacto@nubitlan.com
+            </a>
+          </div>
+        </div>
+      </footer>
     </>
   )
 }

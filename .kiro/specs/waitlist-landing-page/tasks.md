@@ -57,13 +57,13 @@
   - Add privacy reassurance message below form with lock emoji
   - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 7.5, 4.3_
 
-- [ ] 8. Build trust section
+- [x] 8. Build trust section
   - Create section with bordered card styling
   - Add credibility statement paragraph
   - Use Bootstrap border, rounded, and padding classes
   - _Requirements: 4.1_
 
-- [ ] 9. Build footer section
+- [x] 9. Build footer section
   - Create footer with border-top and flex layout
   - Add copyright with current year
   - Add Privacy Policy link with id="privacy" anchor
@@ -71,14 +71,14 @@
   - Use responsive flex direction (column on mobile, row on desktop)
   - _Requirements: 4.4_
 
-- [ ] 10. Remove unused files and verify build
+- [x] 10. Remove unused files and verify build
   - Delete src/App.css file
   - Remove unused imports from App.tsx
   - Verify no console errors in browser
   - Run build command to ensure successful compilation
   - _Requirements: 6.3, 7.1, 7.2, 7.3_
 
-- [ ]* 11. Validate accessibility and performance
+- [x] 11. Validate accessibility and performance
   - Run Lighthouse audit in mobile mode
   - Verify performance score ≥ 90
   - Verify accessibility score ≥ 95
