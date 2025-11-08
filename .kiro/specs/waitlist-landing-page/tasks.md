@@ -39,7 +39,7 @@
   - Use exact Spanish copy for all content
   - _Requirements: 1.3, 1.5, 4.2_
 
-- [ ] 6. Build solution section
+- [x] 6. Build solution section
   - Create section with light background
   - Add H2 heading "Nuestra propuesta"
   - Add intro paragraph

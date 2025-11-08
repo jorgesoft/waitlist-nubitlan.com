@@ -54,7 +54,21 @@ function App() {
         </div>
       </section>
       
-      {/* Solution section - to be implemented in task 6 */}
+      {/* Solution section */}
+      <section className="py-5 bg-light">
+        <div className="container">
+          <h2 className="h4 mb-2">Nuestra propuesta</h2>
+          <p className="mb-2 mt-2">
+            Nubitlan te ayuda a cumplir con la ley y mejorar tu seguridad de forma simple y guiada:
+          </p>
+          <ul>
+            <li>Evaluación de cumplimiento adaptada a tu empresa</li>
+            <li>Identificación de riesgos de seguridad y datos personales</li>
+            <li>Reporte claro con el estado actual de tu organización</li>
+            <li>Recomendaciones prácticas y priorizadas para implementar</li>
+          </ul>
+        </div>
+      </section>
       
       {/* Waitlist form section - to be implemented in task 7 */}
       <div ref={formRef}>
