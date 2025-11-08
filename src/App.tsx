@@ -3,7 +3,6 @@ import { useRef } from 'react'
 function App() {
   const formRef = useRef<HTMLDivElement | null>(null);
 
-  // @ts-expect-error - scrollToForm will be used in task 4 when CTA button is implemented
   const scrollToForm = () => {
     formRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -18,7 +17,26 @@ function App() {
         </div>
       </header>
       
-      {/* Hero section - to be implemented in task 4 */}
+      {/* Hero section */}
+      <section className="py-5 py-md-6 bg-light">
+        <div className="container text-center">
+          <h1 className="display-5 fw-bold mb-3">
+            ¿Tu empresa está lista para proteger los datos y cumplir con la nueva ley de El Salvador?
+          </h1>
+          <p className="lead mb-4">
+            Muchas PYMEs no saben por dónde empezar con la Ley de Protección de Datos Personales ni cómo fortalecer su ciberseguridad. Nubitlan es una herramienta impulsada por IA que te guía paso a paso: evalúa tu situación, identifica riesgos y te entrega un reporte con recomendaciones prácticas.
+          </p>
+          <button 
+            onClick={scrollToForm}
+            className="btn btn-primary btn-lg mb-2"
+          >
+            Únete a la lista de espera
+          </button>
+          <p className="text-muted small">
+            Al unirte, recibirás una guía gratuita para dar tus primeros pasos en cumplimiento y seguridad.
+          </p>
+        </div>
+      </section>
       
       {/* Problem section - to be implemented in task 5 */}
       

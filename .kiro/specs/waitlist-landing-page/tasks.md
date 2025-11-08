@@ -22,7 +22,7 @@
   - Use Bootstrap utility classes for layout and styling
   - _Requirements: 4.5_
 
-- [ ] 4. Build hero section
+- [x] 4. Build hero section
   - Create section with light background and responsive padding
   - Add H1 headline with exact Spanish copy
   - Add lead paragraph with subheadline copy
