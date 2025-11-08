@@ -31,7 +31,7 @@
   - Use Bootstrap display, lead, and button classes
   - _Requirements: 1.1, 1.2, 1.5, 3.2, 2.1, 2.2_
 
-- [ ] 5. Build problem section
+- [x] 5. Build problem section
   - Create section with standard padding
   - Add H2 heading "El problema"
   - Add micro-value line paragraph

@@ -38,7 +38,21 @@ function App() {
         </div>
       </section>
       
-      {/* Problem section - to be implemented in task 5 */}
+      {/* Problem section */}
+      <section className="py-5">
+        <div className="container">
+          <h2 className="h4 mb-2">El problema</h2>
+          <p className="mb-2 mt-2">
+            Cumplir no solo evita sanciones: también fortalece la seguridad y la confianza de tus clientes.
+          </p>
+          <ul>
+            <li>Falta de controles básicos de seguridad</li>
+            <li>Datos personales sin protección adecuada</li>
+            <li>Ausencia de políticas internas claras</li>
+            <li>Riesgo de sanciones por incumplimiento</li>
+          </ul>
+        </div>
+      </section>
       
       {/* Solution section - to be implemented in task 6 */}
       
