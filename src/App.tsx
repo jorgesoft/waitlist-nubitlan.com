@@ -75,24 +75,15 @@ function App() {
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-12 col-lg-8">
-              <h2 className="h4 mb-3 text-center">Únete a la lista de espera</h2>
-              <p className="text-center mb-4">
-                Déjanos tu correo y sé de los primeros en acceder a Nubitlan. Recibirás una guía gratuita para empezar a proteger tu empresa.
-              </p>
               <div ref={formRef}>
-                <div className="ratio ratio-4x3" style={{ minHeight: '560px' }}>
-                  <iframe
-                    src="https://airtable.com/embed/appG2ASoHmZ4gwLGO/pagks1Wtc4fa7dzwU/form"
-                    width="100%"
-                    height="100%"
-                    style={{ background: 'transparent', border: '1px solid #ccc' }}
-                    title="Waitlist form"
-                  />
-                </div>
+                <iframe 
+                  className="airtable-embed" 
+                  src="https://airtable.com/embed/appG2ASoHmZ4gwLGO/pagks1Wtc4fa7dzwU/form" 
+                  width="100%" 
+                  height="770" 
+                  style={{ background: 'transparent' }}>
+                </iframe>
               </div>
-              <p className="text-center text-muted small mt-3">
-                🔒 Tu información está segura. No compartimos tus datos con terceros.
-              </p>
             </div>
           </div>
         </div>
