@@ -21,10 +21,10 @@ function App() {
       <section className="py-5 py-md-6 bg-light">
         <div className="container text-center">
           <h1 className="display-5 fw-bold mb-3">
-            ¿Tu empresa está lista para proteger los datos y cumplir con la nueva ley de El Salvador?
+            ¿Tu empresa está lista para cumplir con la nueva Ley de Protección de Datos Personales de El Salvador?
           </h1>
           <p className="lead mb-4">
-            Muchas PYMEs no saben por dónde empezar con la Ley de Protección de Datos Personales ni cómo fortalecer su ciberseguridad. Nubitlan es una herramienta impulsada por IA que te guía paso a paso: evalúa tu situación, identifica riesgos y te entrega un reporte con recomendaciones prácticas.
+            Muchas PYMEs no saben por dónde empezar con esta nueva ley ni cómo fortalecer su ciberseguridad. Nubitlan es una herramienta impulsada por IA que te guía paso a paso: evalúa tu situación, identifica riesgos y te entrega un reporte con recomendaciones prácticas.
           </p>
           <button 
             onClick={scrollToForm}
@@ -76,12 +76,13 @@ function App() {
           <div className="row justify-content-center">
             <div className="col-12 col-lg-8">
               <div ref={formRef}>
-                <iframe 
-                  className="airtable-embed" 
-                  src="https://airtable.com/embed/appG2ASoHmZ4gwLGO/pagks1Wtc4fa7dzwU/form" 
-                  width="100%" 
-                  height="770" 
-                  style={{ background: 'transparent' }}>
+                <iframe
+                  id="JotFormIFrame-253112397254051"
+                  title="Únete a la lista de espera"
+                  allow="geolocation; microphone; camera; fullscreen; payment"
+                  src="https://form.jotform.com/253112397254051"
+                  style={{ minWidth: '100%', maxWidth: '100%', height: '1000px', border: 'none' }}
+                >
                 </iframe>
               </div>
             </div>
