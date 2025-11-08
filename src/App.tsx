@@ -10,7 +10,13 @@ function App() {
 
   return (
     <>
-      {/* Header section - to be implemented in task 3 */}
+      {/* Header section */}
+      <header className="border-bottom py-2">
+        <div className="container d-flex align-items-center justify-content-between">
+          <div className="fw-bold">Nubitlan</div>
+          <a href="#privacy" className="text-decoration-none">Privacy Policy</a>
+        </div>
+      </header>
       
       {/* Hero section - to be implemented in task 4 */}
       

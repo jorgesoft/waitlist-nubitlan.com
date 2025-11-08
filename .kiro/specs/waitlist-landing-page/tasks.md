@@ -15,7 +15,7 @@
   - Implement scrollToForm function with smooth scroll behavior
   - _Requirements: 3.2, 6.4_
 
-- [ ] 3. Build header section
+- [x] 3. Build header section
   - Create header element with border-bottom and padding
   - Add brand name "Nubitlan" on the left
   - Add Privacy Policy link on the right
