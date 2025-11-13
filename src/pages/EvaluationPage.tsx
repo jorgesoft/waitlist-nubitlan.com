@@ -12,6 +12,7 @@ function EvaluationPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [announcement, setAnnouncement] = useState<string>('');
+  const [quizStarted, setQuizStarted] = useState(false);
   const mainContentRef = useRef<HTMLDivElement>(null);
 
   // Load quiz configuration on mount
@@ -57,12 +58,14 @@ function EvaluationPage() {
       setAnnouncement('Cargando evaluación...');
     } else if (error) {
       setAnnouncement('Error al cargar la evaluación. Por favor, intenta de nuevo.');
+    } else if (config && !quizStarted) {
+      setAnnouncement('Evaluación lista para comenzar.');
     } else if (config && quizEngine.isComplete && quizEngine.outcome) {
       setAnnouncement(`Evaluación completada. Resultado: ${quizEngine.outcome.title}`);
     } else if (config && quizEngine.currentQuestion) {
       setAnnouncement(`Pregunta ${currentStep} de ${totalSteps}: ${quizEngine.currentQuestion.text}`);
     }
-  }, [loading, error, config, quizEngine.isComplete, quizEngine.outcome, quizEngine.currentQuestion, currentStep, totalSteps]);
+  }, [loading, error, config, quizStarted, quizEngine.isComplete, quizEngine.outcome, quizEngine.currentQuestion, currentStep, totalSteps]);
 
   return (
     <>
@@ -161,43 +164,75 @@ function EvaluationPage() {
                     <p className="text-muted mb-0">{config.quiz.description}</p>
                   </div>
 
-                  {/* Progress indicator - only show during quiz, not on outcome */}
-                  {!quizEngine.isComplete && (
-                    <QuizProgress 
-                      currentStep={currentStep} 
-                      totalSteps={totalSteps} 
-                    />
-                  )}
-
-                  {/* Question or Outcome */}
-                  {quizEngine.isComplete && quizEngine.outcome ? (
-                    <OutcomeCard 
-                      outcome={quizEngine.outcome} 
-                      onRestart={quizEngine.restart} 
-                    />
-                  ) : quizEngine.currentQuestion ? (
-                    <QuestionCard 
-                      question={quizEngine.currentQuestion} 
-                      onAnswer={quizEngine.handleAnswer} 
-                    />
-                  ) : (
-                    <div className="card shadow-sm border-0" role="alert">
-                      <div className="card-body p-4 text-center">
-                        <i className="bi bi-question-circle text-warning fs-1 mb-3 d-block" aria-hidden="true"></i>
-                        <h2 className="h4 mb-3">Estado inesperado</h2>
+                  {/* Start screen - shown before quiz begins */}
+                  {!quizStarted ? (
+                    <div className="card shadow-sm border-0">
+                      <div className="card-body p-5 text-center">
+                        <i className="bi bi-clipboard-check text-primary fs-1 mb-4 d-block" aria-hidden="true"></i>
+                        <h2 className="h4 mb-3">¿Listo para comenzar?</h2>
                         <p className="text-muted mb-4">
-                          No se pudo determinar la siguiente pregunta. Por favor, reinicia la evaluación.
+                          Esta evaluación te ayudará a determinar qué tan preparada está tu empresa para cumplir con la Ley de Protección de Datos.
+                        </p>
+                        <p className="text-muted mb-4">
+                          Responderás {totalSteps} {totalSteps === 1 ? 'pregunta' : 'preguntas'} y recibirás una evaluación personalizada al final.
                         </p>
                         <button
                           type="button"
-                          className="btn btn-primary d-flex align-items-center justify-content-center gap-2 mx-auto"
-                          onClick={quizEngine.restart}
+                          className="btn btn-primary btn-lg d-flex align-items-center justify-content-center gap-2 mx-auto"
+                          onClick={() => setQuizStarted(true)}
                         >
-                          <i className="bi bi-arrow-clockwise" aria-hidden="true"></i>
-                          Reiniciar evaluación
+                          <i className="bi bi-play-circle" aria-hidden="true"></i>
+                          Comenzar evaluación
                         </button>
                       </div>
                     </div>
+                  ) : (
+                    <>
+                      {/* Progress indicator - only show during quiz, not on outcome */}
+                      {!quizEngine.isComplete && (
+                        <QuizProgress 
+                          currentStep={currentStep} 
+                          totalSteps={totalSteps} 
+                        />
+                      )}
+
+                      {/* Question or Outcome */}
+                      {quizEngine.isComplete && quizEngine.outcome ? (
+                        <OutcomeCard 
+                          outcome={quizEngine.outcome} 
+                          onRestart={() => {
+                            quizEngine.restart();
+                            setQuizStarted(false);
+                          }} 
+                        />
+                      ) : quizEngine.currentQuestion ? (
+                        <QuestionCard 
+                          question={quizEngine.currentQuestion} 
+                          onAnswer={quizEngine.handleAnswer} 
+                        />
+                      ) : (
+                        <div className="card shadow-sm border-0" role="alert">
+                          <div className="card-body p-4 text-center">
+                            <i className="bi bi-question-circle text-warning fs-1 mb-3 d-block" aria-hidden="true"></i>
+                            <h2 className="h4 mb-3">Estado inesperado</h2>
+                            <p className="text-muted mb-4">
+                              No se pudo determinar la siguiente pregunta. Por favor, reinicia la evaluación.
+                            </p>
+                            <button
+                              type="button"
+                              className="btn btn-primary d-flex align-items-center justify-content-center gap-2 mx-auto"
+                              onClick={() => {
+                                quizEngine.restart();
+                                setQuizStarted(false);
+                              }}
+                            >
+                              <i className="bi bi-arrow-clockwise" aria-hidden="true"></i>
+                              Reiniciar evaluación
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </>
                   )}
                 </>
               )}

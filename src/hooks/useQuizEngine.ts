@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import type { QuizConfig, Question, Answer, Outcome } from '../types/quiz';
 
 interface QuizState {
@@ -15,6 +15,16 @@ export function useQuizEngine(config: QuizConfig) {
     isComplete: false,
     outcome: null,
   });
+
+  // Reset state when config changes (e.g., when real config loads)
+  useEffect(() => {
+    setState({
+      currentQuestionId: config.quiz.startQuestionId,
+      answers: {},
+      isComplete: false,
+      outcome: null,
+    });
+  }, [config.quiz.startQuestionId]);
 
   // Find a question by ID
   const findQuestion = useCallback(
