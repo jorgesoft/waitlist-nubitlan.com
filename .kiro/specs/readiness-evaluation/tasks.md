@@ -1,6 +1,6 @@
 # Implementation Plan
 
-- [ ] 1. Set up routing infrastructure
+- [x] 1. Set up routing infrastructure
   - Install react-router-dom package
   - Create router configuration in main.tsx with routes for "/" and "/evaluacion"
   - Extract existing landing page content into a LandingPage component
