@@ -24,7 +24,7 @@
   - Add logic to prevent circular references and handle edge cases
   - _Requirements: 2.2, 2.3, 2.5, 4.2, 4.3_
 
-- [ ] 4. Build question display component
+- [x] 4. Build question display component
   - Create src/components/QuestionCard.tsx component
   - Display question text with proper heading level
   - Render answer options as accessible buttons with proper ARIA labels
@@ -33,7 +33,7 @@
   - Add keyboard navigation support (Tab, Enter, Space)
   - _Requirements: 2.1, 5.1, 5.2, 5.5_
 
-- [ ] 5. Build outcome display component
+- [x] 5. Build outcome display component
   - Create src/components/OutcomeCard.tsx component
   - Display outcome title, level indicator, and message
   - Render recommendations list with proper semantic markup
@@ -42,7 +42,7 @@
   - Include call-to-action link back to waitlist form for "needs-work" outcome
   - _Requirements: 2.5, 4.1_
 
-- [ ] 6. Create progress indicator component
+- [x] 6. Create progress indicator component
   - Create src/components/QuizProgress.tsx component
   - Calculate and display current step number and total steps
   - Render visual progress bar using Bootstrap progress component
@@ -50,7 +50,7 @@
   - Ensure progress indicator is accessible with ARIA attributes
   - _Requirements: 1.4, 5.2_
 
-- [ ] 7. Build main evaluation page component
+- [x] 7. Build main evaluation page component
   - Create src/pages/EvaluationPage.tsx component
   - Load quiz configuration using the config loader
   - Initialize quiz engine with useQuizEngine hook
