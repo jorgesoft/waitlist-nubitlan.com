@@ -7,7 +7,7 @@
   - Verify navigation works between routes
   - _Requirements: 1.1_
 
-- [ ] 2. Create YAML configuration structure and loader
+- [x] 2. Create YAML configuration structure and loader
   - Create public/quiz-config.yaml with the example quiz structure (ISO 27001 decision tree)
   - Install js-yaml package for YAML parsing
   - Create src/types/quiz.ts with TypeScript interfaces for QuizConfig, Question, Answer, and Outcome
