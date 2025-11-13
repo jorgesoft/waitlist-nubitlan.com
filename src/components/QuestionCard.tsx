@@ -22,7 +22,7 @@ function QuestionCard({ question, onAnswer }: QuestionCardProps) {
     <div className="card shadow-sm border-0">
       <div className="card-body p-4">
         <h2 className="h4 mb-4 d-flex align-items-center gap-2">
-          <i className="bi bi-question-circle text-primary"></i>
+          <i className="bi bi-question-circle text-primary" aria-hidden="true"></i>
           {question.text}
         </h2>
         
@@ -31,16 +31,16 @@ function QuestionCard({ question, onAnswer }: QuestionCardProps) {
           role="group"
           aria-label="Opciones de respuesta"
         >
-          {question.answers.map((answer) => (
+          {question.answers.map((answer, index) => (
             <button
               key={answer.id}
               type="button"
-              className="btn btn-outline-primary btn-lg text-start d-flex align-items-center gap-2 py-3"
+              className="btn btn-outline-primary btn-lg text-start d-flex align-items-center gap-2 py-3 quiz-answer-button"
               onClick={() => handleAnswerClick(answer.id)}
               onKeyDown={(e) => handleKeyDown(e, answer.id)}
-              aria-label={`Seleccionar respuesta: ${answer.text}`}
+              aria-label={`Opción ${index + 1}: ${answer.text}`}
             >
-              <i className="bi bi-circle"></i>
+              <i className="bi bi-circle" aria-hidden="true"></i>
               <span>{answer.text}</span>
             </button>
           ))}

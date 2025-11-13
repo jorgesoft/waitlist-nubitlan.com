@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { loadQuizConfig } from '../utils/loadQuizConfig';
 import { useQuizEngine } from '../hooks/useQuizEngine';
@@ -11,6 +11,8 @@ function EvaluationPage() {
   const [config, setConfig] = useState<QuizConfig | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [announcement, setAnnouncement] = useState<string>('');
+  const mainContentRef = useRef<HTMLDivElement>(null);
 
   // Load quiz configuration on mount
   useEffect(() => {
@@ -49,8 +51,40 @@ function EvaluationPage() {
     ? Object.keys(quizEngine.answers).length + (quizEngine.isComplete ? 0 : 1)
     : 0;
 
+  // Announce state changes for screen readers
+  useEffect(() => {
+    if (loading) {
+      setAnnouncement('Cargando evaluación...');
+    } else if (error) {
+      setAnnouncement('Error al cargar la evaluación. Por favor, intenta de nuevo.');
+    } else if (config && quizEngine.isComplete && quizEngine.outcome) {
+      setAnnouncement(`Evaluación completada. Resultado: ${quizEngine.outcome.title}`);
+    } else if (config && quizEngine.currentQuestion) {
+      setAnnouncement(`Pregunta ${currentStep} de ${totalSteps}: ${quizEngine.currentQuestion.text}`);
+    }
+  }, [loading, error, config, quizEngine.isComplete, quizEngine.outcome, quizEngine.currentQuestion, currentStep, totalSteps]);
+
   return (
     <>
+      {/* Skip to main content link for keyboard users */}
+      <a 
+        href="#main-content" 
+        className="skip-link visually-hidden-focusable position-absolute top-0 start-0 bg-primary text-white px-3 py-2 m-2 rounded text-decoration-none"
+        style={{ zIndex: 9999 }}
+      >
+        Saltar al contenido principal
+      </a>
+
+      {/* ARIA live region for screen reader announcements */}
+      <div 
+        role="status" 
+        aria-live="polite" 
+        aria-atomic="true"
+        className="visually-hidden"
+      >
+        {announcement}
+      </div>
+
       {/* Header with navigation */}
       <nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
         <div className="container">
@@ -59,27 +93,27 @@ function EvaluationPage() {
             className="navbar-brand fw-bold d-flex align-items-center gap-2"
             aria-label="Volver a la página principal"
           >
-            <i className="bi bi-shield-check fs-4"></i>
+            <i className="bi bi-shield-check fs-4" aria-hidden="true"></i>
             Nubitlan
           </Link>
           <Link 
             to="/" 
             className="btn btn-outline-light btn-sm d-flex align-items-center gap-1"
           >
-            <i className="bi bi-house"></i>
+            <i className="bi bi-house" aria-hidden="true"></i>
             Inicio
           </Link>
         </div>
       </nav>
 
       {/* Main content */}
-      <main className="py-5 bg-light min-vh-100">
+      <main id="main-content" className="py-5 bg-light min-vh-100" ref={mainContentRef}>
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-12 col-lg-8">
               {/* Loading state */}
               {loading && (
-                <div className="text-center py-5">
+                <div className="text-center py-5" role="status" aria-live="polite">
                   <div className="spinner-border text-primary mb-3" role="status">
                     <span className="visually-hidden">Cargando...</span>
                   </div>
@@ -89,9 +123,9 @@ function EvaluationPage() {
 
               {/* Error state */}
               {error && !loading && (
-                <div className="card shadow-sm border-0">
+                <div className="card shadow-sm border-0" role="alert">
                   <div className="card-body p-4 text-center">
-                    <i className="bi bi-exclamation-triangle text-danger fs-1 mb-3 d-block"></i>
+                    <i className="bi bi-exclamation-triangle text-danger fs-1 mb-3 d-block" aria-hidden="true"></i>
                     <h2 className="h4 mb-3">Error al cargar la evaluación</h2>
                     <p className="text-muted mb-4">{error}</p>
                     <div className="d-flex flex-column flex-sm-row gap-3 justify-content-center">
@@ -100,14 +134,14 @@ function EvaluationPage() {
                         className="btn btn-primary d-flex align-items-center justify-content-center gap-2"
                         onClick={() => window.location.reload()}
                       >
-                        <i className="bi bi-arrow-clockwise"></i>
+                        <i className="bi bi-arrow-clockwise" aria-hidden="true"></i>
                         Intentar de nuevo
                       </button>
                       <Link
                         to="/"
                         className="btn btn-outline-primary d-flex align-items-center justify-content-center gap-2"
                       >
-                        <i className="bi bi-house"></i>
+                        <i className="bi bi-house" aria-hidden="true"></i>
                         Volver al inicio
                       </Link>
                     </div>
@@ -121,7 +155,7 @@ function EvaluationPage() {
                   {/* Quiz header */}
                   <div className="mb-4">
                     <h1 className="h3 mb-2 d-flex align-items-center gap-2">
-                      <i className="bi bi-clipboard-check text-primary"></i>
+                      <i className="bi bi-clipboard-check text-primary" aria-hidden="true"></i>
                       {config.quiz.title}
                     </h1>
                     <p className="text-muted mb-0">{config.quiz.description}</p>
@@ -147,9 +181,9 @@ function EvaluationPage() {
                       onAnswer={quizEngine.handleAnswer} 
                     />
                   ) : (
-                    <div className="card shadow-sm border-0">
+                    <div className="card shadow-sm border-0" role="alert">
                       <div className="card-body p-4 text-center">
-                        <i className="bi bi-question-circle text-warning fs-1 mb-3 d-block"></i>
+                        <i className="bi bi-question-circle text-warning fs-1 mb-3 d-block" aria-hidden="true"></i>
                         <h2 className="h4 mb-3">Estado inesperado</h2>
                         <p className="text-muted mb-4">
                           No se pudo determinar la siguiente pregunta. Por favor, reinicia la evaluación.
@@ -159,7 +193,7 @@ function EvaluationPage() {
                           className="btn btn-primary d-flex align-items-center justify-content-center gap-2 mx-auto"
                           onClick={quizEngine.restart}
                         >
-                          <i className="bi bi-arrow-clockwise"></i>
+                          <i className="bi bi-arrow-clockwise" aria-hidden="true"></i>
                           Reiniciar evaluación
                         </button>
                       </div>

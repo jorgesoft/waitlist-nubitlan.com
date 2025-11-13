@@ -77,7 +77,7 @@
   - Add appropriate icon (e.g., clipboard-check)
   - _Requirements: 1.1_
 
-- [ ] 10. Implement accessibility enhancements
+- [x] 10. Implement accessibility enhancements
   - Add ARIA live regions for dynamic content announcements
   - Ensure all interactive elements have visible focus indicators
   - Test keyboard navigation through entire quiz flow
@@ -86,7 +86,7 @@
   - Test with screen reader (manual verification)
   - _Requirements: 5.1, 5.2, 5.4, 5.5_
 
-- [ ] 11. Add responsive design refinements
+- [x] 11. Add responsive design refinements
   - Test layout on mobile (320px-767px), tablet (768px-1023px), and desktop (1024px+)
   - Adjust button sizes and spacing for touch targets on mobile
   - Ensure text remains readable at all screen sizes

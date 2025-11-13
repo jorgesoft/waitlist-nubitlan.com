@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Design Test - Nubitlan Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .test-section {
+      margin-bottom: 40px;
+      padding: 20px;
+      border: 2px solid #0d6efd;
+      border-radius: 8px;
+    }
+    .test-section h2 {
+      color: #0d6efd;
+      margin-top: 0;
+    }
+    .checklist {
+      list-style: none;
+      padding: 0;
+    }
+    .checklist li {
+      padding: 8px 0;
+      border-bottom: 1px solid #e9ecef;
+    }
+    .checklist li:before {
+      content: "☐ ";
+      color: #0d6efd;
+      font-weight: bold;
+      margin-right: 8px;
+    }
+    .breakpoint {
+      display: inline-block;
+      padding: 4px 12px;
+      background: #e9ecef;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 14px;
+      margin: 4px;
+    }
+    .instructions {
+      background: #fff3cd;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    .link {
+      display: inline-block;
+      margin: 10px 0;
+      padding: 10px 20px;
+      background: #0d6efd;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+    .link:hover {
+      background: #0b5ed7;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧪 Responsive Design Testing Checklist</h1>
+  
+  <div class="instructions">
+    <strong>Instructions:</strong> Open the application at <a href="http://localhost:5174/evaluacion" class="link" target="_blank">http://localhost:5174/evaluacion</a> and test the following scenarios.
+  </div>
+
+  <div class="test-section">
+    <h2>📱 Mobile Testing (320px - 767px)</h2>
+    <p>Test breakpoints: <span class="breakpoint">320px</span> <span class="breakpoint">375px</span> <span class="breakpoint">414px</span> <span class="breakpoint">767px</span></p>
+    <ul class="checklist">
+      <li>Touch targets are at least 44px (buttons, answer options)</li>
+      <li>Quiz answer buttons are at least 56px tall</li>
+      <li>Text is readable without horizontal scrolling</li>
+      <li>Card padding is reduced appropriately (1.25rem)</li>
+      <li>Buttons stack vertically in narrow viewports</li>
+      <li>Progress bar is visible and 10px tall</li>
+      <li>Icons don't cause layout issues</li>
+      <li>Footer items stack vertically</li>
+      <li>Navbar brand and buttons fit properly</li>
+      <li>All content is accessible without zooming</li>
+    </ul>
+  </div>
+
+  <div class="test-section">
+    <h2>📱 Small Mobile (320px - 479px)</h2>
+    <p>Test breakpoint: <span class="breakpoint">320px</span></p>
+    <ul class="checklist">
+      <li>Container padding is 1rem on each side</li>
+      <li>Button text size is readable (0.95rem)</li>
+      <li>Large icons are scaled down appropriately</li>
+      <li>Outcome card header padding is optimized</li>
+      <li>No horizontal overflow occurs</li>
+    </ul>
+  </div>
+
+  <div class="test-section">
+    <h2>💻 Tablet Testing (768px - 1023px)</h2>
+    <p>Test breakpoints: <span class="breakpoint">768px</span> <span class="breakpoint">1023px</span></p>
+    <ul class="checklist">
+      <li>Touch targets are at least 42px for buttons</li>
+      <li>Quiz answer buttons are at least 52px tall</li>
+      <li>Container max-width is 720px</li>
+      <li>Card body padding is 2rem</li>
+      <li>Layout uses available space efficiently</li>
+      <li>Buttons can be side-by-side where appropriate</li>
+    </ul>
+  </div>
+
+  <div class="test-section">
+    <h2>🖥️ Desktop Testing (1024px+)</h2>
+    <p>Test breakpoints: <span class="breakpoint">1024px</span> <span class="breakpoint">1440px</span> <span class="breakpoint">1920px</span></p>
+    <ul class="checklist">
+      <li>Text paragraphs have optimal line length (max 65ch)</li>
+      <li>Hover effects work smoothly (8px transform)</li>
+      <li>Layout is centered and not too wide</li>
+      <li>All interactive elements are easily clickable</li>
+    </ul>
+  </div>
+
+  <div class="test-section">
+    <h2>🔍 Zoom Testing (200%)</h2>
+    <p>Set browser zoom to 200% and test at various viewport sizes</p>
+    <ul class="checklist">
+      <li>No horizontal scrolling occurs</li>
+      <li>Text wraps properly in buttons</li>
+      <li>Flex items wrap when needed</li>
+      <li>Container doesn't cause overflow</li>
+      <li>All content remains accessible</li>
+      <li>Touch targets remain adequate</li>
+    </ul>
+  </div>
+
+  <div class="test-section">
+    <h2>📐 Landscape Mobile Testing</h2>
+    <p>Test mobile devices in landscape orientation</p>
+    <ul class="checklist">
+      <li>Vertical padding is reduced appropriately</li>
+      <li>Content fits without excessive scrolling</li>
+      <li>Card spacing is optimized</li>
+      <li>Quiz remains usable in landscape</li>
+    </ul>
+  </div>
+
+  <div class="test-section">
+    <h2>⌨️ Additional Checks</h2>
+    <ul class="checklist">
+      <li>Keyboard navigation works at all breakpoints</li>
+      <li>Focus indicators are visible on all screen sizes</li>
+      <li>Color contrast meets WCAG AA at all sizes</li>
+      <li>Touch targets don't overlap</li>
+      <li>Text remains readable at all zoom levels</li>
+    </ul>
+  </div>
+
+  <div class="instructions" style="background: #d1ecf1; margin-top: 30px;">
+    <strong>Testing Tools:</strong>
+    <ul>
+      <li>Chrome DevTools: F12 → Toggle Device Toolbar (Ctrl+Shift+M)</li>
+      <li>Firefox: F12 → Responsive Design Mode (Ctrl+Shift+M)</li>
+      <li>Browser Zoom: Ctrl/Cmd + Plus/Minus</li>
+      <li>Test on real devices if available</li>
+    </ul>
+  </div>
+
+  <a href="http://localhost:5174/evaluacion" class="link" target="_blank">🚀 Open Evaluation Page</a>
+</body>
+</html>

@@ -37,12 +37,12 @@ function OutcomeCard({ outcome, onRestart }: OutcomeCardProps) {
   const showWaitlistCTA = outcome.level === 'needs-work';
 
   return (
-    <div className="card shadow-sm border-0">
+    <div className="card shadow-sm border-0" role="region" aria-label="Resultado de la evaluación">
       <div className="card-body p-4">
         {/* Outcome header with level indicator */}
-        <div className={`${levelConfig.bgClass} rounded p-3 mb-4`}>
+        <div className={`${levelConfig.bgClass} rounded p-3 mb-4`} role="status">
           <h2 className={`h3 mb-2 d-flex align-items-center gap-2 ${levelConfig.textClass}`}>
-            <i className={`bi ${levelConfig.icon}`}></i>
+            <i className={`bi ${levelConfig.icon}`} aria-hidden="true"></i>
             {outcome.title}
           </h2>
           <p className={`mb-0 ${levelConfig.textClass}`}>
@@ -54,16 +54,16 @@ function OutcomeCard({ outcome, onRestart }: OutcomeCardProps) {
         {outcome.recommendations.length > 0 && (
           <div className="mb-4">
             <h3 className="h5 mb-3 d-flex align-items-center gap-2">
-              <i className="bi bi-lightbulb text-primary"></i>
+              <i className="bi bi-lightbulb text-primary" aria-hidden="true"></i>
               Recomendaciones
             </h3>
-            <ul className="list-group list-group-flush">
+            <ul className="list-group list-group-flush" aria-label="Lista de recomendaciones">
               {outcome.recommendations.map((recommendation, index) => (
                 <li 
                   key={index} 
                   className="list-group-item px-0 d-flex align-items-start gap-2"
                 >
-                  <i className="bi bi-check2 text-primary mt-1"></i>
+                  <i className="bi bi-check2 text-primary mt-1" aria-hidden="true"></i>
                   <span>{recommendation}</span>
                 </li>
               ))}
@@ -74,7 +74,7 @@ function OutcomeCard({ outcome, onRestart }: OutcomeCardProps) {
         {/* Call-to-action for needs-work outcome */}
         {showWaitlistCTA && (
           <div className="alert alert-info d-flex align-items-center gap-2 mb-4" role="alert">
-            <i className="bi bi-info-circle-fill"></i>
+            <i className="bi bi-info-circle-fill" aria-hidden="true"></i>
             <div>
               <strong>¿Necesitas ayuda?</strong> Únete a nuestra lista de espera para recibir guía personalizada.
             </div>
@@ -87,9 +87,9 @@ function OutcomeCard({ outcome, onRestart }: OutcomeCardProps) {
             type="button"
             className="btn btn-primary btn-lg d-flex align-items-center justify-content-center gap-2"
             onClick={onRestart}
-            aria-label="Reiniciar la evaluación"
+            aria-label="Reiniciar la evaluación y comenzar de nuevo"
           >
-            <i className="bi bi-arrow-clockwise"></i>
+            <i className="bi bi-arrow-clockwise" aria-hidden="true"></i>
             <span>Volver a evaluar</span>
           </button>
 
@@ -99,7 +99,7 @@ function OutcomeCard({ outcome, onRestart }: OutcomeCardProps) {
               className="btn btn-outline-primary btn-lg d-flex align-items-center justify-content-center gap-2"
               aria-label="Ir al formulario de lista de espera"
             >
-              <i className="bi bi-envelope"></i>
+              <i className="bi bi-envelope" aria-hidden="true"></i>
               <span>Únete a la lista de espera</span>
             </a>
           )}
