@@ -17,7 +17,7 @@ createRoot(document.getElementById('root')!).render(
             <EvaluationPage />
           </ErrorBoundary>
         } />
-        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/terminos" element={<PrivacyPage />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,

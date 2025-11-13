@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
+
+
 import { Link, useSearchParams } from 'react-router-dom';
 import { loadQuizConfig } from '../utils/loadQuizConfig';
 import { useQuizEngine } from '../hooks/useQuizEngine';
@@ -280,14 +282,14 @@ function EvaluationPage() {
           </div>
           <div className="d-flex flex-column flex-md-row align-items-center gap-3">
             <Link 
-              to="/privacy" 
+              to="/terminos" 
               className="text-decoration-none text-muted small d-flex align-items-center gap-1"
             >
               <i className="bi bi-shield-lock"></i>
               Política de Privacidad
             </Link>
             <Link 
-              to="/privacy#terms" 
+              to="/terminos#terms" 
               className="text-decoration-none text-muted small d-flex align-items-center gap-1"
             >
               <i className="bi bi-file-text"></i>

@@ -59,7 +59,7 @@ function PrivacyPage() {
                   <ul className="nav nav-tabs">
                     <li className="nav-item">
                       <Link
-                        to="/privacy"
+                        to="/terminos"
                         className={`nav-link ${!showTerms ? 'active' : ''}`}
                       >
                         <i className="bi bi-shield-lock me-2"></i>
@@ -68,7 +68,7 @@ function PrivacyPage() {
                     </li>
                     <li className="nav-item">
                       <Link
-                        to="/privacy#terms"
+                        to="/terminos#terms"
                         className={`nav-link ${showTerms ? 'active' : ''}`}
                       >
                         <i className="bi bi-file-text me-2"></i>
@@ -140,11 +140,11 @@ function PrivacyPage() {
             © {new Date().getFullYear()} Nubitlan. Todos los derechos reservados.
           </div>
           <div className="d-flex flex-column flex-md-row align-items-center gap-3">
-            <Link to="/privacy" className="text-decoration-none text-muted small d-flex align-items-center gap-1">
+            <Link to="/terminos" className="text-decoration-none text-muted small d-flex align-items-center gap-1">
               <i className="bi bi-shield-lock"></i>
               Política de Privacidad
             </Link>
-            <Link to="/privacy#terms" className="text-decoration-none text-muted small d-flex align-items-center gap-1">
+            <Link to="/terminos#terms" className="text-decoration-none text-muted small d-flex align-items-center gap-1">
               <i className="bi bi-file-text"></i>
               Términos y Condiciones
             </Link>
