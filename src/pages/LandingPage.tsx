@@ -32,10 +32,10 @@ function LandingPage() {
             <i className="bi bi-shield-check fs-4"></i>
             Nubitlan
           </a>
-          <a href="#privacy" className="btn btn-outline-light btn-sm d-flex align-items-center gap-1">
-            <i className="bi bi-file-text"></i>
-            Privacy Policy
-          </a>
+          <Link to="/privacy" className="btn btn-outline-light btn-sm d-flex align-items-center gap-1">
+            <i className="bi bi-shield-lock"></i>
+            Privacidad
+          </Link>
         </div>
       </nav>
       
@@ -171,10 +171,14 @@ function LandingPage() {
             © {new Date().getFullYear()} Nubitlan. Todos los derechos reservados.
           </div>
           <div className="d-flex flex-column flex-md-row align-items-center gap-3">
-            <a href="#privacy" id="privacy" className="text-decoration-none d-flex align-items-center gap-1">
+            <Link to="/privacy" className="text-decoration-none d-flex align-items-center gap-1">
+              <i className="bi bi-shield-lock"></i>
+              Política de Privacidad
+            </Link>
+            <Link to="/privacy#terms" className="text-decoration-none d-flex align-items-center gap-1">
               <i className="bi bi-file-text"></i>
-              Privacy Policy
-            </a>
+              Términos y Condiciones
+            </Link>
             <a href="mailto:contacto@nubitlan.com" className="text-decoration-none d-flex align-items-center gap-1">
               <i className="bi bi-envelope"></i>
               contacto@nubitlan.com

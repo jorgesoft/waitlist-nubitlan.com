@@ -279,13 +279,20 @@ function EvaluationPage() {
             © {new Date().getFullYear()} Nubitlan. Todos los derechos reservados.
           </div>
           <div className="d-flex flex-column flex-md-row align-items-center gap-3">
-            <a 
-              href="/#privacy" 
+            <Link 
+              to="/privacy" 
+              className="text-decoration-none text-muted small d-flex align-items-center gap-1"
+            >
+              <i className="bi bi-shield-lock"></i>
+              Política de Privacidad
+            </Link>
+            <Link 
+              to="/privacy#terms" 
               className="text-decoration-none text-muted small d-flex align-items-center gap-1"
             >
               <i className="bi bi-file-text"></i>
-              Privacy Policy
-            </a>
+              Términos y Condiciones
+            </Link>
             <a 
               href="mailto:contacto@nubitlan.com" 
               className="text-decoration-none text-muted small d-flex align-items-center gap-1"

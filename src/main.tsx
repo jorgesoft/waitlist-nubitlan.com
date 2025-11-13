@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './index.css'
 import LandingPage from './pages/LandingPage.tsx'
 import EvaluationPage from './pages/EvaluationPage.tsx'
+import PrivacyPage from './pages/PrivacyPage.tsx'
 import ErrorBoundary from './components/ErrorBoundary.tsx'
 
 createRoot(document.getElementById('root')!).render(
@@ -16,6 +17,7 @@ createRoot(document.getElementById('root')!).render(
             <EvaluationPage />
           </ErrorBoundary>
         } />
+        <Route path="/privacy" element={<PrivacyPage />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,
