@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import { Link } from 'react-router-dom'
 
 function LandingPage() {
   const formRef = useRef<HTMLDivElement | null>(null);
@@ -32,13 +33,22 @@ function LandingPage() {
           <p className="lead mb-4">
             Muchas PYMEs no saben por dónde empezar con esta nueva ley ni cómo fortalecer su ciberseguridad. Nubitlan es una herramienta impulsada por IA que te guía paso a paso: evalúa tu situación, identifica riesgos y te entrega un reporte con recomendaciones prácticas.
           </p>
-          <button 
-            onClick={scrollToForm}
-            className="btn btn-primary btn-lg mb-2 d-inline-flex align-items-center gap-2"
-          >
-            <i className="bi bi-envelope-plus"></i>
-            Únete a la lista de espera
-          </button>
+          <div className="d-flex flex-column flex-md-row gap-3 justify-content-center align-items-center mb-3">
+            <Link 
+              to="/evaluacion"
+              className="btn btn-success btn-lg d-inline-flex align-items-center gap-2"
+            >
+              <i className="bi bi-clipboard-check"></i>
+              Evalúa tu preparación
+            </Link>
+            <button 
+              onClick={scrollToForm}
+              className="btn btn-primary btn-lg d-inline-flex align-items-center gap-2"
+            >
+              <i className="bi bi-envelope-plus"></i>
+              Únete a la lista de espera
+            </button>
+          </div>
           <p className="text-muted small">
             Al unirte, recibirás una guía gratuita para dar tus primeros pasos en cumplimiento y seguridad.
           </p>

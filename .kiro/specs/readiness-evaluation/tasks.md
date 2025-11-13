@@ -70,7 +70,7 @@
   - Verify browser back/forward buttons work correctly
   - _Requirements: 1.1_
 
-- [ ] 9. Add navigation link from landing page
+- [x] 9. Add navigation link from landing page
   - Add "Evalúa tu preparación" button or link in the landing page hero section
   - Use React Router Link component for client-side navigation
   - Style link to match existing design system

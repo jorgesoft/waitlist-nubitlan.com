@@ -35,12 +35,17 @@ function EvaluationPage() {
     loadConfig();
   }, []);
 
-  // Initialize quiz engine only when config is loaded
-  const quizEngine = config ? useQuizEngine(config) : null;
+  // Initialize quiz engine - we need a dummy config for the initial render to satisfy Rules of Hooks
+  const dummyConfig: QuizConfig = {
+    quiz: { title: '', description: '', startQuestionId: '' },
+    questions: [],
+    outcomes: []
+  };
+  const quizEngine = useQuizEngine(config || dummyConfig);
 
   // Calculate progress
   const totalSteps = config?.questions.length || 0;
-  const currentStep = quizEngine 
+  const currentStep = config 
     ? Object.keys(quizEngine.answers).length + (quizEngine.isComplete ? 0 : 1)
     : 0;
 
@@ -111,7 +116,7 @@ function EvaluationPage() {
               )}
 
               {/* Quiz content */}
-              {config && quizEngine && !loading && !error && (
+              {config && !loading && !error && (
                 <>
                   {/* Quiz header */}
                   <div className="mb-4">
