@@ -1,5 +1,5 @@
 import yaml from 'js-yaml';
-import type { QuizConfig, Question, Outcome } from '../types/quiz';
+import type { QuizConfig, Question } from '../types/quiz';
 
 interface ValidationError {
   field: string;

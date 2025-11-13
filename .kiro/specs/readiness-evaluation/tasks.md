@@ -62,7 +62,7 @@
   - Style page layout with Bootstrap container and responsive classes
   - _Requirements: 1.2, 1.3, 2.4, 3.5, 5.3_
 
-- [ ] 8. Integrate evaluation page into router
+- [x] 8. Integrate evaluation page into router
   - Import EvaluationPage component in main.tsx
   - Add route configuration for "/evaluacion" path
   - Test direct URL access to /evaluacion
