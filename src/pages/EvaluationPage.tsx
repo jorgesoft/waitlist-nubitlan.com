@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { loadQuizConfig } from '../utils/loadQuizConfig';
 import { useQuizEngine } from '../hooks/useQuizEngine';
 import QuestionCard from '../components/QuestionCard';
@@ -13,7 +13,19 @@ function EvaluationPage() {
   const [error, setError] = useState<string | null>(null);
   const [announcement, setAnnouncement] = useState<string>('');
   const [quizStarted, setQuizStarted] = useState(false);
+  const [showThankYou, setShowThankYou] = useState(false);
   const mainContentRef = useRef<HTMLDivElement>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Check if user came from waitlist signup
+  useEffect(() => {
+    if (searchParams.get('joined') === 'true') {
+      setShowThankYou(true);
+      // Remove the parameter from URL after reading it
+      searchParams.delete('joined');
+      setSearchParams(searchParams, { replace: true });
+    }
+  }, [searchParams, setSearchParams]);
 
   // Load quiz configuration on mount
   useEffect(() => {
@@ -155,6 +167,25 @@ function EvaluationPage() {
               {/* Quiz content */}
               {config && !loading && !error && (
                 <>
+                  {/* Thank you message for waitlist signup */}
+                  {showThankYou && (
+                    <div className="alert alert-success d-flex align-items-start gap-3 mb-4" role="alert">
+                      <i className="bi bi-check-circle-fill fs-4 flex-shrink-0" aria-hidden="true"></i>
+                      <div>
+                        <h2 className="alert-heading h5 mb-2">¡Gracias por unirte a la lista de espera!</h2>
+                        <p className="mb-2">
+                          Recibirás tu guía gratuita pronto. Mientras tanto, ¿por qué no evalúas qué tan preparada está tu empresa?
+                        </p>
+                        <button
+                          type="button"
+                          className="btn-close position-absolute top-0 end-0 m-3"
+                          aria-label="Cerrar mensaje"
+                          onClick={() => setShowThankYou(false)}
+                        ></button>
+                      </div>
+                    </div>
+                  )}
+
                   {/* Quiz header */}
                   <div className="mb-4">
                     <h1 className="h3 mb-2 d-flex align-items-center gap-2">

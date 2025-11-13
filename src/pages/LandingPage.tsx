@@ -1,12 +1,27 @@
-import { useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { useRef, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
 function LandingPage() {
   const formRef = useRef<HTMLDivElement | null>(null);
+  const navigate = useNavigate();
 
   const scrollToForm = () => {
     formRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  // Listen for JotForm submission and redirect
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      // Check if message is from JotForm
+      if (event.origin === 'https://form.jotform.com' && event.data === 'form-submitted') {
+        // Redirect to evaluation page with thank you parameter
+        navigate('/evaluacion?joined=true');
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, [navigate]);
 
   return (
     <>
