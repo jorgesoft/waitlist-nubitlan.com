@@ -94,7 +94,7 @@
   - Optimize quiz card layout for narrow screens
   - _Requirements: 5.3_
 
-- [ ]* 12. Create error boundary and fallback UI
+- [x] 12. Create error boundary and fallback UI
   - Create src/components/ErrorBoundary.tsx component
   - Wrap EvaluationPage with error boundary
   - Display user-friendly error message if quiz fails to load
