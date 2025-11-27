@@ -43,19 +43,15 @@ function LandingPage() {
       <section className="py-5 py-md-6 bg-light">
         <div className="container text-center">
           <h1 className="display-5 fw-bold mb-3">
-            ¿Tu empresa está lista para cumplir con la nueva Ley de Protección de Datos Personales de El Salvador?
+            ¿Tu empresa cumple con las obligaciones de la Ley de Protección de Datos Personales?
           </h1>
           <p className="lead mb-4">
-            Muchas PYMEs no saben por dónde empezar con esta nueva ley ni cómo fortalecer su ciberseguridad. Nubitlan es una herramienta impulsada por IA que te guía paso a paso: evalúa tu situación, identifica riesgos y te entrega un reporte con recomendaciones prácticas.
+            En Nubitlan desarrollamos herramientas de IA que ayudan a tu empresa a prepararse para la nueva Ley de Protección de Datos y fortalecer su seguridad.
+          </p>
+          <p className="lead mb-4">
+            Únete a la lista de espera y recibe una evaluación rápida + guía práctica sobre la nueva Ley de Protección de Datos Personales.
           </p>
           <div className="d-flex flex-column flex-md-row gap-3 justify-content-center align-items-center mb-3">
-            <Link 
-              to="/evaluacion"
-              className="btn btn-success btn-lg d-inline-flex align-items-center gap-2"
-            >
-              <i className="bi bi-clipboard-check"></i>
-              Evalúa tu preparación
-            </Link>
             <button 
               onClick={scrollToForm}
               className="btn btn-primary btn-lg d-inline-flex align-items-center gap-2"
@@ -64,9 +60,6 @@ function LandingPage() {
               Únete a la lista de espera
             </button>
           </div>
-          <p className="text-muted small">
-            Al unirte, recibirás una guía gratuita para dar tus primeros pasos en cumplimiento y seguridad.
-          </p>
         </div>
       </section>
       
@@ -75,7 +68,7 @@ function LandingPage() {
         <div className="container">
           <h2 className="h4 mb-2 d-flex align-items-center gap-2">
             <i className="bi bi-exclamation-triangle text-warning"></i>
-            El problema
+            Riesgos a los que te expones
           </h2>
           <p className="mb-2 mt-2">
             Cumplir no solo evita sanciones: también fortalece la seguridad y la confianza de tus clientes.
@@ -83,19 +76,19 @@ function LandingPage() {
           <ul className="list-unstyled">
             <li className="mb-2 d-flex align-items-start gap-2">
               <i className="bi bi-x-circle text-danger mt-1"></i>
-              <span>Falta de controles básicos de seguridad</span>
+              <span>Vulneración de bases de datos que incorporan información personal</span>
             </li>
             <li className="mb-2 d-flex align-items-start gap-2">
               <i className="bi bi-x-circle text-danger mt-1"></i>
-              <span>Datos personales sin protección adecuada</span>
+              <span>Brechas de seguridad</span>
             </li>
             <li className="mb-2 d-flex align-items-start gap-2">
               <i className="bi bi-x-circle text-danger mt-1"></i>
-              <span>Ausencia de políticas internas claras</span>
+              <span>Imposición de multas</span>
             </li>
             <li className="mb-2 d-flex align-items-start gap-2">
               <i className="bi bi-x-circle text-danger mt-1"></i>
-              <span>Riesgo de sanciones por incumplimiento</span>
+              <span>Daño reputacional</span>
             </li>
           </ul>
         </div>
@@ -106,7 +99,7 @@ function LandingPage() {
         <div className="container">
           <h2 className="h4 mb-2 d-flex align-items-center gap-2">
             <i className="bi bi-lightbulb text-success"></i>
-            Nuestra propuesta
+            Nuestra solución
           </h2>
           <p className="mb-2 mt-2">
             Nubitlan te ayuda a cumplir con la ley y mejorar tu seguridad de forma simple y guiada:
@@ -114,19 +107,19 @@ function LandingPage() {
           <ul className="list-unstyled">
             <li className="mb-2 d-flex align-items-start gap-2">
               <i className="bi bi-check-circle text-success mt-1"></i>
-              <span>Evaluación de cumplimiento adaptada a tu empresa</span>
+              <span>Identificación de riesgos</span>
             </li>
             <li className="mb-2 d-flex align-items-start gap-2">
               <i className="bi bi-check-circle text-success mt-1"></i>
-              <span>Identificación de riesgos de seguridad y datos personales</span>
+              <span>Sugerencia de controles</span>
             </li>
             <li className="mb-2 d-flex align-items-start gap-2">
               <i className="bi bi-check-circle text-success mt-1"></i>
-              <span>Reporte claro con el estado actual de tu organización</span>
+              <span>Visualización para reportes</span>
             </li>
             <li className="mb-2 d-flex align-items-start gap-2">
               <i className="bi bi-check-circle text-success mt-1"></i>
-              <span>Recomendaciones prácticas y priorizadas para implementar</span>
+              <span>Evaluaciones de cumplimiento normativo centrado en protección de datos personales</span>
             </li>
           </ul>
         </div>
