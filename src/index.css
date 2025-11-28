@@ -50,6 +50,28 @@ body {
 
 .nav-link {
   white-space: nowrap;
+  position: relative;
+  transition: opacity 0.3s ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: white;
+  transform: translateX(-50%);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+  opacity: 0.9;
+}
+
+.nav-link:hover::after {
+  width: 80%;
 }
 
 /* Modern button styles */
