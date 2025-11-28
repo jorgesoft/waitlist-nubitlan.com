@@ -20,7 +20,7 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
   color: var(--text-dark);
   background: linear-gradient(135deg, var(--extra-pale-blue) 0%, var(--white) 100%);
   min-height: 100vh;
@@ -31,16 +31,25 @@ body {
   background: linear-gradient(135deg, var(--primary-blue) 0%, var(--light-blue) 100%) !important;
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  overflow-x: hidden;
+}
+
+.navbar .container {
+  overflow-x: hidden;
 }
 
 .navbar-brand {
   font-weight: 700;
   letter-spacing: -0.5px;
-  transition: transform 0.2s ease;
+  flex-shrink: 0;
 }
 
-.navbar-brand:hover {
-  transform: scale(1.05);
+.navbar-nav {
+  flex-shrink: 0;
+}
+
+.nav-link {
+  white-space: nowrap;
 }
 
 /* Modern button styles */

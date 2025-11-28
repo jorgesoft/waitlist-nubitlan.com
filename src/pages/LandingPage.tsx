@@ -29,14 +29,30 @@ function LandingPage() {
       {/* Header section */}
       <nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
         <div className="container">
-          <a className="navbar-brand fw-bold d-flex align-items-center gap-2" href="/">
+          <Link to="/" className="navbar-brand fw-bold d-flex align-items-center gap-2">
             <i className="bi bi-shield-check fs-4"></i>
             Nubitlan
-          </a>
-          <Link to="/terminos" className="btn btn-outline-light btn-sm d-flex align-items-center gap-1">
-            <i className="bi bi-shield-lock"></i>
-            Privacidad
           </Link>
+          <ul className="navbar-nav ms-auto flex-row gap-3">
+            <li className="nav-item">
+              <Link to="/" className="nav-link text-white d-flex align-items-center gap-1">
+                <i className="bi bi-house"></i>
+                Inicio
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/quienes-somos" className="nav-link text-white d-flex align-items-center gap-1">
+                <i className="bi bi-people"></i>
+                Quiénes Somos
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/terminos" className="nav-link text-white d-flex align-items-center gap-1">
+                <i className="bi bi-shield-lock"></i>
+                Privacidad
+              </Link>
+            </li>
+          </ul>
         </div>
       </nav>
       
@@ -46,10 +62,10 @@ function LandingPage() {
           <h1 className="display-5 fw-bold mb-3">
             ¿Tu empresa cumple con las obligaciones de la Ley de Protección de Datos Personales?
           </h1>
-          <p className="lead mb-4">
+          <p className="lead mb-6">
             En Nubitlan desarrollamos herramientas de IA que ayudan a tu empresa a prepararse para la nueva Ley de Protección de Datos y fortalecer su seguridad.
           </p>
-          <p className="lead mb-4">
+          <p className="lead mb-6">
             Únete a la lista de espera y recibe una evaluación rápida + guía práctica sobre la nueva Ley de Protección de Datos Personales.
           </p>
           <div className="d-flex flex-column flex-md-row gap-3 justify-content-center align-items-center mb-3">
@@ -132,7 +148,12 @@ function LandingPage() {
           <div className="bg-white border rounded-3 p-3 p-md-4">
             <p className="mb-0 d-flex align-items-start gap-2">
               <i className="bi bi-award text-primary mt-1 fs-5"></i>
-              <span>Creado por profesionales de ciberseguridad con experiencia en estándares internacionales y entornos cloud.</span>
+              <span>
+                Creado por profesionales de ciberseguridad con experiencia en estándares internacionales y entornos cloud.{' '}
+                <Link to="/quienes-somos" className="text-decoration-none fw-semibold">
+                  Conoce más sobre nosotros <i className="bi bi-arrow-right"></i>
+                </Link>
+              </span>
             </p>
           </div>
         </div>
@@ -150,6 +171,7 @@ function LandingPage() {
                   allow="geolocation; microphone; camera; fullscreen; payment"
                   src="https://form.jotform.com/253112397254051"
                   style={{ minWidth: '100%', maxWidth: '100%', height: '1000px', border: 'none' }}
+                  scrolling='no'
                 >
                 </iframe>
               </div>
@@ -168,6 +190,10 @@ function LandingPage() {
             © {new Date().getFullYear()} Nubitlan. Todos los derechos reservados.
           </div>
           <div className="d-flex flex-column flex-md-row align-items-center gap-3">
+            <Link to="/quienes-somos" className="text-decoration-none d-flex align-items-center gap-1">
+              <i className="bi bi-people"></i>
+              Quiénes Somos
+            </Link>
             <Link to="/terminos" className="text-decoration-none d-flex align-items-center gap-1">
               <i className="bi bi-shield-lock"></i>
               Política de Privacidad
@@ -176,9 +202,9 @@ function LandingPage() {
               <i className="bi bi-file-text"></i>
               Términos y Condiciones
             </Link>
-            <a href="mailto:contacto@nubitlan.com" className="text-decoration-none d-flex align-items-center gap-1">
+            <a href="mailto:contact@nubitlan.com" className="text-decoration-none d-flex align-items-center gap-1">
               <i className="bi bi-envelope"></i>
-              contacto@nubitlan.com
+              contact@nubitlan.com
             </a>
           </div>
         </div>

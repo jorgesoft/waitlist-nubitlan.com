@@ -5,6 +5,7 @@ import './index.css'
 import LandingPage from './pages/LandingPage.tsx'
 import EvaluationPage from './pages/EvaluationPage.tsx'
 import PrivacyPage from './pages/PrivacyPage.tsx'
+import AboutPage from './pages/AboutPage.tsx'
 import ErrorBoundary from './components/ErrorBoundary.tsx'
 
 createRoot(document.getElementById('root')!).render(
@@ -18,6 +19,7 @@ createRoot(document.getElementById('root')!).render(
           </ErrorBoundary>
         } />
         <Route path="/terminos" element={<PrivacyPage />} />
+        <Route path="/quienes-somos" element={<AboutPage />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,
