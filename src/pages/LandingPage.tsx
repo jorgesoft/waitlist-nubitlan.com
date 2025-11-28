@@ -124,13 +124,24 @@ function LandingPage() {
       {/* Trust section */}
       <section className="py-4">
         <div className="container">
-          <div className="bg-white border rounded-3 p-3 p-md-4">
+          <div className="bg-white border rounded-3 p-3 p-md-4 mb-3">
             <p className="mb-0 d-flex align-items-start gap-2">
               <i className="bi bi-award text-primary mt-1 fs-5"></i>
               <span>
                 Creado por profesionales de ciberseguridad con experiencia en estándares internacionales y entornos cloud.{' '}
                 <Link to="/quienes-somos" className="text-decoration-none fw-semibold">
                   Conoce más sobre nosotros <i className="bi bi-arrow-right"></i>
+                </Link>
+              </span>
+            </p>
+          </div>
+          <div className="bg-light border rounded-3 p-3 p-md-4">
+            <p className="mb-0 d-flex align-items-start gap-2">
+              <i className="bi bi-star text-success mt-1 fs-5"></i>
+              <span>
+                Descubre cómo ayudamos a nuestro primer cliente a identificar riesgos y prepararse para el cumplimiento.{' '}
+                <Link to="/caso-de-estudio" className="text-decoration-none fw-semibold">
+                  Ver caso de estudio <i className="bi bi-arrow-right"></i>
                 </Link>
               </span>
             </p>

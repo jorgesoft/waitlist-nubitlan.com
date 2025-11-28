@@ -22,9 +22,9 @@ function Navbar() {
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="/terminos" className="nav-link text-white d-flex align-items-center gap-1">
-              <i className="bi bi-shield-lock"></i>
-              Privacidad
+            <Link to="/caso-de-estudio" className="nav-link text-white d-flex align-items-center gap-1">
+              <i className="bi bi-file-text"></i>
+              Caso de Estudio
             </Link>
           </li>
         </ul>
