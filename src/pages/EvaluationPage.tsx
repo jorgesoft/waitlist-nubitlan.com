@@ -19,6 +19,11 @@ function EvaluationPage() {
   const mainContentRef = useRef<HTMLDivElement>(null);
   const [searchParams, setSearchParams] = useSearchParams();
 
+  // Scroll to top on mount
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // Check if user came from waitlist signup
   useEffect(() => {
     if (searchParams.get('joined') === 'true') {

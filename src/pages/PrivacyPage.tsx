@@ -14,6 +14,11 @@ function PrivacyPage() {
     ? (showTerms ? content.terms : content.privacy)
     : null;
 
+  // Scroll to top on mount
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   useEffect(() => {
     const loadContent = async () => {
       try {
@@ -150,25 +155,29 @@ function PrivacyPage() {
       </main>
 
       {/* Footer */}
-      <footer className="py-4 border-top bg-white">
+      <footer className="py-4 border-top">
         <div className="container d-flex flex-column flex-md-row justify-content-between align-items-center">
-          <div className="mb-2 mb-md-0 text-muted small">
+          <div className="mb-2 mb-md-0">
             © {new Date().getFullYear()} Nubitlan. Todos los derechos reservados.
           </div>
           <div className="d-flex flex-column flex-md-row align-items-center gap-3">
-            <Link to="/quienes-somos" className="text-decoration-none text-muted small d-flex align-items-center gap-1">
+            <Link to="/" className="text-decoration-none d-flex align-items-center gap-1">
+              <i className="bi bi-house"></i>
+              Inicio
+            </Link>
+            <Link to="/quienes-somos" className="text-decoration-none d-flex align-items-center gap-1">
               <i className="bi bi-people"></i>
               Quiénes Somos
             </Link>
-            <Link to="/terminos" className="text-decoration-none text-muted small d-flex align-items-center gap-1">
+            <Link to="/terminos" className="text-decoration-none d-flex align-items-center gap-1">
               <i className="bi bi-shield-lock"></i>
               Política de Privacidad
             </Link>
-            <Link to="/terminos#terms" className="text-decoration-none text-muted small d-flex align-items-center gap-1">
+            <Link to="/terminos#terms" className="text-decoration-none d-flex align-items-center gap-1">
               <i className="bi bi-file-text"></i>
               Términos y Condiciones
             </Link>
-            <a href="mailto:contact@nubitlan.com" className="text-decoration-none text-muted small d-flex align-items-center gap-1">
+            <a href="mailto:contact@nubitlan.com" className="text-decoration-none d-flex align-items-center gap-1">
               <i className="bi bi-envelope"></i>
               contact@nubitlan.com
             </a>

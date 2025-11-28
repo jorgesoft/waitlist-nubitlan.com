@@ -1,6 +1,11 @@
 import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
 
 function AboutPage() {
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   return (
     <>
       {/* Header section */}
@@ -140,6 +145,10 @@ function AboutPage() {
             © {new Date().getFullYear()} Nubitlan. Todos los derechos reservados.
           </div>
           <div className="d-flex flex-column flex-md-row align-items-center gap-3">
+            <Link to="/" className="text-decoration-none d-flex align-items-center gap-1">
+              <i className="bi bi-house"></i>
+              Inicio
+            </Link>
             <Link to="/quienes-somos" className="text-decoration-none d-flex align-items-center gap-1">
               <i className="bi bi-people"></i>
               Quiénes Somos
