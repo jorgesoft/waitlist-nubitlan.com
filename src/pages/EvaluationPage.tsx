@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-
-
 import { Link, useSearchParams } from 'react-router-dom';
 import { loadQuizConfig } from '../utils/loadQuizConfig';
 import { useQuizEngine } from '../hooks/useQuizEngine';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 import QuestionCard from '../components/QuestionCard';
 import OutcomeCard from '../components/OutcomeCard';
 import QuizProgress from '../components/QuizProgress';
@@ -107,26 +107,7 @@ function EvaluationPage() {
         {announcement}
       </div>
 
-      {/* Header with navigation */}
-      <nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
-        <div className="container">
-          <Link 
-            to="/" 
-            className="navbar-brand fw-bold d-flex align-items-center gap-2"
-            aria-label="Volver a la página principal"
-          >
-            <i className="bi bi-shield-check fs-4" aria-hidden="true"></i>
-            Nubitlan
-          </Link>
-          <Link 
-            to="/" 
-            className="btn btn-outline-light btn-sm d-flex align-items-center gap-1"
-          >
-            <i className="bi bi-house" aria-hidden="true"></i>
-            Inicio
-          </Link>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Main content */}
       <main id="main-content" className="py-5 bg-light min-vh-100" ref={mainContentRef}>
@@ -279,37 +260,7 @@ function EvaluationPage() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="py-4 border-top bg-white">
-        <div className="container d-flex flex-column flex-md-row justify-content-between align-items-center">
-          <div className="mb-2 mb-md-0 text-muted small">
-            © {new Date().getFullYear()} Nubitlan. Todos los derechos reservados.
-          </div>
-          <div className="d-flex flex-column flex-md-row align-items-center gap-3">
-            <Link 
-              to="/terminos" 
-              className="text-decoration-none text-muted small d-flex align-items-center gap-1"
-            >
-              <i className="bi bi-shield-lock"></i>
-              Política de Privacidad
-            </Link>
-            <Link 
-              to="/terminos#terms" 
-              className="text-decoration-none text-muted small d-flex align-items-center gap-1"
-            >
-              <i className="bi bi-file-text"></i>
-              Términos y Condiciones
-            </Link>
-            <a 
-              href="mailto:contacto@nubitlan.com" 
-              className="text-decoration-none text-muted small d-flex align-items-center gap-1"
-            >
-              <i className="bi bi-envelope"></i>
-              contacto@nubitlan.com
-            </a>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }

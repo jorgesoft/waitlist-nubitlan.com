@@ -1,5 +1,7 @@
 import { useRef, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
 import WebinarAnnouncement from '../components/WebinarAnnouncement'
 
 function LandingPage() {
@@ -31,35 +33,7 @@ function LandingPage() {
 
   return (
     <>
-      {/* Header section */}
-      <nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
-        <div className="container">
-          <Link to="/" className="navbar-brand fw-bold d-flex align-items-center gap-2">
-            <i className="bi bi-shield-check fs-4"></i>
-            Nubitlan
-          </Link>
-          <ul className="navbar-nav ms-auto flex-row gap-3">
-            <li className="nav-item">
-              <Link to="/" className="nav-link text-white d-flex align-items-center gap-1">
-                <i className="bi bi-house"></i>
-                Inicio
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/quienes-somos" className="nav-link text-white d-flex align-items-center gap-1">
-                <i className="bi bi-people"></i>
-                Quiénes Somos
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/terminos" className="nav-link text-white d-flex align-items-center gap-1">
-                <i className="bi bi-shield-lock"></i>
-                Privacidad
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </nav>
+      <Navbar />
       
       {/* Hero section */}
       <section className="py-5 py-md-6 bg-light">
@@ -188,36 +162,7 @@ function LandingPage() {
       {/* Webinar announcement */}
       <WebinarAnnouncement />
       
-      {/* Footer section */}
-      <footer className="py-4 border-top">
-        <div className="container d-flex flex-column flex-md-row justify-content-between align-items-center">
-          <div className="mb-2 mb-md-0">
-            © {new Date().getFullYear()} Nubitlan. Todos los derechos reservados.
-          </div>
-          <div className="d-flex flex-column flex-md-row align-items-center gap-3">
-            <Link to="/" className="text-decoration-none d-flex align-items-center gap-1">
-              <i className="bi bi-house"></i>
-              Inicio
-            </Link>
-            <Link to="/quienes-somos" className="text-decoration-none d-flex align-items-center gap-1">
-              <i className="bi bi-people"></i>
-              Quiénes Somos
-            </Link>
-            <Link to="/terminos" className="text-decoration-none d-flex align-items-center gap-1">
-              <i className="bi bi-shield-lock"></i>
-              Política de Privacidad
-            </Link>
-            <Link to="/terminos#terms" className="text-decoration-none d-flex align-items-center gap-1">
-              <i className="bi bi-file-text"></i>
-              Términos y Condiciones
-            </Link>
-            <a href="mailto:contact@nubitlan.com" className="text-decoration-none d-flex align-items-center gap-1">
-              <i className="bi bi-envelope"></i>
-              contact@nubitlan.com
-            </a>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </>
   )
 }
