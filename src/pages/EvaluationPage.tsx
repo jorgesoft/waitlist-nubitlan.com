@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { loadQuizConfig } from '../utils/loadQuizConfig';
 import { useQuizEngine } from '../hooks/useQuizEngine';
 import { saveQuizResult } from '../services/quizService';
+import { logQuizCompleted, logQuizStarted } from '../utils/analytics';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import QuestionCard from '../components/QuestionCard';
@@ -73,7 +74,7 @@ function EvaluationPage() {
     ? Object.keys(quizEngine.answers).length + (quizEngine.isComplete ? 0 : 1)
     : 0;
 
-  // Save quiz result when completed
+  // Save quiz result and log analytics when completed
   useEffect(() => {
     const saveResult = async () => {
       if (quizEngine.isComplete && quizEngine.outcome && !resultSavedRef.current) {
@@ -81,6 +82,12 @@ function EvaluationPage() {
         try {
           await saveQuizResult(quizEngine.answers, quizEngine.outcome);
           console.log('Quiz result saved successfully');
+          
+          // Log analytics event
+          logQuizCompleted(
+            quizEngine.outcome,
+            Object.keys(quizEngine.answers).length
+          );
         } catch (error) {
           console.error('Failed to save quiz result:', error);
           // Don't show error to user, just log it
@@ -218,7 +225,10 @@ function EvaluationPage() {
                         <button
                           type="button"
                           className="btn btn-primary btn-lg d-flex align-items-center justify-content-center gap-2 mx-auto"
-                          onClick={() => setQuizStarted(true)}
+                          onClick={() => {
+                            setQuizStarted(true);
+                            logQuizStarted();
+                          }}
                         >
                           <i className="bi bi-play-circle" aria-hidden="true"></i>
                           Comenzar evaluación

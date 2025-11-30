@@ -18,17 +18,27 @@ Firebase has been successfully integrated into your readiness application. Here'
 ### Hooks
 - `src/hooks/useQuizResults.ts` - React hook to fetch quiz results (for admin dashboards)
 
+### Analytics
+- `src/utils/analytics.ts` - Analytics helper functions for custom events
+
 ### Documentation
 - `FIREBASE_SETUP.md` - Complete setup guide
+- `ANALYTICS_EVENTS.md` - Custom analytics events documentation
 - `scripts/init-firestore.md` - Firestore initialization guide
+- `DEPLOYMENT_CHECKLIST.md` - Pre-deployment checklist
 - `FIREBASE_INTEGRATION.md` - This file
 
 ## 🔧 Modified Files
 
 ### `src/pages/EvaluationPage.tsx`
 - Added automatic saving of quiz results when completed
-- Imports `saveQuizResult` service
+- Imports `saveQuizResult` service and analytics functions
 - Uses `useEffect` to save results to Firestore
+- Tracks `quiz_started` and `quiz_completed` events
+
+### `src/services/quizService.ts`
+- Added analytics tracking to `saveEmailSubscription`
+- Logs `waitlist_signup` event when users subscribe
 
 ### `.gitignore`
 - Added `.env` files to prevent committing credentials
@@ -79,6 +89,25 @@ Ready to use with `saveEmailSubscription()` function:
 - Source (e.g., "quiz", "landing")
 - Subscription timestamp
 - User agent
+
+## 📈 Analytics Events
+
+Custom events are automatically tracked:
+
+### `quiz_started`
+- Triggered when user clicks "Comenzar evaluación"
+- No parameters
+
+### `quiz_completed`
+- Triggered when user completes the quiz
+- Parameters: outcome_id, outcome_level, outcome_title, questions_answered
+
+### `waitlist_signup`
+- Triggered when user joins the waitlist
+- Parameters: source, has_email
+- **Privacy**: Email address is NOT sent to analytics
+
+See `ANALYTICS_EVENTS.md` for complete documentation.
 
 ## 🔐 Security
 

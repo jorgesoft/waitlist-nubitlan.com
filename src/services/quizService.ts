@@ -1,5 +1,6 @@
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../config/firebase';
+import { logWaitlistSignup } from '../utils/analytics';
 import type { Outcome } from '../types/quiz';
 
 export interface QuizResult {
@@ -60,6 +61,10 @@ export async function saveEmailSubscription(
     };
 
     const docRef = await addDoc(subscriptionsRef, subscription);
+    
+    // Log analytics event
+    logWaitlistSignup(email, source);
+    
     return docRef.id;
   } catch (error) {
     console.error('Error saving email subscription:', error);
