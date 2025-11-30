@@ -40,7 +40,7 @@ function CaseStudyPage() {
                 <li className="mb-2">Puntos que permitían acceso no autorizado o fuga de información</li>
               </ul>
               <p className="mb-5">
-                No solo detectamos los riesgos: también explicamos cómo cada vulnerabilidad podía impactar la operación del negocio, desde interrupciones hasta riesgos legales derivados de la nueva ley.
+                No solo detectamos los riesgos: también explicamos cómo cada vulnerabilidad podía impactar la operación del negocio, desde interrupciones hasta riesgos legales derivados de la ley.
               </p>
 
               <h2 className="h4 mb-3">Análisis de Cumplimiento Frente a la Ley</h2>

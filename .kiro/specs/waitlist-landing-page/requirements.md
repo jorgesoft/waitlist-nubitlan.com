@@ -21,7 +21,7 @@ This document defines the requirements for a high-converting waitlist landing pa
 
 #### Acceptance Criteria
 
-1. WHEN the Landing Page loads, THE Landing Page SHALL display a headline stating "¿Tu empresa está lista para proteger los datos y cumplir con la nueva ley de El Salvador?"
+1. WHEN the Landing Page loads, THE Landing Page SHALL display a headline stating "¿Tu empresa está lista para proteger los datos y cumplir con la ley de El Salvador?"
 2. WHEN the Landing Page loads, THE Landing Page SHALL display a subheadline explaining the compliance and security challenges and the AI-powered solution
 3. THE Landing Page SHALL present problem bullets listing lack of basic controls, unprotected personal data, absence of internal policies, and risk of sanctions
 4. THE Landing Page SHALL present solution bullets describing compliance evaluation, risk identification, report generation, and practical recommendations

@@ -42,10 +42,10 @@ function LandingPage() {
             ¿Tu empresa cumple con las obligaciones de la Ley de Protección de Datos Personales?
           </h1>
           <p className="lead mb-6">
-            En Nubitlan desarrollamos herramientas de IA que ayudan a tu empresa a prepararse para la nueva Ley de Protección de Datos y fortalecer su seguridad.
+            En Nubitlan desarrollamos herramientas de IA que ayudan a tu empresa a prepararse para la Ley de Protección de Datos y fortalecer su seguridad.
           </p>
           <p className="lead mb-6">
-            Únete a la lista de espera y recibe una evaluación rápida + guía práctica sobre la nueva Ley de Protección de Datos Personales.
+            Únete a la lista de espera y recibe una evaluación rápida + guía práctica sobre la Ley de Protección de Datos Personales.
           </p>
           <div className="d-flex flex-column flex-md-row gap-3 justify-content-center align-items-center mb-3">
             <button 

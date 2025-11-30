@@ -212,7 +212,7 @@ outcomes:
   - id: "very-ready"
     level: "ready"
     title: "¡Muy bien preparado!"
-    message: "Tu empresa está muy probablemente lista para cumplir con la nueva ley."
+    message: "Tu empresa está muy probablemente lista para cumplir con la ley."
     recommendations:
       - "Revisa que tu certificación ISO 27001 esté actualizada"
       - "Documenta cómo tus controles ISO cubren los requisitos de la ley"
