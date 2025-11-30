@@ -22,11 +22,11 @@ Firebase has been successfully integrated into your readiness application. Here'
 - `src/utils/analytics.ts` - Analytics helper functions for custom events
 
 ### Documentation
-- `FIREBASE_SETUP.md` - Complete setup guide
-- `ANALYTICS_EVENTS.md` - Custom analytics events documentation
-- `scripts/init-firestore.md` - Firestore initialization guide
-- `DEPLOYMENT_CHECKLIST.md` - Pre-deployment checklist
-- `FIREBASE_INTEGRATION.md` - This file
+- `docs/FIREBASE_SETUP.md` - Complete setup guide
+- `docs/ANALYTICS_EVENTS.md` - Custom analytics events documentation
+- `docs/scripts/init-firestore.md` - Firestore initialization guide
+- `docs/DEPLOYMENT_CHECKLIST.md` - Pre-deployment checklist
+- `docs/FIREBASE_INTEGRATION.md` - This file
 
 ## 🔧 Modified Files
 

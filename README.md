@@ -17,7 +17,7 @@ A React + TypeScript + Vite application for evaluating data protection readiness
    npm install
    ```
 
-2. Set up Firebase (see [FIREBASE_SETUP.md](./FIREBASE_SETUP.md) for detailed instructions):
+2. Set up Firebase (see [docs/QUICK_START.md](./docs/QUICK_START.md) for step-by-step guide):
    ```bash
    cp .env.example .env
    # Edit .env with your Firebase credentials
@@ -32,9 +32,19 @@ A React + TypeScript + Vite application for evaluating data protection readiness
 
 This application uses Firebase for:
 - **Firestore**: Storing quiz results and email subscriptions
-- **Analytics**: Tracking user engagement (optional)
+- **Analytics**: Tracking user engagement and conversions
 
-See [FIREBASE_SETUP.md](./FIREBASE_SETUP.md) for complete setup instructions.
+## 📚 Documentation
+
+All documentation is in the [`docs/`](./docs) folder:
+
+- 🚀 [Quick Start Guide](./docs/QUICK_START.md) - Get up and running in 10 minutes
+- 🔥 [Firebase Setup](./docs/FIREBASE_SETUP.md) - Detailed Firebase configuration
+- 📊 [Analytics Events](./docs/ANALYTICS_EVENTS.md) - Custom analytics tracking
+- 🚀 [Deployment Checklist](./docs/DEPLOYMENT_CHECKLIST.md) - Pre-deployment guide
+- ♿ [Accessibility](./docs/accessibility-enhancements.md) - Accessibility features
+
+**See [docs/README.md](./docs/README.md) for complete documentation index.**
 
 ---
 

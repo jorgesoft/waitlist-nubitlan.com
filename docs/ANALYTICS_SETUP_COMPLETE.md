@@ -149,9 +149,9 @@ See `src/utils/analytics.example.tsx.md` for more examples.
 
 ## 📚 Documentation
 
-- `ANALYTICS_EVENTS.md` - Complete event reference
-- `FIREBASE_SETUP.md` - Firebase setup guide
-- `FIREBASE_INTEGRATION.md` - Integration overview
+- `docs/ANALYTICS_EVENTS.md` - Complete event reference
+- `docs/FIREBASE_SETUP.md` - Firebase setup guide
+- `docs/FIREBASE_INTEGRATION.md` - Integration overview
 
 ## ✨ What You Can Do Now
 

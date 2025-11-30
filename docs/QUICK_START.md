@@ -138,10 +138,10 @@ Firebase Console → Analytics → Realtime
 
 ## 📚 Full Documentation
 
-- `FIREBASE_SETUP.md` - Detailed setup instructions
-- `ANALYTICS_EVENTS.md` - Analytics documentation
-- `FIREBASE_INTEGRATION.md` - What was added
-- `DEPLOYMENT_CHECKLIST.md` - Pre-deployment checklist
+- `docs/FIREBASE_SETUP.md` - Detailed setup instructions
+- `docs/ANALYTICS_EVENTS.md` - Analytics documentation
+- `docs/FIREBASE_INTEGRATION.md` - What was added
+- `docs/DEPLOYMENT_CHECKLIST.md` - Pre-deployment checklist
 
 ## 🎉 You're Done!
 
