@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { loadQuizConfig } from '../utils/loadQuizConfig';
 import { useQuizEngine } from '../hooks/useQuizEngine';
+import { saveQuizResult } from '../services/quizService';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import QuestionCard from '../components/QuestionCard';
@@ -18,6 +19,7 @@ function EvaluationPage() {
   const [showThankYou, setShowThankYou] = useState(false);
   const mainContentRef = useRef<HTMLDivElement>(null);
   const [searchParams, setSearchParams] = useSearchParams();
+  const resultSavedRef = useRef(false);
 
   // Scroll to top on mount
   useEffect(() => {
@@ -70,6 +72,24 @@ function EvaluationPage() {
   const currentStep = config 
     ? Object.keys(quizEngine.answers).length + (quizEngine.isComplete ? 0 : 1)
     : 0;
+
+  // Save quiz result when completed
+  useEffect(() => {
+    const saveResult = async () => {
+      if (quizEngine.isComplete && quizEngine.outcome && !resultSavedRef.current) {
+        resultSavedRef.current = true;
+        try {
+          await saveQuizResult(quizEngine.answers, quizEngine.outcome);
+          console.log('Quiz result saved successfully');
+        } catch (error) {
+          console.error('Failed to save quiz result:', error);
+          // Don't show error to user, just log it
+        }
+      }
+    };
+
+    saveResult();
+  }, [quizEngine.isComplete, quizEngine.outcome, quizEngine.answers]);
 
   // Announce state changes for screen readers
   useEffect(() => {
@@ -222,6 +242,7 @@ function EvaluationPage() {
                           onRestart={() => {
                             quizEngine.restart();
                             setQuizStarted(false);
+                            resultSavedRef.current = false;
                           }} 
                         />
                       ) : quizEngine.currentQuestion ? (

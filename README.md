@@ -1,4 +1,44 @@
-# React + TypeScript + Vite
+# Readiness Application
+
+A React + TypeScript + Vite application for evaluating data protection readiness with Firebase backend integration.
+
+## Features
+
+- Interactive quiz evaluation system
+- Firebase Firestore database integration
+- Real-time data persistence
+- Responsive design with Bootstrap
+- Accessibility compliant
+
+## Quick Start
+
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+2. Set up Firebase (see [FIREBASE_SETUP.md](./FIREBASE_SETUP.md) for detailed instructions):
+   ```bash
+   cp .env.example .env
+   # Edit .env with your Firebase credentials
+   ```
+
+3. Start development server:
+   ```bash
+   npm run dev
+   ```
+
+## Firebase Integration
+
+This application uses Firebase for:
+- **Firestore**: Storing quiz results and email subscriptions
+- **Analytics**: Tracking user engagement (optional)
+
+See [FIREBASE_SETUP.md](./FIREBASE_SETUP.md) for complete setup instructions.
+
+---
+
+## Original Template Info
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
