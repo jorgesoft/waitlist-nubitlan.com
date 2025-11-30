@@ -33,7 +33,12 @@ function AboutPage() {
               <div className="card h-100 shadow-sm">
                 <div className="card-body text-center">
                   <div className="mb-3">
-                    <i className="bi bi-person-circle text-primary" style={{ fontSize: '4rem' }}></i>
+                    <img 
+                      src="/pictures/jorge.jpg" 
+                      alt="Jorge Silva - Co-fundador de Nubitlan"
+                      className="rounded-circle"
+                      style={{ width: '150px', height: '150px', objectFit: 'cover' }}
+                    />
                   </div>
                   <h3 className="h5 fw-bold mb-2">Jorge Silva</h3>
                   <p className="text-muted mb-3">Co-fundador</p>
@@ -60,7 +65,12 @@ function AboutPage() {
               <div className="card h-100 shadow-sm">
                 <div className="card-body text-center">
                   <div className="mb-3">
-                    <i className="bi bi-person-circle text-primary" style={{ fontSize: '4rem' }}></i>
+                    <img 
+                      src="/pictures/chris.jpg" 
+                      alt="Chris Sánchez - Co-fundador de Nubitlan"
+                      className="rounded-circle"
+                      style={{ width: '150px', height: '150px', objectFit: 'cover' }}
+                    />
                   </div>
                   <h3 className="h5 fw-bold mb-2">Chris Sánchez</h3>
                   <p className="text-muted mb-3">Co-fundador</p>
