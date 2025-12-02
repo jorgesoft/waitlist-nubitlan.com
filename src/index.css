@@ -29,49 +29,6 @@ body {
 /* Modern navbar styling */
 .navbar {
   background: linear-gradient(135deg, var(--primary-blue) 0%, var(--light-blue) 100%) !important;
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  overflow-x: hidden;
-}
-
-.navbar .container {
-  overflow-x: hidden;
-}
-
-.navbar-brand {
-  font-weight: 700;
-  letter-spacing: -0.5px;
-  flex-shrink: 0;
-}
-
-.navbar-nav {
-  flex-shrink: 0;
-}
-
-.nav-link {
-  white-space: nowrap;
-  position: relative;
-  transition: opacity 0.3s ease;
-}
-
-.nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 0;
-  height: 2px;
-  background-color: white;
-  transform: translateX(-50%);
-  transition: width 0.3s ease;
-}
-
-.nav-link:hover {
-  opacity: 0.9;
-}
-
-.nav-link:hover::after {
-  width: 80%;
 }
 
 /* Modern button styles */
