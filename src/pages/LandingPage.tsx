@@ -122,10 +122,14 @@ function LandingPage() {
       </section>
       
       {/* Trust section */}
-      <section className="py-4">
+      <section className="py-5 bg-light">
         <div className="container">
-          <div className="bg-white border rounded-3 p-3 p-md-4 mb-3">
-            <p className="mb-0 d-flex align-items-start gap-2">
+          <h2 className="h4 mb-4 d-flex align-items-center gap-2">
+            <i className="bi bi-shield-check text-primary"></i>
+            Por qué confiar en Nubitlan
+          </h2>
+          <div className="mb-3">
+            <p className="d-flex align-items-start gap-2">
               <i className="bi bi-award text-primary mt-1 fs-5"></i>
               <span>
                 Creado por profesionales de ciberseguridad con experiencia en estándares internacionales y entornos cloud.{' '}
@@ -135,8 +139,8 @@ function LandingPage() {
               </span>
             </p>
           </div>
-          <div className="bg-light border rounded-3 p-3 p-md-4">
-            <p className="mb-0 d-flex align-items-start gap-2">
+          <div>
+            <p className="d-flex align-items-start gap-2">
               <i className="bi bi-star text-success mt-1 fs-5"></i>
               <span>
                 Descubre cómo ayudamos a nuestro primer cliente a identificar riesgos y prepararse para el cumplimiento.{' '}
@@ -150,7 +154,7 @@ function LandingPage() {
       </section>
       
       {/* Waitlist form section */}
-      <section className="py-5">
+      <section className="py-5 bg-white">
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-12 col-lg-8">
