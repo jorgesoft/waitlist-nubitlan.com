@@ -695,3 +695,36 @@ section.bg-light > * {
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
+
+/* ===================================
+   Scroll Indicator Animation
+   =================================== */
+
+.scroll-indicator {
+  animation: bounce 2s ease-in-out infinite;
+  cursor: pointer;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+.scroll-indicator:hover {
+  animation-play-state: paused;
+  opacity: 0.7;
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-indicator {
+    animation: none;
+  }
+}

@@ -6,10 +6,15 @@ import WebinarAnnouncement from '../components/WebinarAnnouncement'
 
 function LandingPage() {
   const formRef = useRef<HTMLDivElement | null>(null);
+  const nextSectionRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
 
   const scrollToForm = () => {
     formRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const scrollToNextSection = () => {
+    nextSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   useEffect(() => {
@@ -32,11 +37,11 @@ function LandingPage() {
       <Navbar />
 
       {/* Hero section */}
-      <section className="py-5 py-md-6 bg-light">
+      <section className="position-relative bg-light d-flex align-items-center justify-content-center" style={{ minHeight: '100vh' }}>
         <div className="container text-center">
 
           <h1 className="display-5 fw-bold mb-3">
-            Evalúa tu Seguridad y Cumplimiento con Tecnología de IA
+            Evalúa tu Seguridad y Cumplimiento con Inteligencia Artificial
           </h1>
 
           <p className="lead mb-3">
@@ -53,14 +58,30 @@ function LandingPage() {
             </button>
           </div>
 
+          <p></p>
           <p className="small text-muted">
             Únete a la lista y recibe nuestra guía de la Ley de Datos + mini evaluación de preparación.
           </p>
         </div>
+
+        {/* Scroll indicator */}
+        <div 
+          className="position-absolute start-50 translate-middle-x text-center" 
+          style={{ bottom: '80px' }}
+          onClick={scrollToNextSection}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => e.key === 'Enter' && scrollToNextSection()}
+          aria-label="Desplazarse a la siguiente sección"
+        >
+          <div className="scroll-indicator">
+            <i className="bi bi-chevron-down fs-3 text-primary"></i>
+          </div>
+        </div>
       </section>
 
       {/* Problem section */}
-      <section className="py-5">
+      <section className="py-5" ref={nextSectionRef}>
         <div className="container">
           <h2 className="h5 mb-3 d-flex align-items-center gap-2">
             <i className="bi bi-exclamation-triangle text-warning"></i>
