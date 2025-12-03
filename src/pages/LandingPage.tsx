@@ -12,17 +12,13 @@ function LandingPage() {
     formRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // Scroll to top on mount
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  // Listen for JotForm submission and redirect
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
-      // Check if message is from JotForm
       if (event.origin === 'https://form.jotform.com' && event.data === 'form-submitted') {
-        // Redirect to evaluation page with thank you parameter
         navigate('/evaluacion?joined=true');
       }
     };
@@ -34,128 +30,156 @@ function LandingPage() {
   return (
     <>
       <Navbar />
-      
+
       {/* Hero section */}
       <section className="py-5 py-md-6 bg-light">
         <div className="container text-center">
+
           <h1 className="display-5 fw-bold mb-3">
-            ¿Tu empresa cumple con las obligaciones de la Ley de Protección de Datos Personales?
+            Evalúa tu Seguridad y Cumplimiento con Tecnología de IA
           </h1>
-          <p className="lead mb-6">
-            En Nubitlan desarrollamos herramientas de IA que ayudan a tu empresa a prepararse para la Ley de Protección de Datos y fortalecer su seguridad.
+
+          <p className="lead mb-3">
+            Diagnósticos rápidos, recomendaciones prácticas y una ruta clara hacia el cumplimiento de la Ley de Protección de Datos.
           </p>
-          <p className="lead mb-6">
-            Únete a la lista de espera y recibe una evaluación rápida + guía práctica sobre la Ley de Protección de Datos Personales.
-          </p>
-          <div className="d-flex flex-column flex-md-row gap-3 justify-content-center align-items-center mb-3">
+
+          <div className="d-flex flex-column flex-md-row gap-3 justify-content-center align-items-center mb-2">
             <button 
               onClick={scrollToForm}
               className="btn btn-primary btn-lg d-inline-flex align-items-center gap-2"
             >
-              <i className="bi bi-envelope-plus"></i>
+              <i className="bi bi-list-check"></i>
               Únete a la lista de espera
             </button>
           </div>
+
+          <p className="small text-muted">
+            Únete a la lista y recibe nuestra guía de la Ley de Datos + mini evaluación de preparación.
+          </p>
         </div>
       </section>
-      
+
       {/* Problem section */}
       <section className="py-5">
         <div className="container">
-          <h2 className="h4 mb-2 d-flex align-items-center gap-2">
+          <h2 className="h5 mb-3 d-flex align-items-center gap-2">
             <i className="bi bi-exclamation-triangle text-warning"></i>
-            Riesgos a los que te expones
+            Riesgos si no te preparas
           </h2>
-          <p className="mb-2 mt-2">
-            Cumplir no solo evita sanciones: también fortalece la seguridad y la confianza de tus clientes.
-          </p>
+
           <ul className="list-unstyled">
             <li className="mb-2 d-flex align-items-start gap-2">
               <i className="bi bi-x-circle text-danger mt-1"></i>
-              <span>Vulneración de bases de datos que incorporan información personal</span>
+              <span>Multas y sanciones</span>
             </li>
             <li className="mb-2 d-flex align-items-start gap-2">
               <i className="bi bi-x-circle text-danger mt-1"></i>
-              <span>Brechas de seguridad</span>
+              <span>Brechas de datos personales</span>
             </li>
             <li className="mb-2 d-flex align-items-start gap-2">
               <i className="bi bi-x-circle text-danger mt-1"></i>
-              <span>Imposición de multas</span>
+              <span>Pérdida de confianza de clientes</span>
             </li>
             <li className="mb-2 d-flex align-items-start gap-2">
               <i className="bi bi-x-circle text-danger mt-1"></i>
-              <span>Daño reputacional</span>
+              <span>Interrupciones operativas tras incidentes</span>
             </li>
           </ul>
         </div>
       </section>
-      
+
       {/* Solution section */}
       <section className="py-5 bg-light">
         <div className="container">
-          <h2 className="h4 mb-2 d-flex align-items-center gap-2">
+          <h2 className="h5 mb-3 d-flex align-items-center gap-2">
             <i className="bi bi-lightbulb text-success"></i>
-            Nuestra solución
+            Cómo te ayuda Nubitlan
           </h2>
-          <p className="mb-2 mt-2">
-            Nubitlan te ayuda a cumplir con la ley y mejorar tu seguridad de forma simple y guiada:
-          </p>
+
           <ul className="list-unstyled">
             <li className="mb-2 d-flex align-items-start gap-2">
               <i className="bi bi-check-circle text-success mt-1"></i>
-              <span>Identificación de riesgos</span>
+              <span>Identificación de riesgos reales</span>
             </li>
             <li className="mb-2 d-flex align-items-start gap-2">
               <i className="bi bi-check-circle text-success mt-1"></i>
-              <span>Sugerencia de controles</span>
+              <span>Recomendaciones prácticas y priorizadas</span>
             </li>
             <li className="mb-2 d-flex align-items-start gap-2">
               <i className="bi bi-check-circle text-success mt-1"></i>
-              <span>Visualización para reportes</span>
+              <span>Reporte claro para gerencia o auditoría</span>
             </li>
             <li className="mb-2 d-flex align-items-start gap-2">
               <i className="bi bi-check-circle text-success mt-1"></i>
-              <span>Evaluaciones de cumplimiento normativo centrado en protección de datos personales</span>
+              <span>Evaluación enfocada en protección de datos personales</span>
             </li>
           </ul>
+
+          <div className="mt-4">
+            <h3 className="h6 mb-3">Servicios:</h3>
+            <div className="d-flex flex-column flex-sm-row gap-3">
+              <Link 
+                to="/servicios/evaluacion-seguridad-ia" 
+                className="btn btn-outline-primary d-inline-flex align-items-center gap-2"
+              >
+                <i className="bi bi-robot"></i>
+                Evaluación de Seguridad con IA
+              </Link>
+
+              <Link 
+                to="/servicios/evaluacion-proteccion-datos" 
+                className="btn btn-outline-primary d-inline-flex align-items-center gap-2"
+              >
+                <i className="bi bi-shield-lock"></i>
+                Evaluación de Protección de Datos
+              </Link>
+
+              <Link 
+                to="/servicios/capacitacion-seguridad" 
+                className="btn btn-outline-primary d-inline-flex align-items-center gap-2"
+              >
+                <i className="bi bi-mortarboard"></i>
+                Capacitación en Seguridad
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
-      
+
       {/* Trust section */}
-      <section className="py-5 bg-light">
+      <section className="py-5 bg-white">
         <div className="container">
-          <h2 className="h4 mb-4 d-flex align-items-center gap-2">
+          <h2 className="h5 mb-4 d-flex align-items-center gap-2">
             <i className="bi bi-shield-check text-primary"></i>
             Por qué confiar en Nubitlan
           </h2>
-          <div className="mb-3">
-            <p className="d-flex align-items-start gap-2">
-              <i className="bi bi-award text-primary mt-1 fs-5"></i>
-              <span>
-                Creado por profesionales de ciberseguridad con experiencia en estándares internacionales y entornos cloud.{' '}
-                <Link to="/quienes-somos" className="text-decoration-none fw-semibold">
-                  Conoce más sobre nosotros <i className="bi bi-arrow-right"></i>
-                </Link>
-              </span>
-            </p>
-          </div>
-          <div>
-            <p className="d-flex align-items-start gap-2">
-              <i className="bi bi-star text-success mt-1 fs-5"></i>
-              <span>
-                Descubre cómo ayudamos a nuestro primer cliente a identificar riesgos y prepararse para el cumplimiento.{' '}
-                <Link to="/caso-de-estudio" className="text-decoration-none fw-semibold">
-                  Ver caso de estudio <i className="bi bi-arrow-right"></i>
-                </Link>
-              </span>
-            </p>
-          </div>
+
+          <p className="d-flex align-items-start gap-2 mb-3">
+            <i className="bi bi-award text-primary mt-1 fs-5"></i>
+            <span>
+              Equipo con experiencia en ciberseguridad y privacidad.{' '}
+              <Link to="/quienes-somos" className="fw-semibold text-decoration-none">
+                Ver más <i className="bi bi-arrow-right"></i>
+              </Link>
+            </span>
+          </p>
+
+          <p className="d-flex align-items-start gap-2">
+            <i className="bi bi-star text-success mt-1 fs-5"></i>
+            <span>
+              Ya ayudamos a una empresa salvadoreña a prepararse para la Ley.{' '}
+              <Link to="/caso-de-estudio" className="fw-semibold text-decoration-none">
+                Ver caso de estudio <i className="bi bi-arrow-right"></i>
+              </Link>
+            </span>
+          </p>
         </div>
       </section>
-      
+
       {/* Waitlist form section */}
-      <section className="py-5 bg-white">
+      <section className="py-5 bg-light">
         <div className="container">
+
           <div className="row justify-content-center">
             <div className="col-12 col-lg-8">
               <div ref={formRef}>
@@ -165,18 +189,15 @@ function LandingPage() {
                   allow="geolocation; microphone; camera; fullscreen; payment"
                   src="https://form.jotform.com/253112397254051"
                   style={{ minWidth: '100%', maxWidth: '100%', height: '1000px', border: 'none' }}
-                  scrolling='no'
-                >
-                </iframe>
+                  scrolling="no"
+                />
               </div>
             </div>
           </div>
         </div>
       </section>
-      
-      {/* Webinar announcement */}
+
       <WebinarAnnouncement />
-      
       <Footer />
     </>
   )
