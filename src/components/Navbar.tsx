@@ -4,7 +4,10 @@ function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/">Nubitlan</Link>
+        <Link className="navbar-brand d-flex align-items-center gap-2" to="/">
+          <img src="/favicon/favicon-32x32.png" alt="Nubitlan Logo" width="24" height="24" />
+          Nubitlan
+        </Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
