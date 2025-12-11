@@ -107,13 +107,25 @@ function AboutPage() {
                   <p className="lead mb-4">
                     ¿Tienes preguntas o necesitas más información? Estamos aquí para ayudarte.
                   </p>
-                  <a 
-                    href="mailto:contact@nubitlan.com" 
-                    className="btn btn-primary btn-lg d-inline-flex align-items-center gap-2"
-                  >
-                    <i className="bi bi-envelope-fill"></i>
-                    contact@nubitlan.com
-                  </a>
+                  <div className="d-flex flex-column flex-sm-row gap-3 justify-content-center">
+                    <a 
+                      href="mailto:contact@nubitlan.com" 
+                      className="btn btn-primary btn-lg d-inline-flex align-items-center gap-2"
+                    >
+                      <i className="bi bi-envelope-fill"></i>
+                      contact@nubitlan.com
+                    </a>
+                    <a 
+                      href="https://www.linkedin.com/company/nubitlan" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="btn btn-outline-primary btn-lg d-inline-flex align-items-center gap-2"
+                      aria-label="Síguenos en LinkedIn"
+                    >
+                      <i className="bi bi-linkedin"></i>
+                      Síguenos en LinkedIn
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>

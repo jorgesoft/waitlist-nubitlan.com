@@ -132,6 +132,16 @@ function AISecurityEvaluationPage() {
                       <i className="bi bi-envelope-fill"></i>
                       Contáctanos
                     </a>
+                    <a 
+                      href="https://www.linkedin.com/company/nubitlan" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="btn btn-outline-primary btn-lg d-inline-flex align-items-center justify-content-center gap-2"
+                      aria-label="Síguenos en LinkedIn"
+                    >
+                      <i className="bi bi-linkedin"></i>
+                      LinkedIn
+                    </a>
                     <Link 
                       to="/" 
                       className="btn btn-outline-primary btn-lg d-inline-flex align-items-center justify-content-center gap-2"

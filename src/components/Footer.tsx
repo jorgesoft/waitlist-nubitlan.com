@@ -28,6 +28,16 @@ function Footer() {
             <i className="bi bi-envelope"></i>
             contact@nubitlan.com
           </a>
+          <a 
+            href="https://www.linkedin.com/company/nubitlan" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-decoration-none d-flex align-items-center gap-1"
+            aria-label="Síguenos en LinkedIn"
+          >
+            <i className="bi bi-linkedin"></i>
+            LinkedIn
+          </a>
         </div>
       </div>
     </footer>

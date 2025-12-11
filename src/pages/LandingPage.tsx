@@ -48,7 +48,7 @@ function LandingPage() {
             Diagnósticos rápidos, recomendaciones prácticas y una ruta clara hacia el cumplimiento de la Ley de Protección de Datos.
           </p>
 
-          <div className="d-flex flex-column flex-md-row gap-3 justify-content-center align-items-center mb-2">
+          <div className="d-flex flex-column justify-content-center align-items-center mb-2">
             <button 
               onClick={scrollToForm}
               className="btn btn-primary btn-lg d-inline-flex align-items-center gap-2"
@@ -59,9 +59,20 @@ function LandingPage() {
           </div>
 
           <p></p>
-          <p className="small text-muted">
+          <p className="small text-muted mb-2">
             Únete a la lista y recibe nuestra guía de la Ley de Datos + mini evaluación de preparación.
           </p>
+          <div className="text-center">
+            <a 
+              href="https://www.linkedin.com/company/nubitlan" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-primary fs-4"
+              aria-label="Síguenos en LinkedIn"
+            >
+              <i className="bi bi-linkedin"></i>
+            </a>
+          </div>
         </div>
 
         {/* Scroll indicator */}
