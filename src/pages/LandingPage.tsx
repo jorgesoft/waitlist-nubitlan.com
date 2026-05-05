@@ -34,6 +34,7 @@ function LandingPage() {
 
   return (
     <>
+      <WebinarAnnouncement />
       <Navbar />
 
       {/* Hero section */}
@@ -229,7 +230,6 @@ function LandingPage() {
         </div>
       </section>
 
-      <WebinarAnnouncement />
       <Footer />
     </>
   )
