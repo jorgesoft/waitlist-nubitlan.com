@@ -2,7 +2,6 @@ import { useRef, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
-import WebinarAnnouncement from '../components/WebinarAnnouncement'
 
 function LandingPage() {
   const formRef = useRef<HTMLDivElement | null>(null);
@@ -34,7 +33,6 @@ function LandingPage() {
 
   return (
     <>
-      <WebinarAnnouncement />
       <Navbar />
 
       {/* Hero section */}

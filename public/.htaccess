@@ -1,6 +1,7 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
+  RewriteRule ^el-estado-ciberseguridad-desarrolladores-el-salvador\.pdf$ "El Estado de la Ciberseguridad para Desarrolladores en El Salvador.pdf" [L]
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
