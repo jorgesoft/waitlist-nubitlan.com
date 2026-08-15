@@ -1,154 +1,105 @@
-import { Component } from 'react';
-import type { ReactNode } from 'react';
-import { Link } from 'react-router-dom';
+import { Component } from 'react'
+import type { ReactNode } from 'react'
+import { Link } from 'react-router-dom'
+import { HomeIcon, RotateCwIcon, TriangleAlertIcon } from 'lucide-react'
+
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
 
 interface ErrorBoundaryProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
 interface ErrorBoundaryState {
-  hasError: boolean;
-  error: Error | null;
+  hasError: boolean
+  error: Error | null
 }
 
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
-    super(props);
+    super(props)
     this.state = {
       hasError: false,
       error: null,
-    };
+    }
   }
 
   static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-    // Update state so the next render will show the fallback UI
     return {
       hasError: true,
       error,
-    };
+    }
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    // Log error details to console for debugging
-    console.error('ErrorBoundary caught an error:', error);
-    console.error('Error info:', errorInfo);
+    console.error('ErrorBoundary caught an error:', error)
+    console.error('Error info:', errorInfo)
   }
 
   handleReset = () => {
-    // Reset error state to try rendering again
     this.setState({
       hasError: false,
       error: null,
-    });
-  };
+    })
+  }
 
   render() {
     if (this.state.hasError) {
-      // Render fallback UI
+      // The site layout already supplies the navbar and footer around this,
+      // so the fallback only needs to replace the page body.
       return (
-        <>
-          {/* Header with navigation */}
-          <nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
-            <div className="container">
-              <Link 
-                to="/" 
-                className="navbar-brand fw-bold d-flex align-items-center gap-2"
-                aria-label="Volver a la página principal"
-              >
-                <i className="bi bi-shield-check fs-4" aria-hidden="true"></i>
-                Nubitlan
-              </Link>
-              <Link 
-                to="/" 
-                className="btn btn-outline-light btn-sm d-flex align-items-center gap-1"
-              >
-                <i className="bi bi-house" aria-hidden="true"></i>
-                Inicio
-              </Link>
-            </div>
-          </nav>
+        <section className="py-20 sm:py-28">
+          <div className="mx-auto max-w-2xl px-4 sm:px-6">
+            <Card
+              role="alert"
+              className="border-2 border-destructive/40 shadow-[8px_8px_0_0_var(--sky-400)]"
+            >
+              <CardContent className="p-8 text-center sm:p-12">
+                <TriangleAlertIcon
+                  className="text-destructive mx-auto size-12"
+                  aria-hidden="true"
+                />
+                <h1 className="mt-5 text-2xl font-bold tracking-tight">
+                  Algo salió mal
+                </h1>
+                <p className="text-muted-foreground mt-4 leading-relaxed">
+                  Lo sentimos, ocurrió un error inesperado al cargar la
+                  evaluación. Por favor, intenta de nuevo o regresa a la página
+                  principal.
+                </p>
 
-          {/* Main error content */}
-          <main className="py-5 bg-light min-vh-100">
-            <div className="container">
-              <div className="row justify-content-center">
-                <div className="col-12 col-lg-8">
-                  <div className="card shadow-sm border-0" role="alert">
-                    <div className="card-body p-5 text-center">
-                      <i 
-                        className="bi bi-exclamation-triangle-fill text-danger fs-1 mb-4 d-block" 
-                        aria-hidden="true"
-                      ></i>
-                      <h1 className="h3 mb-3">Algo salió mal</h1>
-                      <p className="text-muted mb-4">
-                        Lo sentimos, ocurrió un error inesperado al cargar la evaluación. 
-                        Por favor, intenta de nuevo o regresa a la página principal.
-                      </p>
-                      
-                      {/* Show error message in development */}
-                      {import.meta.env.DEV && this.state.error && (
-                        <div className="alert alert-danger text-start mb-4">
-                          <strong>Error (solo visible en desarrollo):</strong>
-                          <pre className="mb-0 mt-2 small text-wrap">
-                            {this.state.error.message}
-                          </pre>
-                        </div>
-                      )}
-
-                      <div className="d-flex flex-column flex-sm-row gap-3 justify-content-center">
-                        <button
-                          type="button"
-                          className="btn btn-primary d-flex align-items-center justify-content-center gap-2"
-                          onClick={this.handleReset}
-                        >
-                          <i className="bi bi-arrow-clockwise" aria-hidden="true"></i>
-                          Intentar de nuevo
-                        </button>
-                        <Link
-                          to="/"
-                          className="btn btn-outline-primary d-flex align-items-center justify-content-center gap-2"
-                        >
-                          <i className="bi bi-house" aria-hidden="true"></i>
-                          Volver al inicio
-                        </Link>
-                      </div>
-                    </div>
+                {import.meta.env.DEV && this.state.error ? (
+                  <div className="bg-destructive/10 border-destructive/30 mt-6 rounded-lg border p-4 text-left">
+                    <strong className="text-destructive text-sm">
+                      Error (solo visible en desarrollo):
+                    </strong>
+                    <pre className="mt-2 font-mono text-xs whitespace-pre-wrap">
+                      {this.state.error.message}
+                    </pre>
                   </div>
-                </div>
-              </div>
-            </div>
-          </main>
+                ) : null}
 
-          {/* Footer */}
-          <footer className="py-4 border-top bg-white">
-            <div className="container d-flex flex-column flex-md-row justify-content-between align-items-center">
-              <div className="mb-2 mb-md-0 text-muted small">
-                © {new Date().getFullYear()} Nubitlan. Todos los derechos reservados.
-              </div>
-              <div className="d-flex flex-column flex-md-row align-items-center gap-3">
-                <a 
-                  href="/#privacy" 
-                  className="text-decoration-none text-muted small d-flex align-items-center gap-1"
-                >
-                  <i className="bi bi-file-text"></i>
-                  Privacy Policy
-                </a>
-                <a 
-                  href="mailto:contacto@nubitlan.com" 
-                  className="text-decoration-none text-muted small d-flex align-items-center gap-1"
-                >
-                  <i className="bi bi-envelope"></i>
-                  contacto@nubitlan.com
-                </a>
-              </div>
-            </div>
-          </footer>
-        </>
-      );
+                <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+                  <Button variant="pixel" onClick={this.handleReset}>
+                    <RotateCwIcon aria-hidden="true" />
+                    Intentar de nuevo
+                  </Button>
+                  <Button asChild variant="pixelOutline">
+                    <Link to="/">
+                      <HomeIcon aria-hidden="true" />
+                      Volver al inicio
+                    </Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+      )
     }
 
-    return this.props.children;
+    return this.props.children
   }
 }
 
-export default ErrorBoundary;
+export default ErrorBoundary
