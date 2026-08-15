@@ -18,7 +18,7 @@ import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { PixelSky, PixelHorizon } from '@/components/pixel/pixel-sky'
 import { PixelSprite } from '@/components/pixel/pixel-art'
-import { ICON_CAP, ICON_LOCK, ICON_ROBOT, ICON_WARN, iconPalette } from '@/components/pixel/sprites'
+import { ICON_BOOK, ICON_LOCK, ICON_ROBOT, ICON_WARN, iconPalette } from '@/components/pixel/sprites'
 
 const RISKS = [
   {
@@ -62,7 +62,7 @@ const BENEFITS = [
   },
 ]
 
-const SERVICE_SPRITES = [ICON_ROBOT, ICON_LOCK, ICON_CAP] as const
+const SERVICE_SPRITES = [ICON_ROBOT, ICON_LOCK, ICON_BOOK] as const
 
 function LandingPage() {
   const navigate = useNavigate()

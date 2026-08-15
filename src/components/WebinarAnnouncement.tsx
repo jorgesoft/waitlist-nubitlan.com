@@ -22,7 +22,7 @@ function WebinarAnnouncement() {
         href={WEBINAR_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className="font-pixel bg-foreground text-warning px-3 py-1.5 text-[0.6rem] tracking-[0.14em] transition-transform hover:-translate-y-0.5"
+        className="font-mono bg-foreground text-warning px-3 py-1.5 text-[0.7rem] font-bold tracking-[0.1em] transition-transform hover:-translate-y-0.5"
       >
         REGÍSTRATE
       </a>

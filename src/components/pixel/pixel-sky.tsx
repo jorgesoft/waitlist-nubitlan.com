@@ -65,14 +65,14 @@ interface DriftingCloud {
  * across renders. Larger, more opaque clouds drift faster to read as nearer.
  */
 const FIELD: DriftingCloud[] = [
-  { shape: 'big', top: 8, width: 210, opacity: 0.95, duration: 44, delay: -6 },
-  { shape: 'mid', top: 26, width: 120, opacity: 0.6, duration: 68, delay: -30 },
-  { shape: 'small', top: 46, width: 84, opacity: 0.45, duration: 86, delay: -12 },
-  { shape: 'mid', top: 62, width: 150, opacity: 0.8, duration: 52, delay: -40 },
-  { shape: 'wisp', top: 16, width: 66, opacity: 0.35, duration: 94, delay: -70 },
-  { shape: 'big', top: 74, width: 260, opacity: 1, duration: 38, delay: -22 },
-  { shape: 'small', top: 36, width: 96, opacity: 0.5, duration: 76, delay: -55 },
-  { shape: 'wisp', top: 88, width: 72, opacity: 0.4, duration: 64, delay: -18 },
+  { shape: 'big', top: 7, width: 250, opacity: 0.95, duration: 44, delay: -6 },
+  { shape: 'mid', top: 25, width: 165, opacity: 0.55, duration: 68, delay: -30 },
+  { shape: 'small', top: 45, width: 130, opacity: 0.4, duration: 86, delay: -12 },
+  { shape: 'mid', top: 61, width: 190, opacity: 0.75, duration: 52, delay: -40 },
+  { shape: 'wisp', top: 15, width: 115, opacity: 0.3, duration: 94, delay: -70 },
+  { shape: 'big', top: 73, width: 300, opacity: 1, duration: 38, delay: -22 },
+  { shape: 'small', top: 35, width: 140, opacity: 0.45, duration: 76, delay: -55 },
+  { shape: 'wisp', top: 87, width: 125, opacity: 0.35, duration: 64, delay: -18 },
 ]
 
 /**
@@ -89,6 +89,7 @@ export function CloudField({
   return (
     <div
       aria-hidden="true"
+      data-clouds=""
       className={cn(
         'pointer-events-none absolute inset-0 overflow-hidden',
         className

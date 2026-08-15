@@ -135,7 +135,7 @@ function PasswordGenerator() {
               <div>
                 <div className="flex items-center justify-between">
                   <Label htmlFor="length">Longitud</Label>
-                  <span className="font-pixel text-primary text-sm">
+                  <span className="font-mono text-primary text-sm font-bold">
                     {passwordOptions.length}
                   </span>
                 </div>
@@ -211,7 +211,7 @@ function PasswordGenerator() {
               <div>
                 <div className="flex items-center justify-between">
                   <Label htmlFor="words">Número de palabras</Label>
-                  <span className="font-pixel text-primary text-sm">
+                  <span className="font-mono text-primary text-sm font-bold">
                     {passphraseOptions.wordCount}
                   </span>
                 </div>
@@ -314,7 +314,7 @@ function StrengthMeter({
       <div className="flex flex-wrap items-center justify-between gap-2">
         <span
           className={cn(
-            'font-pixel text-[0.65rem] tracking-[0.12em] uppercase',
+            'font-mono text-xs font-bold tracking-[0.1em] uppercase',
             strength.tone === 'destructive' && 'text-destructive',
             strength.tone === 'warning' && 'text-warning-foreground dark:text-warning',
             strength.tone === 'success' && 'text-success'

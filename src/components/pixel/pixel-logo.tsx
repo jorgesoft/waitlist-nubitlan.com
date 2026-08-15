@@ -1,37 +1,17 @@
 import { cn } from '@/lib/utils'
 import { PixelSprite, type PixelPalette } from './pixel-art'
+import { LOGO_MARK, cloudPalette, logoPalette } from './sprites'
+
+const MARK_WIDTH = 16
+const MARK_HEIGHT = LOGO_MARK.length
 
 /**
- * The Nubitlan mark as pixel art: a back cloud cresting behind a larger
- * front cloud, mirroring the stacked-cloud logo.
+ * White cloud with a blue edge, for use on a coloured field where the
+ * standard brand-blue mark would not separate from its background.
  */
-const LOGO_MARK = [
-  '......2222......',
-  '....22222222....',
-  '...2222222222...',
-  '..222222222222..',
-  '.22222222222222.',
-  '..111111.2222222',
-  '.11111111112222.',
-  '111111111111.22.',
-  '1111111111111111',
-  '1111111111111111',
-  '.11111111111111.',
-  '..111111111111..',
-] as const
-
-const markPalette: PixelPalette = {
-  '1': 'var(--cloud-200)',
-  '2': 'var(--cloud-400)',
-}
-
-const markPaletteBrand: PixelPalette = {
-  '1': 'var(--sky-400)',
-  '2': 'var(--sky-600)',
-}
-
 const markPaletteInvert: PixelPalette = {
-  '1': 'var(--cloud-100)',
+  o: 'var(--sky-600)',
+  '1': 'oklch(1 0 0)',
   '2': 'var(--sky-200)',
 }
 
@@ -46,17 +26,17 @@ export function PixelLogoMark({
 }) {
   const palette =
     variant === 'brand'
-      ? markPaletteBrand
+      ? logoPalette
       : variant === 'invert'
         ? markPaletteInvert
-        : markPalette
+        : cloudPalette
 
   return (
     <PixelSprite
       matrix={LOGO_MARK}
       palette={palette}
       width={size}
-      height={(size / 16) * 12}
+      height={(size / MARK_WIDTH) * MARK_HEIGHT}
       className={cn('shrink-0', className)}
     />
   )
@@ -78,7 +58,7 @@ export function PixelLogo({
     <span className={cn('inline-flex items-center gap-2.5', className)}>
       <PixelLogoMark size={size} variant={variant} />
       {showWord ? (
-        <span className="font-pixel text-base tracking-tight">
+        <span className="text-lg font-extrabold tracking-tight">
           nubit<span className="text-primary">lan</span>
         </span>
       ) : null}

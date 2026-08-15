@@ -91,7 +91,7 @@ function ToolsIndexPage() {
 /** Shows the memorable short link, e.g. "nubitlan.com/ps". */
 export function ShortUrlChip({ path }: { path: string }) {
   return (
-    <span className="font-pixel border-2 border-dashed border-sky-300 px-2 py-1 text-[0.6rem] tracking-[0.1em] text-sky-700 dark:border-sky-700 dark:text-sky-300">
+    <span className="font-mono border-2 border-dashed border-sky-300 px-2 py-1 text-[0.7rem] font-semibold text-sky-700 dark:border-sky-700 dark:text-sky-300">
       nubitlan.com{path}
     </span>
   )

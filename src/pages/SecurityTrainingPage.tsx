@@ -9,13 +9,13 @@ import {
   VideoIcon,
 } from 'lucide-react'
 
-import { ICON_CAP } from '@/components/pixel/sprites'
+import { ICON_BOOK } from '@/components/pixel/sprites'
 import { ServicePageTemplate } from '@/components/ServicePageTemplate'
 
 function SecurityTrainingPage() {
   return (
     <ServicePageTemplate
-      sprite={ICON_CAP}
+      sprite={ICON_BOOK}
       eyebrow="Servicio"
       title="Capacitación en Seguridad"
       description="Fortalece las capacidades de tu equipo con entrenamiento especializado, desde concientización hasta habilidades técnicas avanzadas."

@@ -154,7 +154,7 @@ function PolicyTab({
       role="tab"
       aria-selected={active}
       className={cn(
-        'font-pixel inline-flex items-center gap-2 px-4 py-2 text-[0.6rem] tracking-[0.12em] uppercase transition-colors',
+        'font-mono inline-flex items-center gap-2 px-4 py-2 text-[0.72rem] font-semibold tracking-[0.08em] uppercase transition-colors',
         active
           ? 'bg-primary text-primary-foreground'
           : 'text-muted-foreground hover:text-foreground'

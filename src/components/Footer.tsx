@@ -75,7 +75,7 @@ function Footer() {
               © {new Date().getFullYear()} {SITE.name}. Todos los derechos
               reservados.
             </p>
-            <p className="font-pixel text-[0.6rem] tracking-[0.14em]">
+            <p className="font-mono text-[0.7rem] font-semibold tracking-[0.12em]">
               Hecho en El Salvador
             </p>
           </div>

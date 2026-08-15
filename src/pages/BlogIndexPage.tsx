@@ -65,7 +65,7 @@ function BlogIndexPage() {
                       onClick={() => setActiveTag(tag)}
                       aria-pressed={activeTag === tag}
                       className={cn(
-                        'font-pixel focus-visible:ring-ring/50 border-2 px-3.5 py-2 text-[0.6rem] tracking-[0.12em] uppercase transition-all focus-visible:ring-[3px] focus-visible:outline-none',
+                        'font-mono focus-visible:ring-ring/50 border-2 px-3.5 py-2 text-[0.72rem] font-semibold tracking-[0.08em] uppercase transition-all focus-visible:ring-[3px] focus-visible:outline-none',
                         activeTag === tag
                           ? 'border-sky-700 bg-primary text-primary-foreground shadow-[3px_3px_0_0_var(--sky-800)] dark:border-sky-200 dark:shadow-[3px_3px_0_0_var(--sky-200)]'
                           : 'border-border text-muted-foreground hover:border-primary hover:text-foreground'

@@ -12,10 +12,10 @@ function QuizProgress({ currentStep, totalSteps }: QuizProgressProps) {
   return (
     <div className="mb-8" role="region" aria-label="Progreso del cuestionario">
       <div className="mb-2.5 flex items-center justify-between">
-        <span className="font-pixel text-muted-foreground text-[0.6rem] tracking-[0.12em] uppercase">
+        <span className="font-mono text-muted-foreground text-[0.7rem] font-semibold tracking-[0.1em] uppercase">
           Pregunta {currentStep} de {totalSteps}
         </span>
-        <span className="font-pixel text-primary text-[0.6rem] tracking-[0.12em]">
+        <span className="font-mono text-primary text-[0.7rem] font-bold tracking-[0.1em]">
           {progressPercentage}%
         </span>
       </div>

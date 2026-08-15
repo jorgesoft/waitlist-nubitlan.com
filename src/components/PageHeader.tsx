@@ -24,8 +24,16 @@ export function PageHeader({
   children?: React.ReactNode
   className?: string
 }) {
+  // Interior heroes are short, so a cloud drifting through the middle lands
+  // right behind the icon and title. Dim the field here — the landing page
+  // keeps them at full strength.
   return (
-    <PixelSky className={cn('border-b border-border', className)}>
+    <PixelSky
+      className={cn(
+        'border-b border-border [&_[data-clouds]]:opacity-55',
+        className
+      )}
+    >
       <div className="mx-auto max-w-4xl px-4 py-16 text-center sm:px-6 sm:py-20">
         <div className="stagger">
           {icon ? <div className="mb-6 flex justify-center">{icon}</div> : null}

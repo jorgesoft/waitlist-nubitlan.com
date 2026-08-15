@@ -20,7 +20,7 @@ export const badgeVariants = cva(
           'border-transparent bg-destructive/12 text-destructive rounded-full dark:bg-destructive/20',
         /* Pixel chip — square corners, hairline brand border, pixel type */
         pixel:
-          'rounded-none border-2 border-sky-500 bg-sky-50 text-sky-800 font-pixel text-[0.6rem] tracking-[0.14em] uppercase dark:bg-sky-950 dark:text-sky-200',
+          'rounded-none border-2 border-sky-500 bg-sky-50 text-sky-800 font-mono text-[0.7rem] font-semibold tracking-[0.1em] uppercase dark:bg-sky-950 dark:text-sky-200',
       },
       size: {
         default: 'px-2.5 py-0.5 text-xs',
