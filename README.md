@@ -27,6 +27,32 @@ Design tokens (the sky/cloud palette, radii, fonts and animations) all live in
 the `:root` / `.dark` blocks of `src/index.css`. Change a colour there and it
 propagates everywhere.
 
+## PR previews
+
+Every pull request is built and published to GitHub Pages at:
+
+```
+https://<owner>.github.io/waitlist-nubitlan.com/pr-<number>/
+```
+
+A bot comment on the PR carries the link, and the preview is deleted when the
+PR closes. See [`.github/workflows/pr-preview.yml`](./.github/workflows/pr-preview.yml).
+
+**One-time setup:** in the repository, go to **Settings → Pages** and set
+*Source* to **Deploy from a branch**, branch **`gh-pages`**, folder **`/ (root)`**.
+The branch is created automatically by the first preview run, so publish a PR
+first if `gh-pages` is not offered yet.
+
+Notes:
+
+- Previews are skipped for pull requests from forks, which only receive a
+  read-only token and cannot publish.
+- Because previews are served from a subdirectory, anything in `public/`
+  must be referenced through `asset()` from `src/lib/asset.ts` rather than a
+  bare `/path`. Vite rewrites URLs in `index.html` and in imported modules
+  by itself; `asset()` covers runtime `fetch` calls and `src` values built
+  from data, which it cannot see.
+
 ## Writing a blog post
 
 Add a markdown file to `src/content/blog/`. The filename becomes the URL slug,

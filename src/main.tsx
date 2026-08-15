@@ -19,10 +19,13 @@ import ToolsIndexPage from '@/pages/ToolsIndexPage'
 import ToolPage from '@/pages/ToolPage'
 import NotFoundPage from '@/pages/NotFoundPage'
 import { TOOLS } from '@/tools/registry'
+import { routerBasename } from '@/lib/asset'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
+    {/* basename keeps routing correct when the app is served from a
+        subdirectory, as PR previews are. Empty in production. */}
+    <BrowserRouter basename={routerBasename}>
       <Routes>
         <Route element={<SiteLayout />}>
           <Route path="/" element={<LandingPage />} />

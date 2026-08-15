@@ -1,6 +1,7 @@
 import { LinkedinIcon, MailIcon } from 'lucide-react'
 
 import { SITE } from '@/lib/site'
+import { asset } from '@/lib/asset'
 import { PageHeader } from '@/components/PageHeader'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -45,7 +46,7 @@ function AboutPage() {
               >
                 <CardContent className="flex flex-col items-center p-8 text-center">
                   <img
-                    src={founder.photo}
+                    src={asset(founder.photo)}
                     alt={`${founder.name} — ${founder.role} de Nubitlan`}
                     width={144}
                     height={144}

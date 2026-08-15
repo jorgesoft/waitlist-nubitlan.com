@@ -1,0 +1,238 @@
+name: PR preview
+
+# Builds each pull request and publishes it to GitHub Pages under
+#   https://<owner>.github.io/<repo>/pr-<number>/
+# so the change can be clicked through in a real browser before merging.
+# The preview is removed again when the PR closes.
+#
+# One-time setup: Settings → Pages → Source = "Deploy from a branch",
+# branch "gh-pages", folder "/ (root)".
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+
+# One in-flight run per PR: a new push supersedes the previous build.
+concurrency:
+  group: pr-preview-${{ github.event.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write # push the built site to the gh-pages branch
+  pull-requests: write # post the preview link as a comment
+
+env:
+  PAGES_BRANCH: gh-pages
+
+jobs:
+  deploy:
+    name: Build and publish preview
+    # Pull requests from forks only get a read-only token, so they cannot
+    # publish. Skip them rather than failing the check.
+    if: >-
+      github.event.action != 'closed' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the pull request
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Resolve preview paths
+        id: paths
+        env:
+          REPO_NAME: ${{ github.event.repository.name }}
+          OWNER: ${{ github.event.repository.owner.login }}
+          PR_NUMBER: ${{ github.event.number }}
+        run: |
+          dir="pr-${PR_NUMBER}"
+          {
+            echo "dir=$dir"
+            echo "base=/${REPO_NAME}/${dir}/"
+            echo "url=https://${OWNER}.github.io/${REPO_NAME}/${dir}/"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Build
+        # The preview is served from a subdirectory, so asset URLs and the
+        # router basename both have to be rebased onto it.
+        run: npm run build -- --base='${{ steps.paths.outputs.base }}'
+
+      - name: Add SPA fallback
+        # GitHub Pages has no rewrite rules, so a deep link such as
+        # /blog/mi-articulo would 404. Pages serves 404.html for unknown
+        # paths, and a copy of index.html there lets the router take over.
+        run: cp dist/index.html dist/404.html
+
+      - name: Publish to gh-pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          DIR: ${{ steps.paths.outputs.dir }}
+          PR_NUMBER: ${{ github.event.number }}
+        run: |
+          set -euo pipefail
+
+          git config --global user.name  'github-actions[bot]'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+          mkdir pages && cd pages
+          git init -q
+          git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${REPOSITORY}.git"
+
+          # Base ourselves on the existing branch, or start it on the very
+          # first preview. Shallow throughout: this branch only ever needs
+          # its tip, and full history of built bundles gets large.
+          if git fetch -q --depth 1 origin "$PAGES_BRANCH" 2>/dev/null; then
+            git checkout -q FETCH_HEAD
+            git checkout -q -B "$PAGES_BRANCH"
+          else
+            echo "No $PAGES_BRANCH branch yet — starting one."
+            git checkout -q --orphan "$PAGES_BRANCH"
+          fi
+
+          # Replace just this PR's directory and stage the result.
+          # Returns 1 when the tree already matches, so there is nothing to push.
+          stage() {
+            # Keeps Pages from running the output through Jekyll, which drops
+            # files and directories whose names begin with an underscore.
+            touch .nojekyll
+            rm -rf "$DIR"
+            mkdir -p "$DIR"
+            cp -r ../dist/. "$DIR/"
+            git add -A
+            if git diff --cached --quiet; then
+              return 1
+            fi
+            git commit -q -m "Preview for PR #${PR_NUMBER} (${GITHUB_SHA})"
+          }
+
+          # Other PRs publish to this same branch, so a push can lose a race.
+          # Re-sync to the remote tip and re-apply rather than rebasing, which
+          # keeps this correct on a shallow clone.
+          for attempt in 1 2 3 4 5; do
+            if ! stage; then
+              echo "Preview is unchanged; nothing to publish."
+              exit 0
+            fi
+
+            if git push -q origin "$PAGES_BRANCH"; then
+              echo "Published on attempt ${attempt}."
+              exit 0
+            fi
+
+            echo "Push rejected (attempt ${attempt}) — re-syncing with the remote."
+            git fetch -q --depth 1 origin "$PAGES_BRANCH"
+            git reset -q --hard FETCH_HEAD
+            sleep $((attempt * 3))
+          done
+
+          echo "::error::Could not publish the preview after 5 attempts."
+          exit 1
+
+      - name: Comment the preview link
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.number }}
+          URL: ${{ steps.paths.outputs.url }}
+        run: |
+          set -euo pipefail
+
+          MARKER='<!-- pr-preview-link -->'
+
+          body=$(cat <<EOF
+          $MARKER
+          ### 🌤️ Vista previa lista
+
+          **$URL**
+
+          Enlaces rápidos:
+          [Inicio](${URL}) ·
+          [Herramientas](${URL}herramientas) ·
+          [Generador (/ps)](${URL}ps) ·
+          [Blog](${URL}blog) ·
+          [Evaluación](${URL}evaluacion) ·
+          [Quiénes somos](${URL}quienes-somos)
+
+          <sub>Commit \`${GITHUB_SHA::7}\`. The first deploy can take a minute to
+          go live. This preview is deleted when the PR closes.</sub>
+          EOF
+          )
+
+          # Update the existing comment rather than adding one per push.
+          existing=$(gh api "repos/${REPOSITORY}/issues/${PR_NUMBER}/comments" \
+            --jq "map(select(.body | startswith(\"$MARKER\"))) | .[0].id // empty")
+
+          if [ -n "$existing" ]; then
+            gh api -X PATCH "repos/${REPOSITORY}/issues/comments/${existing}" \
+              -f body="$body" >/dev/null
+            echo "Updated comment ${existing}."
+          else
+            gh api -X POST "repos/${REPOSITORY}/issues/${PR_NUMBER}/comments" \
+              -f body="$body" >/dev/null
+            echo "Posted a new comment."
+          fi
+
+  cleanup:
+    name: Remove preview
+    if: >-
+      github.event.action == 'closed' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Delete the preview directory
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          DIR: pr-${{ github.event.number }}
+          PR_NUMBER: ${{ github.event.number }}
+        run: |
+          set -euo pipefail
+
+          git config --global user.name  'github-actions[bot]'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+          mkdir pages && cd pages
+          git init -q
+          git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${REPOSITORY}.git"
+
+          if ! git fetch -q --depth 1 origin "$PAGES_BRANCH" 2>/dev/null; then
+            echo "No $PAGES_BRANCH branch — nothing to clean up."
+            exit 0
+          fi
+
+          git checkout -q FETCH_HEAD
+          git checkout -q -B "$PAGES_BRANCH"
+
+          for attempt in 1 2 3 4 5; do
+            if [ ! -d "$DIR" ]; then
+              echo "No preview directory for this PR."
+              exit 0
+            fi
+
+            git rm -rq "$DIR"
+            git commit -q -m "Remove preview for PR #${PR_NUMBER}"
+
+            if git push -q origin "$PAGES_BRANCH"; then
+              echo "Removed on attempt ${attempt}."
+              exit 0
+            fi
+
+            echo "Push rejected (attempt ${attempt}) — re-syncing with the remote."
+            git fetch -q --depth 1 origin "$PAGES_BRANCH"
+            git reset -q --hard FETCH_HEAD
+            sleep $((attempt * 3))
+          done
+
+          echo "::error::Could not remove the preview after 5 attempts."
+          exit 1

@@ -1,4 +1,5 @@
 import yaml from 'js-yaml';
+import { asset } from '../lib/asset';
 
 export interface ContentSection {
   heading: string;
@@ -18,7 +19,7 @@ export interface PrivacyContent {
 
 export async function loadPrivacyContent(): Promise<PrivacyContent> {
   try {
-    const response = await fetch('/privacy.yaml');
+    const response = await fetch(asset('/privacy.yaml'));
     if (!response.ok) {
       throw new Error(`Failed to load privacy content: ${response.statusText}`);
     }
