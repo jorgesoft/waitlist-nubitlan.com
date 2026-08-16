@@ -114,8 +114,7 @@ Tools are self-contained React components listed in `src/tools/registry.ts`.
   name: 'Mi herramienta',
   tagline: 'Una línea para la tarjeta.',
   description: 'Párrafo mostrado en el encabezado de la herramienta.',
-  icon: WrenchIcon,
-  sprite: ICON_KEY,
+  icon: 'lock',                // any PixelIcon name (see "Icons" above)
   component: MiHerramienta,
   highlights: ['100% local'],
 }
