@@ -23,14 +23,6 @@
   --sky-900: oklch(0.372 0.093 248);
   --sky-950: oklch(0.259 0.065 250);
 
-  /* Cloud grays, sampled from the logo mark.
-     Kept a few steps below pure white so clouds stay legible against the
-     near-white page background — at 0.98+ they wash out completely. */
-  --cloud-100: oklch(0.962 0.010 233);
-  --cloud-200: oklch(0.930 0.014 232);
-  --cloud-300: oklch(0.892 0.018 231);
-  --cloud-400: oklch(0.850 0.022 231);
-
   --radius: 0.75rem;
 
   --background: oklch(0.993 0.005 235);
@@ -81,20 +73,9 @@
       var(--background) 90%
     );
 
-  /* Pixel art. Clouds are white with a blue edge, so they read against
-     the blue sky above and the near-white page below it. */
-  --cloud-outline: oklch(0.782 0.132 236); /* sky-400 */
-  --cloud-body: oklch(1 0 0);
-  --cloud-shade: oklch(0.885 0.070 233); /* between sky-200 and sky-300 */
-
-  --icon-outline: oklch(0.432 0.121 247); /* sky-800 */
-  --icon-body: oklch(0.686 0.163 240); /* sky-500 */
-  --icon-shade: oklch(0.508 0.152 246); /* sky-700 */
-  --icon-accent: oklch(0.99 0.008 232);
-
-  --logo-outline: oklch(0.508 0.152 246); /* sky-700 */
-  --logo-body: oklch(0.686 0.163 240); /* sky-500 */
-  --logo-shade: oklch(0.594 0.171 244); /* sky-600 */
+  /* pixelarticons draws its cloud as an outline, so this is a line colour
+     that has to carry against the sky rather than a fill. */
+  --cloud-line: oklch(0.782 0.132 236); /* sky-400 */
 
   --pixel-grid: oklch(0.594 0.171 244 / 0.09);
 }
@@ -141,20 +122,8 @@
     ),
     linear-gradient(180deg, oklch(0.244 0.05 253) 0%, var(--background) 55%);
 
-  /* Night sky: the same clouds, lit from a darker background. The outline
-     goes dark here — a light edge would halo against the navy. */
-  --cloud-outline: oklch(0.372 0.093 248); /* sky-900 */
-  --cloud-body: oklch(0.962 0.010 233);
-  --cloud-shade: oklch(0.863 0.088 234); /* sky-300 */
-
-  --icon-outline: oklch(0.919 0.052 232); /* sky-200 */
-  --icon-body: oklch(0.686 0.163 240); /* sky-500 */
-  --icon-shade: oklch(0.508 0.152 246); /* sky-700 */
-  --icon-accent: oklch(0.259 0.065 250);
-
-  --logo-outline: oklch(0.919 0.052 232); /* sky-200 */
-  --logo-body: oklch(0.686 0.163 240); /* sky-500 */
-  --logo-shade: oklch(0.594 0.171 244); /* sky-600 */
+  /* Night sky: the clouds read as light lines against the navy. */
+  --cloud-line: oklch(0.863 0.088 234); /* sky-300 */
 
   --pixel-grid: oklch(0.782 0.132 236 / 0.1);
 }
@@ -195,11 +164,6 @@
   --color-sky-800: var(--sky-800);
   --color-sky-900: var(--sky-900);
   --color-sky-950: var(--sky-950);
-
-  --color-cloud-100: var(--cloud-100);
-  --color-cloud-200: var(--cloud-200);
-  --color-cloud-300: var(--cloud-300);
-  --color-cloud-400: var(--cloud-400);
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);

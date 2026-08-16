@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { CheckCircle2Icon, LinkedinIcon, MailIcon } from 'lucide-react'
+import { LinkedinIcon, MailIcon } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
@@ -7,8 +7,7 @@ import { SITE } from '@/lib/site'
 import { PageHeader } from '@/components/PageHeader'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { PixelSprite } from '@/components/pixel/pixel-art'
-import { iconPalette } from '@/components/pixel/sprites'
+import { PixelIcon, type PixelIconName } from '@/components/pixel/icon'
 
 export interface ServiceFeature {
   /** Optional bolded lead-in, e.g. "Desarrollo Seguro:". */
@@ -17,7 +16,7 @@ export interface ServiceFeature {
 }
 
 export interface ServiceHighlight {
-  icon: LucideIcon
+  icon: PixelIconName
   title: string
   body: string
   tone?: 'primary' | 'success' | 'warning'
@@ -37,7 +36,7 @@ export interface ServiceCta {
 }
 
 export interface ServicePageProps {
-  sprite: readonly string[]
+  icon: PixelIconName
   eyebrow: string
   title: string
   description: string
@@ -56,7 +55,7 @@ const TONE_CLASSES = {
 } as const
 
 export function ServicePageTemplate({
-  sprite,
+  icon,
   eyebrow,
   title,
   description,
@@ -73,14 +72,7 @@ export function ServicePageTemplate({
         eyebrow={eyebrow}
         title={title}
         description={description}
-        icon={
-          <PixelSprite
-            matrix={sprite}
-            palette={iconPalette}
-            width={64}
-            height={64}
-          />
-        }
+        icon={<PixelIcon name={icon} className="text-primary size-16" />}
       />
 
       {/* Overview + feature checklist */}
@@ -99,7 +91,10 @@ export function ServicePageTemplate({
               <ul className="mt-5 space-y-4">
                 {features.map((feature) => (
                   <li key={feature.text} className="flex gap-3">
-                    <CheckCircle2Icon className="text-primary mt-0.5 size-5 shrink-0" />
+                    <PixelIcon
+                      name="check"
+                      className="text-primary mt-0.5 size-5 shrink-0"
+                    />
                     <span className="leading-relaxed">
                       {feature.label ? (
                         <strong className="font-semibold">
@@ -155,7 +150,7 @@ export function ServicePageTemplate({
                         TONE_CLASSES[item.tone ?? 'primary']
                       )}
                     >
-                      <item.icon className="size-6" />
+                      <PixelIcon name={item.icon} className="size-6" />
                     </span>
                     <div>
                       <h3 className="text-lg font-semibold">{item.title}</h3>

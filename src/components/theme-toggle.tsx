@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { MoonIcon, SunIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
+import { PixelIcon } from '@/components/pixel/icon'
 
 const STORAGE_KEY = 'nubitlan-theme'
 
@@ -37,14 +37,12 @@ export function ThemeToggle({ className }: { className?: string }) {
       size="icon"
       onClick={toggle}
       className={className}
-      aria-label={theme === 'dark' ? 'Activar modo claro' : 'Activar modo oscuro'}
+      aria-label={
+        theme === 'dark' ? 'Activar modo claro' : 'Activar modo oscuro'
+      }
       title={theme === 'dark' ? 'Modo claro' : 'Modo oscuro'}
     >
-      {theme === 'dark' ? (
-        <SunIcon className="size-5" />
-      ) : (
-        <MoonIcon className="size-5" />
-      )}
+      <PixelIcon name={theme === 'dark' ? 'cloud-sun' : 'moon'} className="size-5" />
     </Button>
   )
 }

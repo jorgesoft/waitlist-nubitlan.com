@@ -2,14 +2,13 @@ import { Link } from 'react-router-dom'
 import { ArrowLeftIcon, WrenchIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import { PixelSky } from '@/components/pixel/pixel-sky'
-import { PixelCloud } from '@/components/pixel/pixel-sky'
+import { PixelCloud, PixelSky } from '@/components/pixel/pixel-sky'
 
 function NotFoundPage() {
   return (
     <PixelSky className="flex min-h-[calc(100vh-4rem)] items-center">
       <div className="mx-auto max-w-lg px-4 py-20 text-center sm:px-6">
-        <PixelCloud shape="big" width={200} className="mx-auto" />
+        <PixelCloud width={200} className="mx-auto flex justify-center" />
 
         <p className="font-pixel text-primary mt-8 text-5xl">404</p>
 

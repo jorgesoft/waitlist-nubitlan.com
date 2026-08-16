@@ -1,17 +1,11 @@
-import {
-  AwardIcon,
-  ClipboardCheckIcon,
-  TriangleAlertIcon,
-  UsersIcon,
-} from 'lucide-react'
+import { ClipboardCheckIcon } from 'lucide-react'
 
-import { ICON_LOCK } from '@/components/pixel/sprites'
 import { ServicePageTemplate } from '@/components/ServicePageTemplate'
 
 function DataProtectionEvaluationPage() {
   return (
     <ServicePageTemplate
-      sprite={ICON_LOCK}
+      icon="lock"
       eyebrow="Servicio"
       title="Evaluación Inicial Ley de Protección de Datos"
       description="Verifica el cumplimiento de tu empresa con la Ley de Protección de Datos Personales de El Salvador."
@@ -32,18 +26,18 @@ function DataProtectionEvaluationPage() {
           tinted: true,
           items: [
             {
-              icon: TriangleAlertIcon,
+              icon: 'alert',
               title: 'Evita sanciones',
               body: 'Las multas por incumplimiento pueden alcanzar grandes sumas de dinero. Protege tu empresa de sanciones costosas.',
               tone: 'warning',
             },
             {
-              icon: UsersIcon,
+              icon: 'users',
               title: 'Genera confianza',
               body: 'Demuestra a tus clientes que tomas en serio la protección de sus datos personales.',
             },
             {
-              icon: AwardIcon,
+              icon: 'trophy',
               title: 'Ventaja competitiva',
               body: 'Diferénciate de la competencia con prácticas sólidas de protección de datos.',
               tone: 'success',

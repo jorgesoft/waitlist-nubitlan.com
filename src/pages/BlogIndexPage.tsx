@@ -7,8 +7,7 @@ import { formatPostDate, getAllTags, posts, type Post } from '@/lib/blog'
 import { PageHeader } from '@/components/PageHeader'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
-import { PixelSprite } from '@/components/pixel/pixel-art'
-import { ICON_POST, iconPalette } from '@/components/pixel/sprites'
+import { PixelIcon } from '@/components/pixel/icon'
 
 const ALL_TAGS = 'Todos'
 
@@ -37,12 +36,7 @@ function BlogIndexPage() {
         title="Seguridad y cumplimiento, en claro"
         description="Guías prácticas sobre la Ley de Protección de Datos, ciberseguridad y cómo aplicarlas en tu empresa."
         icon={
-          <PixelSprite
-            matrix={ICON_POST}
-            palette={iconPalette}
-            width={56}
-            height={56}
-          />
+          <PixelIcon name="article" className="text-primary size-14" />
         }
       />
 
@@ -202,13 +196,7 @@ export function PostMeta({
 function EmptyState() {
   return (
     <div className="py-20 text-center">
-      <PixelSprite
-        matrix={ICON_POST}
-        palette={iconPalette}
-        width={64}
-        height={64}
-        className="mx-auto opacity-50"
-      />
+      <PixelIcon name="article" className="text-muted-foreground mx-auto size-16 opacity-50" />
       <h2 className="mt-6 text-xl font-bold">Aún no hay publicaciones</h2>
       <p className="text-muted-foreground mx-auto mt-3 max-w-md">
         Estamos preparando los primeros artículos. Vuelve pronto.

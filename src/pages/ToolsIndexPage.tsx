@@ -5,8 +5,7 @@ import { TOOLS, toolPath } from '@/tools/registry'
 import { PageHeader } from '@/components/PageHeader'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
-import { PixelSprite } from '@/components/pixel/pixel-art'
-import { ICON_KEY, iconPalette } from '@/components/pixel/sprites'
+import { PixelIcon } from '@/components/pixel/icon'
 
 function ToolsIndexPage() {
   return (
@@ -16,12 +15,7 @@ function ToolsIndexPage() {
         title="Herramientas gratuitas"
         description="Utilidades de seguridad que funcionan por completo en tu navegador. Sin registro, sin enviar datos a ningún servidor."
         icon={
-          <PixelSprite
-            matrix={ICON_KEY}
-            palette={iconPalette}
-            width={52}
-            height={64}
-          />
+          <PixelIcon name="lock" className="text-primary size-14" />
         }
       />
 
@@ -36,12 +30,9 @@ function ToolsIndexPage() {
               >
                 <Card className="flex-1 transition-all duration-300 group-hover:-translate-y-1.5 group-hover:border-sky-300 group-hover:shadow-xl">
                   <CardContent className="flex h-full flex-col p-7">
-                    <PixelSprite
-                      matrix={tool.sprite}
-                      palette={iconPalette}
-                      width={40}
-                      height={44}
-                      className="transition-transform duration-300 group-hover:scale-110"
+                    <PixelIcon
+                      name={tool.icon}
+                      className="text-primary size-10 transition-transform duration-300 group-hover:scale-110"
                     />
 
                     <h2 className="group-hover:text-primary mt-5 text-xl font-bold tracking-tight transition-colors">

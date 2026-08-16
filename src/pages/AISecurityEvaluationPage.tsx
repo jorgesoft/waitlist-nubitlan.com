@@ -1,17 +1,11 @@
-import {
-  ArrowLeftIcon,
-  ShieldCheckIcon,
-  TrendingUpIcon,
-  ZapIcon,
-} from 'lucide-react'
+import { ArrowLeftIcon } from 'lucide-react'
 
-import { ICON_ROBOT } from '@/components/pixel/sprites'
 import { ServicePageTemplate } from '@/components/ServicePageTemplate'
 
 function AISecurityEvaluationPage() {
   return (
     <ServicePageTemplate
-      sprite={ICON_ROBOT}
+      icon="robot"
       eyebrow="Servicio"
       title="Evaluación de Seguridad Externa con IA"
       description="Análisis automatizado de vulnerabilidades y riesgos de seguridad para tu empresa."
@@ -31,18 +25,18 @@ function AISecurityEvaluationPage() {
           tinted: true,
           items: [
             {
-              icon: ZapIcon,
+              icon: 'zap',
               title: 'Rápido y eficiente',
               body: 'Obtén un análisis completo en pocos días, con resultados detallados y accionables para tu negocio.',
             },
             {
-              icon: ShieldCheckIcon,
+              icon: 'shield',
               title: 'Protección proactiva',
               body: 'Identifica y corrige vulnerabilidades antes de que sean explotadas por atacantes.',
               tone: 'success',
             },
             {
-              icon: TrendingUpIcon,
+              icon: 'chart',
               title: 'Mejora continua',
               body: 'Recibe recomendaciones claras para mejorar tu postura de seguridad de forma progresiva.',
             },

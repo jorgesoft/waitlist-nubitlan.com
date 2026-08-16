@@ -6,8 +6,7 @@ import { SITE } from '@/lib/site'
 import { getToolBySlug, type Tool } from '@/tools/registry'
 import { Button } from '@/components/ui/button'
 import { PixelSky } from '@/components/pixel/pixel-sky'
-import { PixelSprite } from '@/components/pixel/pixel-art'
-import { iconPalette } from '@/components/pixel/sprites'
+import { PixelIcon } from '@/components/pixel/icon'
 import { ShortUrlChip } from '@/pages/ToolsIndexPage'
 
 /**
@@ -44,13 +43,7 @@ function ToolPage({ tool: toolProp }: { tool?: Tool }) {
           </Button>
 
           <div className="flex items-start gap-5">
-            <PixelSprite
-              matrix={tool.sprite}
-              palette={iconPalette}
-              width={48}
-              height={52}
-              className="mt-1 shrink-0"
-            />
+            <PixelIcon name={tool.icon} className="text-primary mt-1 size-12" />
             <div>
               <h1 className="text-3xl font-extrabold tracking-tight text-balance sm:text-4xl">
                 {tool.name}

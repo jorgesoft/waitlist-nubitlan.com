@@ -1,24 +1,13 @@
 import * as React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import {
-  ArrowRightIcon,
-  ChevronDownIcon,
-  ClipboardCheckIcon,
-  FileBarChartIcon,
-  ListChecksIcon,
-  ScanSearchIcon,
-  SparklesIcon,
-  TargetIcon,
-  XIcon,
-} from 'lucide-react'
+import { ArrowRightIcon, ChevronDownIcon } from 'lucide-react'
 
 import { SERVICES } from '@/lib/site'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { PixelSky, PixelHorizon } from '@/components/pixel/pixel-sky'
-import { PixelSprite } from '@/components/pixel/pixel-art'
-import { ICON_BOOK, ICON_LOCK, ICON_ROBOT, ICON_WARN, iconPalette } from '@/components/pixel/sprites'
+import { PixelIcon, type PixelIconName } from '@/components/pixel/icon'
 
 const RISKS = [
   {
@@ -39,30 +28,34 @@ const RISKS = [
   },
 ]
 
-const BENEFITS = [
+const BENEFITS: {
+  icon: PixelIconName
+  title: string
+  body: string
+}[] = [
   {
-    icon: ScanSearchIcon,
+    icon: 'search',
     title: 'Identificación de riesgos reales',
     body: 'Analizamos tu exposición concreta, no una lista genérica de buenas prácticas.',
   },
   {
-    icon: TargetIcon,
+    icon: 'target',
     title: 'Recomendaciones priorizadas',
     body: 'Sabes exactamente qué resolver primero y qué puede esperar al siguiente trimestre.',
   },
   {
-    icon: FileBarChartIcon,
+    icon: 'chart',
     title: 'Reporte claro para gerencia',
     body: 'Un documento que gerencia y auditoría entienden sin traducción técnica.',
   },
   {
-    icon: ClipboardCheckIcon,
+    icon: 'clipboard',
     title: 'Enfoque en datos personales',
     body: 'Alineado con lo que la Ley salvadoreña exige, no con un estándar importado.',
   },
 ]
 
-const SERVICE_SPRITES = [ICON_ROBOT, ICON_LOCK, ICON_BOOK] as const
+const SERVICE_ICONS: PixelIconName[] = ['robot', 'lock', 'teach']
 
 function LandingPage() {
   const navigate = useNavigate()
@@ -95,7 +88,7 @@ function LandingPage() {
           <div className="stagger">
             <div className="flex justify-center">
               <Badge variant="pixel" size="lg" className="gap-2">
-                <SparklesIcon className="size-3" />
+                <PixelIcon name="zap" className="size-3.5" />
                 Impulsado por IA
               </Badge>
             </div>
@@ -117,7 +110,7 @@ function LandingPage() {
                 size="xl"
                 onClick={() => scrollTo('lista-de-espera')}
               >
-                <ListChecksIcon />
+                <PixelIcon name="clipboard" className="size-5" />
                 Únete a la lista de espera
               </Button>
 
@@ -154,7 +147,7 @@ function LandingPage() {
       <section id="riesgos" className="scroll-mt-20 py-20 sm:py-24">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <SectionHeading
-            sprite={ICON_WARN}
+            icon="alert"
             eyebrow="El problema"
             title="Riesgos si no te preparas"
             description="Lo que está en juego cuando la Ley entra en vigor y tu empresa aún no tiene un diagnóstico."
@@ -168,7 +161,7 @@ function LandingPage() {
               >
                 <CardContent className="flex gap-4 p-6">
                   <span className="bg-destructive/10 text-destructive flex size-9 shrink-0 items-center justify-center rounded-lg">
-                    <XIcon className="size-5" />
+                    <PixelIcon name="close" className="size-5" />
                   </span>
                   <div>
                     <h3 className="font-semibold">{risk.title}</h3>
@@ -201,7 +194,7 @@ function LandingPage() {
                   className="bg-card flex gap-4 rounded-xl border border-border p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
                 >
                   <span className="bg-primary text-primary-foreground flex size-10 shrink-0 items-center justify-center rounded-lg">
-                    <benefit.icon className="size-5" />
+                    <PixelIcon name={benefit.icon} className="size-5" />
                   </span>
                   <div>
                     <h3 className="font-semibold">{benefit.title}</h3>
@@ -233,12 +226,9 @@ function LandingPage() {
                 to={service.to}
                 className="group bg-card focus-visible:ring-ring/50 flex flex-col rounded-xl border border-border p-7 transition-all duration-300 hover:-translate-y-1.5 hover:border-sky-300 hover:shadow-xl focus-visible:ring-[3px] focus-visible:outline-none"
               >
-                <PixelSprite
-                  matrix={SERVICE_SPRITES[i]}
-                  palette={iconPalette}
-                  width={44}
-                  height={44}
-                  className="transition-transform duration-300 group-hover:scale-110"
+                <PixelIcon
+                  name={SERVICE_ICONS[i]}
+                  className="text-primary size-11 transition-transform duration-300 group-hover:scale-110"
                 />
                 <h3 className="mt-5 text-lg font-semibold">{service.label}</h3>
                 <p className="text-muted-foreground mt-2 flex-1 text-sm leading-relaxed">
@@ -325,23 +315,18 @@ function SectionHeading({
   eyebrow,
   title,
   description,
-  sprite,
+  icon,
 }: {
   eyebrow: string
   title: string
   description?: string
-  sprite?: readonly string[]
+  icon?: PixelIconName
 }) {
   return (
     <div className="mx-auto max-w-2xl text-center">
-      {sprite ? (
+      {icon ? (
         <div className="mb-5 flex justify-center">
-          <PixelSprite
-            matrix={sprite}
-            palette={iconPalette}
-            width={40}
-            height={40}
-          />
+          <PixelIcon name={icon} className="text-primary size-10" />
         </div>
       ) : null}
       <p className="eyebrow text-primary">{eyebrow}</p>

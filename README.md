@@ -19,7 +19,7 @@ A React + TypeScript + Vite application for evaluating data protection readiness
 | Build | Vite 7 + React 19 + TypeScript |
 | Styling | Tailwind CSS v4 (`src/index.css` holds all design tokens) |
 | Components | shadcn/ui primitives in `src/components/ui` |
-| Icons | `lucide-react`, plus in-house pixel sprites |
+| Icons | [pixelarticons](https://pixelarticons.com) via `PixelIcon`, plus `lucide-react` for small UI affordances |
 | Routing | React Router 7 |
 | Content | Markdown + YAML frontmatter |
 
@@ -52,6 +52,29 @@ Notes:
   bare `/path`. Vite rewrites URLs in `index.html` and in imported modules
   by itself; `asset()` covers runtime `fetch` calls and `src` values built
   from data, which it cannot see.
+
+## Icons
+
+Feature and brand iconography comes from [pixelarticons](https://pixelarticons.com)
+(MIT). The package ships ESM in `.js` files without declaring
+`"type": "module"`, so its prebuilt React components are unreliable to bundle —
+`src/components/pixel/icon.tsx` imports the SVGs as raw text instead and inlines
+them at build time. Only the icons listed there reach the bundle.
+
+To add one, import the SVG and add it to the `ICONS` map:
+
+```ts
+import trophySvg from 'pixelarticons/svg/trophy.svg?raw'
+// ...
+const ICONS = { trophy: inner(trophySvg), /* ... */ }
+```
+
+Then use it anywhere: `<PixelIcon name="trophy" className="size-6" />`. Colour
+follows `currentColor`. Browse names at https://pixelarticons.com or in
+`node_modules/pixelarticons/svg`.
+
+`lucide-react` is still used for small functional controls (arrows, chevrons,
+menu, close), where a neutral line icon reads better at 16px.
 
 ## Writing a blog post
 

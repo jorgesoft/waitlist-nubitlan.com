@@ -1,8 +1,6 @@
 import type { ComponentType } from 'react'
-import type { LucideIcon } from 'lucide-react'
-import { KeyRoundIcon } from 'lucide-react'
 
-import { ICON_KEY } from '@/components/pixel/sprites'
+import type { PixelIconName } from '@/components/pixel/icon'
 import PasswordGenerator from './password-generator/PasswordGenerator'
 
 /**
@@ -23,8 +21,7 @@ export interface Tool {
   name: string
   tagline: string
   description: string
-  icon: LucideIcon
-  sprite: readonly string[]
+  icon: PixelIconName
   component: ComponentType
   /** Rendered as pixel chips on the tool card. */
   highlights: string[]
@@ -38,8 +35,7 @@ export const TOOLS: Tool[] = [
     tagline: 'Contraseñas y frases seguras, generadas en tu navegador.',
     description:
       'Crea contraseñas aleatorias o frases de tipo diceware, con medidor de entropía en tiempo real. Todo se genera localmente con la API criptográfica del navegador — nada viaja por la red.',
-    icon: KeyRoundIcon,
-    sprite: ICON_KEY,
+    icon: 'lock',
     component: PasswordGenerator,
     highlights: ['100% local', 'Sin registro', 'Código abierto'],
   },

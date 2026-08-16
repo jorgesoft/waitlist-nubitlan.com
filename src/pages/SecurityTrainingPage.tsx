@@ -1,21 +1,11 @@
-import {
-  AwardIcon,
-  HomeIcon,
-  LaptopIcon,
-  ShieldCheckIcon,
-  TrendingUpIcon,
-  UsersIcon,
-  UsersRoundIcon,
-  VideoIcon,
-} from 'lucide-react'
+import { HomeIcon } from 'lucide-react'
 
-import { ICON_BOOK } from '@/components/pixel/sprites'
 import { ServicePageTemplate } from '@/components/ServicePageTemplate'
 
 function SecurityTrainingPage() {
   return (
     <ServicePageTemplate
-      sprite={ICON_BOOK}
+      icon="teach"
       eyebrow="Servicio"
       title="Capacitación en Seguridad"
       description="Fortalece las capacidades de tu equipo con entrenamiento especializado, desde concientización hasta habilidades técnicas avanzadas."
@@ -54,18 +44,18 @@ function SecurityTrainingPage() {
           tinted: true,
           items: [
             {
-              icon: UsersRoundIcon,
+              icon: 'users',
               title: 'Talleres presenciales',
               body: 'Sesiones interactivas en tu empresa con ejercicios prácticos y casos reales.',
             },
             {
-              icon: VideoIcon,
+              icon: 'video',
               title: 'Capacitación virtual',
               body: 'Sesiones en línea en vivo con interacción directa y materiales digitales.',
               tone: 'success',
             },
             {
-              icon: LaptopIcon,
+              icon: 'monitor',
               title: 'Laboratorios prácticos',
               body: 'Entornos de práctica seguros para aplicar conocimientos técnicos.',
               tone: 'warning',
@@ -76,24 +66,24 @@ function SecurityTrainingPage() {
           title: 'Beneficios para tu organización',
           items: [
             {
-              icon: ShieldCheckIcon,
+              icon: 'shield',
               title: 'Reduce riesgos',
               body: 'Empleados capacitados son tu primera línea de defensa contra amenazas de seguridad.',
             },
             {
-              icon: TrendingUpIcon,
+              icon: 'chart',
               title: 'Mejora continua',
               body: 'Desarrolla una cultura de seguridad que evoluciona con las amenazas.',
               tone: 'success',
             },
             {
-              icon: AwardIcon,
+              icon: 'trophy',
               title: 'Cumplimiento normativo',
               body: 'Cumple con requisitos de capacitación de leyes y estándares de seguridad.',
               tone: 'warning',
             },
             {
-              icon: UsersIcon,
+              icon: 'users',
               title: 'Desarrollo de talento',
               body: 'Invierte en el crecimiento profesional de tu equipo técnico.',
             },
