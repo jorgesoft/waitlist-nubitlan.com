@@ -1,5 +1,6 @@
 import yaml from 'js-yaml';
 import type { QuizConfig, Question } from '../types/quiz';
+import { asset } from '../lib/asset';
 
 interface ValidationError {
   field: string;
@@ -188,7 +189,7 @@ function validateQuizConfig(config: any): QuizConfig {
 
 export async function loadQuizConfig(): Promise<QuizConfig> {
   try {
-    const response = await fetch('/quiz-config.yaml');
+    const response = await fetch(asset('/quiz-config.yaml'));
     
     if (!response.ok) {
       throw new Error(`Failed to load quiz configuration: ${response.statusText}`);

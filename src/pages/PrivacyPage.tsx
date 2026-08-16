@@ -1,136 +1,168 @@
-import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { loadPrivacyContent, type PrivacyContent, type PolicyContent } from '../utils/loadPrivacyContent';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import { useState, useEffect } from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import {
+  FileTextIcon,
+  RotateCwIcon,
+  ShieldIcon,
+  TriangleAlertIcon,
+} from 'lucide-react'
+
+import {
+  loadPrivacyContent,
+  type PrivacyContent,
+  type PolicyContent,
+} from '@/utils/loadPrivacyContent'
+import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import { PageHeader } from '@/components/PageHeader'
 
 function PrivacyPage() {
-  const [content, setContent] = useState<PrivacyContent | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const location = useLocation();
+  const [content, setContent] = useState<PrivacyContent | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const location = useLocation()
 
-  // Determine which section to show based on hash
-  const showTerms = location.hash === '#terms';
-  const activeContent: PolicyContent | null = content 
-    ? (showTerms ? content.terms : content.privacy)
-    : null;
-
-  // Scroll to top on mount
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  // The hash selects which of the two documents is shown.
+  const showTerms = location.hash === '#terms'
+  const activeContent: PolicyContent | null = content
+    ? showTerms
+      ? content.terms
+      : content.privacy
+    : null
 
   useEffect(() => {
     const loadContent = async () => {
       try {
-        setLoading(true);
-        setError(null);
-        const privacyContent = await loadPrivacyContent();
-        setContent(privacyContent);
+        setLoading(true)
+        setError(null)
+        const privacyContent = await loadPrivacyContent()
+        setContent(privacyContent)
       } catch (err) {
-        console.error('Failed to load privacy content:', err);
-        setError('No se pudo cargar el contenido. Por favor, intenta de nuevo más tarde.');
+        console.error('Failed to load privacy content:', err)
+        setError(
+          'No se pudo cargar el contenido. Por favor, intenta de nuevo más tarde.'
+        )
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    loadContent();
-  }, []);
+    loadContent()
+  }, [])
 
   return (
     <>
-      <Navbar />
+      <PageHeader
+        eyebrow="Legal"
+        title={showTerms ? 'Términos y Condiciones' : 'Política de Privacidad'}
+      />
 
-      {/* Main content */}
-      <main className="py-5 bg-light min-vh-100">
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-12 col-lg-10">
-              {/* Tab navigation */}
-              {!loading && !error && (
-                <div className="mb-4">
-                  <ul className="nav nav-tabs">
-                    <li className="nav-item">
-                      <Link
-                        to="/terminos"
-                        className={`nav-link ${!showTerms ? 'active' : ''}`}
-                      >
-                        <i className="bi bi-shield-lock me-2"></i>
-                        Política de Privacidad
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link
-                        to="/terminos#terms"
-                        className={`nav-link ${showTerms ? 'active' : ''}`}
-                      >
-                        <i className="bi bi-file-text me-2"></i>
-                        Términos y Condiciones
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-              )}
-
-              {/* Loading state */}
-              {loading && (
-                <div className="text-center py-5">
-                  <div className="spinner-border text-primary mb-3" role="status">
-                    <span className="visually-hidden">Cargando...</span>
-                  </div>
-                  <p className="text-muted">Cargando contenido...</p>
-                </div>
-              )}
-
-              {/* Error state */}
-              {error && !loading && (
-                <div className="card shadow-sm border-0">
-                  <div className="card-body p-4 text-center">
-                    <i className="bi bi-exclamation-triangle text-danger fs-1 mb-3 d-block"></i>
-                    <h2 className="h4 mb-3">Error al cargar el contenido</h2>
-                    <p className="text-muted mb-4">{error}</p>
-                    <button
-                      type="button"
-                      className="btn btn-primary"
-                      onClick={() => window.location.reload()}
-                    >
-                      <i className="bi bi-arrow-clockwise me-2"></i>
-                      Intentar de nuevo
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {/* Content */}
-              {activeContent && !loading && !error && (
-                <div className="card shadow-sm border-0">
-                  <div className="card-body p-4 p-md-5">
-                    <h1 className="h3 mb-2">{activeContent.title}</h1>
-                    <p className="text-muted small mb-4">
-                      Última actualización: {activeContent.lastUpdated}
-                    </p>
-
-                    {activeContent.sections.map((section, index) => (
-                      <div key={index} className="mb-4">
-                        <h2 className="h5 mb-3">{section.heading}</h2>
-                        <p className="text-muted" style={{ whiteSpace: 'pre-line' }}>
-                          {section.content}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+      <section className="py-14 sm:py-16">
+        <div className="mx-auto max-w-3xl px-4 sm:px-6">
+          {/* Document switcher */}
+          {!loading && !error ? (
+            <div
+              className="mb-8 inline-flex border-2 border-foreground p-1"
+              role="tablist"
+            >
+              <PolicyTab to="/terminos" active={!showTerms}>
+                <ShieldIcon className="size-4" />
+                Privacidad
+              </PolicyTab>
+              <PolicyTab to="/terminos#terms" active={showTerms}>
+                <FileTextIcon className="size-4" />
+                Términos
+              </PolicyTab>
             </div>
-          </div>
-        </div>
-      </main>
+          ) : null}
 
-      <Footer />
+          {loading ? (
+            <div className="space-y-4" aria-live="polite" aria-busy="true">
+              <span className="sr-only">Cargando contenido…</span>
+              <div className="bg-muted h-8 w-2/3 animate-pulse rounded-lg" />
+              <div className="bg-muted h-4 w-1/3 animate-pulse rounded-lg" />
+              <div className="mt-8 space-y-3">
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="bg-muted h-4 animate-pulse rounded-lg"
+                    style={{ width: `${70 + ((i * 7) % 30)}%` }}
+                  />
+                ))}
+              </div>
+            </div>
+          ) : null}
+
+          {error && !loading ? (
+            <Card>
+              <CardContent className="p-8 text-center">
+                <TriangleAlertIcon className="text-destructive mx-auto size-10" />
+                <h2 className="mt-4 text-xl font-bold">
+                  Error al cargar el contenido
+                </h2>
+                <p className="text-muted-foreground mt-2">{error}</p>
+                <Button
+                  variant="pixel"
+                  className="mt-6"
+                  onClick={() => window.location.reload()}
+                >
+                  <RotateCwIcon />
+                  Intentar de nuevo
+                </Button>
+              </CardContent>
+            </Card>
+          ) : null}
+
+          {activeContent && !loading && !error ? (
+            <article>
+              <h2 className="text-3xl font-extrabold tracking-tight">
+                {activeContent.title}
+              </h2>
+              <p className="text-muted-foreground font-mono mt-2 text-sm">
+                Última actualización: {activeContent.lastUpdated}
+              </p>
+
+              <div className="prose-nubitlan mt-10">
+                {activeContent.sections.map((section, index) => (
+                  <section key={index}>
+                    <h2>{section.heading}</h2>
+                    <p className="whitespace-pre-line">{section.content}</p>
+                  </section>
+                ))}
+              </div>
+            </article>
+          ) : null}
+        </div>
+      </section>
     </>
-  );
+  )
 }
 
-export default PrivacyPage;
+function PolicyTab({
+  to,
+  active,
+  children,
+}: {
+  to: string
+  active: boolean
+  children: React.ReactNode
+}) {
+  return (
+    <Link
+      to={to}
+      role="tab"
+      aria-selected={active}
+      className={cn(
+        'font-mono inline-flex items-center gap-2 px-4 py-2 text-[0.72rem] font-semibold tracking-[0.08em] uppercase transition-colors',
+        active
+          ? 'bg-primary text-primary-foreground'
+          : 'text-muted-foreground hover:text-foreground'
+      )}
+    >
+      {children}
+    </Link>
+  )
+}
+
+export default PrivacyPage

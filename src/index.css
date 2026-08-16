@@ -1,294 +1,461 @@
-/* ===================================
-   Modern Theme - White & Light Blue
-   =================================== */
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+/* ===================================================================
+   Nubitlan design tokens — "clouds & light blue"
+   Palette anchored on the logo's pale cloud grays and the brand sky
+   blue (#2196F3), expressed in oklch for even perceptual steps.
+   =================================================================== */
 
 :root {
-  --primary-blue: #3b82f6;
-  --light-blue: #60a5fa;
-  --lighter-blue: #93c5fd;
-  --pale-blue: #dbeafe;
-  --extra-pale-blue: #eff6ff;
-  --white: #ffffff;
-  --text-dark: #1e293b;
-  --text-gray: #64748b;
-  --border-color: #e2e8f0;
-  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  /* Brand sky ramp */
+  --sky-50: oklch(0.981 0.013 232);
+  --sky-100: oklch(0.958 0.028 232);
+  --sky-200: oklch(0.919 0.052 232);
+  --sky-300: oklch(0.863 0.088 234);
+  --sky-400: oklch(0.782 0.132 236);
+  --sky-500: oklch(0.686 0.163 240);
+  --sky-600: oklch(0.594 0.171 244);
+  --sky-700: oklch(0.508 0.152 246);
+  --sky-800: oklch(0.432 0.121 247);
+  --sky-900: oklch(0.372 0.093 248);
+  --sky-950: oklch(0.259 0.065 250);
+
+  --radius: 0.75rem;
+
+  --background: oklch(0.993 0.005 235);
+  --foreground: oklch(0.238 0.038 251);
+
+  --card: oklch(1 0 0);
+  --card-foreground: var(--foreground);
+  --popover: oklch(1 0 0);
+  --popover-foreground: var(--foreground);
+
+  --primary: var(--sky-600);
+  --primary-foreground: oklch(0.99 0.008 232);
+
+  --secondary: var(--sky-100);
+  --secondary-foreground: var(--sky-800);
+
+  --muted: oklch(0.966 0.011 235);
+  --muted-foreground: oklch(0.512 0.033 249);
+
+  --accent: var(--sky-100);
+  --accent-foreground: var(--sky-800);
+
+  --destructive: oklch(0.593 0.216 27);
+  --destructive-foreground: oklch(0.99 0 0);
+
+  --success: oklch(0.635 0.146 158);
+  --success-foreground: oklch(0.99 0 0);
+
+  --warning: oklch(0.762 0.153 71);
+  --warning-foreground: oklch(0.25 0.05 71);
+
+  --border: oklch(0.912 0.016 240);
+  --input: oklch(0.912 0.016 240);
+  --ring: var(--sky-500);
+
+  /* Ambient sky wash used behind hero + section transitions.
+     Deliberately a real blue rather than a near-white tint: white clouds
+     need a sky to sit against, the same way the dark theme works. */
+  --sky-wash: radial-gradient(
+      1100px 520px at 50% -8%,
+      var(--sky-300) 0%,
+      transparent 72%
+    ),
+    linear-gradient(
+      180deg,
+      var(--sky-200) 0%,
+      var(--sky-100) 45%,
+      var(--background) 90%
+    );
+
+  /* pixelarticons draws its cloud as an outline, so this is a line colour
+     that has to carry against the sky rather than a fill. */
+  --cloud-line: oklch(0.782 0.132 236); /* sky-400 */
+
 }
 
-body {
-  margin: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-  color: var(--text-dark);
-  background: linear-gradient(135deg, var(--extra-pale-blue) 0%, var(--white) 100%);
-  min-height: 100vh;
+.dark {
+  /* Night sky: the same clouds after dark */
+  --background: oklch(0.198 0.032 254);
+  --foreground: oklch(0.955 0.014 232);
+
+  --card: oklch(0.244 0.036 253);
+  --card-foreground: var(--foreground);
+  --popover: oklch(0.244 0.036 253);
+  --popover-foreground: var(--foreground);
+
+  --primary: var(--sky-400);
+  --primary-foreground: oklch(0.198 0.032 254);
+
+  --secondary: oklch(0.298 0.043 252);
+  --secondary-foreground: var(--sky-100);
+
+  --muted: oklch(0.288 0.038 253);
+  --muted-foreground: oklch(0.728 0.031 244);
+
+  --accent: oklch(0.318 0.052 251);
+  --accent-foreground: var(--sky-100);
+
+  --destructive: oklch(0.665 0.194 25);
+  --destructive-foreground: oklch(0.99 0 0);
+
+  --success: oklch(0.706 0.146 159);
+  --success-foreground: oklch(0.198 0.032 254);
+
+  --warning: oklch(0.806 0.144 76);
+  --warning-foreground: oklch(0.22 0.05 71);
+
+  --border: oklch(1 0 0 / 0.12);
+  --input: oklch(1 0 0 / 0.16);
+  --ring: var(--sky-400);
+
+  --sky-wash: radial-gradient(
+      1200px 600px at 50% -10%,
+      oklch(0.432 0.121 247 / 0.55) 0%,
+      transparent 70%
+    ),
+    linear-gradient(180deg, oklch(0.244 0.05 253) 0%, var(--background) 55%);
+
+  /* Night sky: the clouds read as light lines against the navy. */
+  --cloud-line: oklch(0.863 0.088 234); /* sky-300 */
+
 }
 
-/* Modern navbar styling */
-.navbar {
-  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--light-blue) 100%) !important;
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-sky-50: var(--sky-50);
+  --color-sky-100: var(--sky-100);
+  --color-sky-200: var(--sky-200);
+  --color-sky-300: var(--sky-300);
+  --color-sky-400: var(--sky-400);
+  --color-sky-500: var(--sky-500);
+  --color-sky-600: var(--sky-600);
+  --color-sky-700: var(--sky-700);
+  --color-sky-800: var(--sky-800);
+  --color-sky-900: var(--sky-900);
+  --color-sky-950: var(--sky-950);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 12px);
+
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
+    sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --font-pixel: 'Silkscreen', 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  --animate-drift-slow: drift 90s linear infinite;
+  --animate-drift-mid: drift 60s linear infinite;
+  --animate-drift-fast: drift 38s linear infinite;
+  --animate-bob: bob 6s ease-in-out infinite;
+  --animate-twinkle: twinkle 3.2s ease-in-out infinite;
+  --animate-rise: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-scan: scan 7s linear infinite;
+  --animate-blink: blink 1.1s steps(2, start) infinite;
 }
 
-/* Modern button styles */
-.btn {
-  border-radius: 12px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  border: none;
-  box-shadow: var(--shadow-sm);
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--light-blue) 100%);
-  color: white;
-}
-
-.btn-primary:hover {
-  background: linear-gradient(135deg, var(--light-blue) 0%, var(--lighter-blue) 100%);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
-}
-
-.btn-outline-light {
-  border: 2px solid rgba(255, 255, 255, 0.8);
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-}
-
-.btn-outline-light:hover {
-  background: rgba(255, 255, 255, 0.95);
-  color: var(--primary-blue);
-  transform: translateY(-2px);
-}
-
-.btn-lg {
-  padding: 1rem 2rem;
-  font-size: 1.1rem;
-  border-radius: 14px;
-}
-
-/* Modern card styles */
-.card {
-  border: 1px solid var(--border-color);
-  border-radius: 16px;
-  box-shadow: var(--shadow-md);
-  background: var(--white);
-  transition: all 0.3s ease;
-  overflow: hidden;
-}
-
-.card:hover {
-  box-shadow: var(--shadow-xl);
-  transform: translateY(-4px);
-}
-
-.card-body {
-  padding: 2rem;
-}
-
-/* Modern section backgrounds */
-.bg-light {
-  background: linear-gradient(135deg, var(--extra-pale-blue) 0%, var(--pale-blue) 100%) !important;
-}
-
-section {
-  position: relative;
-}
-
-/* Hero section enhancements */
-.display-5 {
-  font-weight: 800;
-  letter-spacing: -1px;
-  color: var(--text-dark);
-  line-height: 1.2;
-}
-
-.lead {
-  color: var(--text-gray);
-  font-size: 1.15rem;
-  line-height: 1.7;
-}
-
-/* Modern list styles */
-.list-unstyled li {
-  padding: 0.75rem 0;
-  border-bottom: 1px solid var(--border-color);
-  transition: all 0.2s ease;
-}
-
-.list-unstyled li:last-child {
-  border-bottom: none;
-}
-
-.list-unstyled li:hover {
-  padding-left: 0.5rem;
-  background: var(--extra-pale-blue);
-  border-radius: 8px;
-}
-
-/* Icon enhancements */
-.bi {
-  transition: transform 0.2s ease;
-}
-
-.list-unstyled li:hover .bi {
-  transform: scale(1.2);
-}
-
-/* Modern border and rounded corners */
-.border {
-  border-color: var(--border-color) !important;
-}
-
-.rounded-3 {
-  border-radius: 16px !important;
-}
-
-/* Footer styling */
-footer {
-  background: var(--white);
-  border-top: 1px solid var(--border-color);
-  backdrop-filter: blur(10px);
-}
-
-footer a {
-  color: var(--text-gray);
-  transition: all 0.2s ease;
-}
-
-footer a:hover {
-  color: var(--primary-blue);
-  transform: translateX(4px);
-}
-
-/* Progress bar modern styling */
-.progress {
-  background-color: var(--pale-blue);
-  border-radius: 10px;
-  height: 12px;
-  overflow: hidden;
-}
-
-.progress-bar {
-  background: linear-gradient(90deg, var(--primary-blue) 0%, var(--light-blue) 100%);
-  border-radius: 10px;
-  transition: width 0.6s ease;
-}
-
-/* Modern alert styles */
-.alert {
-  border-radius: 12px;
-  border: none;
-  box-shadow: var(--shadow-sm);
-}
-
-.alert-info {
-  background: linear-gradient(135deg, var(--extra-pale-blue) 0%, var(--pale-blue) 100%);
-  color: var(--text-dark);
-}
-
-/* Quiz answer buttons modern style */
-.quiz-answer-button {
-  background: var(--white);
-  border: 2px solid var(--border-color);
-  border-radius: 12px;
-  transition: all 0.3s ease;
-  box-shadow: var(--shadow-sm);
-}
-
-.quiz-answer-button:hover {
-  background: linear-gradient(135deg, var(--extra-pale-blue) 0%, var(--pale-blue) 100%);
-  border-color: var(--primary-blue);
-  box-shadow: var(--shadow-md);
-}
-
-/* Trust section enhancement */
-.bg-white {
-  background: var(--white) !important;
-  box-shadow: var(--shadow-sm);
-}
-
-/* ===================================
-   Accessibility Enhancements
-   =================================== */
-
-/* Enhanced focus indicators for keyboard navigation */
-*:focus-visible {
-  outline: 3px solid var(--primary-blue);
-  outline-offset: 2px;
-  border-radius: 8px;
-}
-
-/* Specific focus styles for buttons */
-.btn:focus-visible {
-  outline: 3px solid var(--primary-blue);
-  outline-offset: 3px;
-  box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25);
-}
-
-/* Enhanced focus for quiz answer buttons */
-.quiz-answer-button:focus-visible {
-  outline: 3px solid var(--primary-blue);
-  outline-offset: 2px;
-  background: linear-gradient(135deg, var(--extra-pale-blue) 0%, var(--pale-blue) 100%);
-  border-color: var(--primary-blue);
-  transform: translateX(4px);
-  transition: all 0.2s ease;
-}
-
-/* Focus styles for links */
-a:focus-visible {
-  outline: 3px solid var(--primary-blue);
-  outline-offset: 2px;
-  border-radius: 8px;
-}
-
-/* Skip link styles - visible when focused */
-.skip-link {
-  position: absolute;
-  top: -100px;
-  left: 0;
-  z-index: 9999;
-  padding: 0.75rem 1.5rem;
-  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--light-blue) 100%);
-  color: white;
-  text-decoration: none;
-  border-radius: 0 0 12px 0;
-  font-weight: 600;
-  transition: top 0.2s ease;
-  box-shadow: var(--shadow-lg);
-}
-
-.skip-link:focus {
-  top: 0;
-  outline: 3px solid #fff;
-  outline-offset: -3px;
-}
-
-/* Ensure sufficient color contrast for text */
-.text-muted {
-  color: var(--text-gray) !important;
-}
-
-/* Ensure icons don't interfere with screen readers */
-[aria-hidden="true"] {
-  pointer-events: none;
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  .btn-outline-primary {
-    border-width: 2px;
+@layer base {
+  * {
+    @apply border-border;
   }
-  
-  *:focus-visible {
-    outline-width: 4px;
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    margin: 0;
+    min-height: 100vh;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Anything pixel-art keeps hard edges at every zoom level */
+  .pixelated {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    shape-rendering: crispEdges;
+  }
+
+  ::selection {
+    background: var(--sky-300);
+    color: var(--sky-950);
+  }
+
+  :focus-visible {
+    @apply outline-ring outline-2 outline-offset-2;
+  }
+
+  /* Chunky retro scrollbar that matches the sky ramp */
+  @supports selector(::-webkit-scrollbar) {
+    ::-webkit-scrollbar {
+      width: 12px;
+      height: 12px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--muted);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--sky-400);
+      border: 3px solid var(--muted);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--sky-500);
+    }
   }
 }
 
-/* Reduced motion support for users who prefer it */
+@layer components {
+  /* Ambient sky background used by the hero and feature bands */
+  .sky-wash {
+    background: var(--sky-wash);
+  }
+
+  /* Drifting cloud sizing. `--cloud-w` is the desktop width, set inline per
+     cloud; phones get a fraction of it so a single cloud does not span the
+     whole viewport and sit behind the headline. */
+  .cloud-sprite {
+    width: calc(var(--cloud-w, 160px) * 0.5);
+    height: auto;
+  }
+
+  @media (min-width: 640px) {
+    .cloud-sprite {
+      width: var(--cloud-w, 160px);
+    }
+  }
+
+  /* Hard-edged "8-bit" border + shadow, no border radius */
+  .pixel-frame {
+    border-radius: 0;
+    box-shadow:
+      0 0 0 2px var(--foreground),
+      6px 6px 0 0 var(--sky-400);
+  }
+
+  .pixel-frame-primary {
+    border-radius: 0;
+    box-shadow:
+      0 0 0 2px var(--sky-700),
+      6px 6px 0 0 var(--sky-300);
+  }
+
+  /* Eyebrow / kicker label in the pixel typeface */
+  .eyebrow {
+    @apply font-mono text-[0.72rem] font-semibold tracking-[0.16em] uppercase;
+  }
+
+  /* Gradient display text for hero headlines */
+  .text-sky-gradient {
+    background: linear-gradient(
+      100deg,
+      var(--sky-700) 0%,
+      var(--sky-500) 45%,
+      var(--sky-400) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .dark .text-sky-gradient {
+    background: linear-gradient(
+      100deg,
+      var(--sky-200) 0%,
+      var(--sky-300) 45%,
+      var(--sky-500) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Long-form article typography (blog posts, legal pages) */
+  .prose-nubitlan {
+    @apply text-[1.0625rem] leading-[1.75] text-foreground/90;
+  }
+  .prose-nubitlan > * + * {
+    @apply mt-5;
+  }
+  .prose-nubitlan h2 {
+    @apply mt-12 mb-4 text-2xl font-bold tracking-tight text-foreground scroll-mt-24;
+  }
+  .prose-nubitlan h3 {
+    @apply mt-9 mb-3 text-xl font-semibold tracking-tight text-foreground scroll-mt-24;
+  }
+  .prose-nubitlan h4 {
+    @apply mt-7 mb-2 text-lg font-semibold text-foreground scroll-mt-24;
+  }
+  .prose-nubitlan p {
+    @apply text-foreground/85;
+  }
+  .prose-nubitlan a {
+    @apply text-primary font-medium underline underline-offset-4 decoration-primary/35 hover:decoration-primary transition-colors;
+  }
+  .prose-nubitlan ul {
+    @apply list-disc pl-6 space-y-2 marker:text-sky-400;
+  }
+  .prose-nubitlan ol {
+    @apply list-decimal pl-6 space-y-2 marker:text-sky-500 marker:font-semibold;
+  }
+  .prose-nubitlan li {
+    @apply text-foreground/85 pl-1;
+  }
+  .prose-nubitlan blockquote {
+    @apply border-l-4 border-sky-400 bg-sky-50 dark:bg-sky-950/40 py-3 pr-4 pl-5 italic text-foreground/80 rounded-r-lg not-italic;
+  }
+  .prose-nubitlan code {
+    @apply font-mono text-[0.86em] bg-muted text-sky-700 dark:text-sky-300 px-1.5 py-0.5 rounded-md;
+  }
+  .prose-nubitlan pre {
+    @apply bg-sky-950 text-sky-50 rounded-xl p-4 overflow-x-auto text-sm leading-relaxed border border-sky-900;
+  }
+  .prose-nubitlan pre code {
+    @apply bg-transparent text-inherit p-0 text-[0.875rem];
+  }
+  .prose-nubitlan img {
+    @apply rounded-xl border border-border w-full;
+  }
+  .prose-nubitlan hr {
+    @apply my-10 border-t border-border;
+  }
+  .prose-nubitlan table {
+    @apply w-full text-left text-sm border-collapse;
+  }
+  .prose-nubitlan th {
+    @apply border-b-2 border-border py-2 pr-4 font-semibold;
+  }
+  .prose-nubitlan td {
+    @apply border-b border-border py-2 pr-4 text-foreground/85;
+  }
+  .prose-nubitlan strong {
+    @apply font-semibold text-foreground;
+  }
+}
+
+@layer utilities {
+  /* Stagger helper: children fade up in sequence */
+  .stagger > * {
+    animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .stagger > *:nth-child(1) {
+    animation-delay: 0.05s;
+  }
+  .stagger > *:nth-child(2) {
+    animation-delay: 0.12s;
+  }
+  .stagger > *:nth-child(3) {
+    animation-delay: 0.19s;
+  }
+  .stagger > *:nth-child(4) {
+    animation-delay: 0.26s;
+  }
+  .stagger > *:nth-child(5) {
+    animation-delay: 0.33s;
+  }
+  .stagger > *:nth-child(6) {
+    animation-delay: 0.4s;
+  }
+}
+
+/* ============================ keyframes ============================ */
+
+/* Viewport units, not percentages: a percentage translate resolves against
+   the element's own width, so a 90px cloud would only shuffle ~100px instead
+   of crossing the screen. vw makes every cloud traverse the full viewport
+   regardless of its size. */
+@keyframes drift {
+  from {
+    transform: translate3d(-30vw, 0, 0);
+  }
+  to {
+    transform: translate3d(130vw, 0, 0);
+  }
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scan {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(1000%);
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Respect users who ask for less motion: kill drift/bob/scan entirely
+   and collapse entrance animations to a plain fade. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -296,435 +463,12 @@ a:focus-visible {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
-  
-  .quiz-answer-button:hover,
-  .quiz-answer-button:focus-visible {
-    transform: none;
-    transition: none;
-  }
-}
 
-/* ===================================
-   Responsive Design Refinements
-   =================================== */
-
-/* Mobile devices (320px - 767px) */
-@media (max-width: 767px) {
-  /* Increase touch target sizes for mobile */
-  .btn {
-    min-height: 44px;
-    padding: 0.75rem 1.25rem;
-  }
-  
-  .btn-lg {
-    min-height: 48px;
-    padding: 1rem 1.5rem;
-    font-size: 1rem;
-  }
-  
-  /* Quiz answer buttons - larger touch targets */
-  .quiz-answer-button {
-    min-height: 56px;
-    padding: 1rem 1.25rem !important;
-    font-size: 1rem;
-  }
-  
-  /* Reduce card padding on mobile */
-  .card-body {
-    padding: 1.25rem !important;
-  }
-  
-  /* Adjust heading sizes for mobile */
-  .h3, h3 {
-    font-size: 1.5rem;
-  }
-  
-  .h4, h4 {
-    font-size: 1.25rem;
-  }
-  
-  .h5, h5 {
-    font-size: 1.1rem;
-  }
-  
-  /* Optimize navbar for mobile */
-  .navbar-brand {
-    font-size: 1.1rem;
-  }
-  
-  /* Stack footer items vertically on mobile */
-  footer .container {
-    text-align: center;
-  }
-  
-  /* Ensure icons don't take too much space */
-  .bi {
-    flex-shrink: 0;
-  }
-  
-  /* Improve readability of text on mobile */
-  body {
-    font-size: 1rem;
-    line-height: 1.6;
-  }
-  
-  /* Adjust progress bar height for better visibility */
-  .progress {
-    height: 10px !important;
-  }
-  
-  /* Optimize alert spacing */
-  .alert {
-    padding: 1rem;
-    font-size: 0.95rem;
-  }
-  
-  /* Ensure list items have adequate spacing */
-  .list-group-item {
-    padding: 0.875rem 0;
-  }
-}
-
-/* Small mobile devices (320px - 479px) */
-@media (max-width: 479px) {
-  /* Further reduce padding for very small screens */
-  .container {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-  
-  /* Adjust button text size */
-  .btn-lg {
-    font-size: 0.95rem;
-  }
-  
-  /* Reduce icon sizes slightly */
-  .fs-1 {
-    font-size: 2.5rem !important;
-  }
-  
-  .fs-4 {
-    font-size: 1.25rem !important;
-  }
-  
-  /* Optimize outcome card header */
-  .card-body > div[role="status"] {
-    padding: 0.875rem !important;
-  }
-}
-
-/* Tablet devices (768px - 1023px) */
-@media (min-width: 768px) and (max-width: 1023px) {
-  /* Optimize touch targets for tablets */
-  .btn {
-    min-height: 42px;
-  }
-  
-  .btn-lg {
-    min-height: 46px;
-  }
-  
-  .quiz-answer-button {
-    min-height: 52px;
-  }
-  
-  /* Adjust container width for tablets */
-  .container {
-    max-width: 720px;
-  }
-  
-  /* Optimize card layout */
-  .card-body {
-    padding: 2rem !important;
-  }
-}
-
-/* Desktop devices (1024px+) */
-@media (min-width: 1024px) {
-  /* Ensure optimal line length for readability */
-  .card-body p {
-    max-width: 65ch;
-  }
-  
-  /* Optimize button hover states for mouse users */
-  .quiz-answer-button:hover {
-    transform: translateX(8px);
-  }
-}
-
-/* High zoom levels (200%) - ensure content remains accessible */
-@media (min-width: 320px) {
-  /* Ensure text doesn't overflow at high zoom */
-  body {
-    overflow-x: hidden;
-  }
-  
-  /* Allow text to wrap properly */
-  .btn,
-  .quiz-answer-button {
-    white-space: normal;
-    text-align: left;
-  }
-  
-  /* Ensure flex items wrap when needed */
-  .d-flex.gap-2,
-  .d-flex.gap-3 {
-    flex-wrap: wrap;
-  }
-  
-  /* Prevent horizontal scroll */
-  .container {
-    overflow-x: hidden;
-  }
-}
-
-/* Landscape orientation on mobile */
-@media (max-width: 767px) and (orientation: landscape) {
-  /* Reduce vertical padding in landscape */
-  .py-5 {
-    padding-top: 2rem !important;
-    padding-bottom: 2rem !important;
-  }
-  
-  .py-4 {
-    padding-top: 1.5rem !important;
-    padding-bottom: 1.5rem !important;
-  }
-  
-  /* Optimize card spacing */
-  .mb-4 {
-    margin-bottom: 1.5rem !important;
-  }
-}
-
-/* Print styles - bonus for accessibility */
-@media print {
-  /* Hide navigation and interactive elements */
-  .navbar,
-  .skip-link,
-  footer,
-  .btn {
-    display: none !important;
-  }
-  
-  /* Optimize for print */
-  .card {
-    border: 1px solid #dee2e6 !important;
-    box-shadow: none !important;
-  }
-  
-  /* Ensure good contrast for print */
-  body {
-    color: #000;
-    background: #fff;
-  }
-}
-
-
-/* ===================================
-   Additional Modern Enhancements
-   =================================== */
-
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Modern heading styles */
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 700;
-  letter-spacing: -0.5px;
-}
-
-/* Enhanced section spacing */
-section {
-  transition: all 0.3s ease;
-}
-
-/* Modern iframe container */
-iframe {
-  border-radius: 16px;
-  box-shadow: var(--shadow-md);
-}
-
-/* Spinner modern styling */
-.spinner-border {
-  border-width: 3px;
-}
-
-/* Enhanced text colors */
-.text-primary {
-  color: var(--primary-blue) !important;
-}
-
-.text-warning {
-  color: #f59e0b !important;
-}
-
-.text-success {
-  color: #10b981 !important;
-}
-
-.text-danger {
-  color: #ef4444 !important;
-}
-
-/* Modern badge styles */
-.badge {
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
-  font-weight: 600;
-}
-
-/* Enhanced container */
-.container {
-  position: relative;
-}
-
-/* Smooth transitions for all interactive elements */
-a, button, .btn, .card {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Modern shadow on hover for interactive cards */
-.card.shadow-sm:hover {
-  box-shadow: var(--shadow-xl) !important;
-}
-
-/* Enhanced border styles */
-.border-primary {
-  border-color: var(--primary-blue) !important;
-  border-width: 2px !important;
-}
-
-/* Modern alert close button */
-.btn-close {
-  transition: all 0.2s ease;
-  border-radius: 50%;
-  padding: 0.5rem;
-}
-
-.btn-close:hover {
-  background-color: rgba(0, 0, 0, 0.1);
-  transform: rotate(90deg);
-}
-
-/* Enhanced list group items */
-.list-group-item {
-  border-color: var(--border-color);
-  transition: all 0.2s ease;
-}
-
-.list-group-flush .list-group-item:hover {
-  background: var(--extra-pale-blue);
-}
-
-/* Modern form elements (if any) */
-input, textarea, select {
-  border-radius: 10px;
-  border: 2px solid var(--border-color);
-  transition: all 0.2s ease;
-}
-
-input:focus, textarea:focus, select:focus {
-  border-color: var(--primary-blue);
-  box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.1);
-}
-
-/* Subtle background pattern for sections */
-section.bg-light::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: radial-gradient(circle at 1px 1px, rgba(59, 130, 246, 0.05) 1px, transparent 0);
-  background-size: 40px 40px;
-  pointer-events: none;
-  z-index: 0;
-}
-
-section.bg-light > * {
-  position: relative;
-  z-index: 1;
-}
-
-/* Modern navbar shadow */
-.navbar.shadow-sm {
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15) !important;
-}
-
-/* Enhanced icon animations */
-@keyframes pulse-subtle {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.8;
-  }
-}
-
-.bi-shield-check {
-  animation: pulse-subtle 3s ease-in-out infinite;
-}
-
-/* Modern scrollbar (for webkit browsers) */
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--extra-pale-blue);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--lighter-blue);
-  border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--light-blue);
-}
-
-/* Glass morphism effect for special elements */
-.glass-effect {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-/* ===================================
-   Scroll Indicator Animation
-   =================================== */
-
-.scroll-indicator {
-  animation: bounce 2s ease-in-out infinite;
-  cursor: pointer;
-}
-
-@keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-10px);
-  }
-  60% {
-    transform: translateY(-5px);
-  }
-}
-
-.scroll-indicator:hover {
-  animation-play-state: paused;
-  opacity: 0.7;
-}
-
-/* Respect reduced motion preferences */
-@media (prefers-reduced-motion: reduce) {
-  .scroll-indicator {
+  .stagger > * {
     animation: none;
+    opacity: 1;
+    transform: none;
   }
 }

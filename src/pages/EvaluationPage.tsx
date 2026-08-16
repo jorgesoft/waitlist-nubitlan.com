@@ -1,299 +1,323 @@
-import { useState, useEffect, useRef } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
-import { loadQuizConfig } from '../utils/loadQuizConfig';
-import { useQuizEngine } from '../hooks/useQuizEngine';
-import { saveQuizResult } from '../services/quizService';
-import { logQuizCompleted, logQuizStarted } from '../utils/analytics';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import QuestionCard from '../components/QuestionCard';
-import OutcomeCard from '../components/OutcomeCard';
-import QuizProgress from '../components/QuizProgress';
-import type { QuizConfig } from '../types/quiz';
+import { useState, useEffect, useRef } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
+import {
+  CheckCircle2Icon,
+  ClipboardCheckIcon,
+  HelpCircleIcon,
+  HomeIcon,
+  PlayCircleIcon,
+  RotateCwIcon,
+  TriangleAlertIcon,
+  XIcon,
+} from 'lucide-react'
+
+import { loadQuizConfig } from '@/utils/loadQuizConfig'
+import { useQuizEngine } from '@/hooks/useQuizEngine'
+import { saveQuizResult } from '@/services/quizService'
+import { logQuizCompleted, logQuizStarted } from '@/utils/analytics'
+import QuestionCard from '@/components/QuestionCard'
+import OutcomeCard from '@/components/OutcomeCard'
+import QuizProgress from '@/components/QuizProgress'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import { PixelSky } from '@/components/pixel/pixel-sky'
+import type { QuizConfig } from '@/types/quiz'
 
 function EvaluationPage() {
-  const [config, setConfig] = useState<QuizConfig | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [announcement, setAnnouncement] = useState<string>('');
-  const [quizStarted, setQuizStarted] = useState(false);
-  const [showThankYou, setShowThankYou] = useState(false);
-  const mainContentRef = useRef<HTMLDivElement>(null);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const resultSavedRef = useRef(false);
+  const [config, setConfig] = useState<QuizConfig | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [announcement, setAnnouncement] = useState<string>('')
+  const [quizStarted, setQuizStarted] = useState(false)
+  const [showThankYou, setShowThankYou] = useState(false)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const resultSavedRef = useRef(false)
 
-  // Scroll to top on mount
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  // Check if user came from waitlist signup
+  // Visitors arriving straight from the waitlist form get a thank-you note.
   useEffect(() => {
     if (searchParams.get('joined') === 'true') {
-      setShowThankYou(true);
-      // Remove the parameter from URL after reading it
-      searchParams.delete('joined');
-      setSearchParams(searchParams, { replace: true });
+      setShowThankYou(true)
+      searchParams.delete('joined')
+      setSearchParams(searchParams, { replace: true })
     }
-  }, [searchParams, setSearchParams]);
+  }, [searchParams, setSearchParams])
 
-  // Load quiz configuration on mount
   useEffect(() => {
     const loadConfig = async () => {
       try {
-        setLoading(true);
-        setError(null);
-        const quizConfig = await loadQuizConfig();
-        setConfig(quizConfig);
+        setLoading(true)
+        setError(null)
+        const quizConfig = await loadQuizConfig()
+        setConfig(quizConfig)
       } catch (err) {
-        console.error('Failed to load quiz configuration:', err);
+        console.error('Failed to load quiz configuration:', err)
         setError(
-          err instanceof Error 
-            ? err.message 
+          err instanceof Error
+            ? err.message
             : 'No se pudo cargar la evaluación. Por favor, intenta de nuevo más tarde.'
-        );
+        )
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    loadConfig();
-  }, []);
+    loadConfig()
+  }, [])
 
-  // Initialize quiz engine - we need a dummy config for the initial render to satisfy Rules of Hooks
+  // The engine hook must run on every render, so it gets an empty config
+  // until the real one has loaded.
   const dummyConfig: QuizConfig = {
     quiz: { title: '', description: '', startQuestionId: '' },
     questions: [],
-    outcomes: []
-  };
-  const quizEngine = useQuizEngine(config || dummyConfig);
+    outcomes: [],
+  }
+  const quizEngine = useQuizEngine(config || dummyConfig)
 
-  // Calculate progress
-  const totalSteps = config?.questions.length || 0;
-  const currentStep = config 
+  const totalSteps = config?.questions.length || 0
+  const currentStep = config
     ? Object.keys(quizEngine.answers).length + (quizEngine.isComplete ? 0 : 1)
-    : 0;
+    : 0
 
-  // Save quiz result and log analytics when completed
+  // Persist the result and log analytics exactly once per completion.
   useEffect(() => {
     const saveResult = async () => {
-      if (quizEngine.isComplete && quizEngine.outcome && !resultSavedRef.current) {
-        resultSavedRef.current = true;
+      if (
+        quizEngine.isComplete &&
+        quizEngine.outcome &&
+        !resultSavedRef.current
+      ) {
+        resultSavedRef.current = true
         try {
-          await saveQuizResult(quizEngine.answers, quizEngine.outcome);
-          console.log('Quiz result saved successfully');
-          
-          // Log analytics event
+          await saveQuizResult(quizEngine.answers, quizEngine.outcome)
           logQuizCompleted(
             quizEngine.outcome,
             Object.keys(quizEngine.answers).length
-          );
+          )
         } catch (error) {
-          console.error('Failed to save quiz result:', error);
-          // Don't show error to user, just log it
+          console.error('Failed to save quiz result:', error)
+          // Saving is best-effort; never block the visitor on it.
         }
       }
-    };
+    }
 
-    saveResult();
-  }, [quizEngine.isComplete, quizEngine.outcome, quizEngine.answers]);
+    saveResult()
+  }, [quizEngine.isComplete, quizEngine.outcome, quizEngine.answers])
 
-  // Announce state changes for screen readers
+  // Keep screen readers informed as the quiz moves between states.
   useEffect(() => {
     if (loading) {
-      setAnnouncement('Cargando evaluación...');
+      setAnnouncement('Cargando evaluación...')
     } else if (error) {
-      setAnnouncement('Error al cargar la evaluación. Por favor, intenta de nuevo.');
+      setAnnouncement(
+        'Error al cargar la evaluación. Por favor, intenta de nuevo.'
+      )
     } else if (config && !quizStarted) {
-      setAnnouncement('Evaluación lista para comenzar.');
+      setAnnouncement('Evaluación lista para comenzar.')
     } else if (config && quizEngine.isComplete && quizEngine.outcome) {
-      setAnnouncement(`Evaluación completada. Resultado: ${quizEngine.outcome.title}`);
+      setAnnouncement(
+        `Evaluación completada. Resultado: ${quizEngine.outcome.title}`
+      )
     } else if (config && quizEngine.currentQuestion) {
-      setAnnouncement(`Pregunta ${currentStep} de ${totalSteps}: ${quizEngine.currentQuestion.text}`);
+      setAnnouncement(
+        `Pregunta ${currentStep} de ${totalSteps}: ${quizEngine.currentQuestion.text}`
+      )
     }
-  }, [loading, error, config, quizStarted, quizEngine.isComplete, quizEngine.outcome, quizEngine.currentQuestion, currentStep, totalSteps]);
+  }, [
+    loading,
+    error,
+    config,
+    quizStarted,
+    quizEngine.isComplete,
+    quizEngine.outcome,
+    quizEngine.currentQuestion,
+    currentStep,
+    totalSteps,
+  ])
 
   return (
     <>
-      {/* Skip to main content link for keyboard users */}
-      <a 
-        href="#main-content" 
-        className="skip-link visually-hidden-focusable position-absolute top-0 start-0 bg-primary text-white px-3 py-2 m-2 rounded text-decoration-none"
-        style={{ zIndex: 9999 }}
-      >
-        Saltar al contenido principal
-      </a>
-
-      {/* ARIA live region for screen reader announcements */}
-      <div 
-        role="status" 
-        aria-live="polite" 
-        aria-atomic="true"
-        className="visually-hidden"
-      >
+      <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
         {announcement}
       </div>
 
-      <Navbar />
+      <PixelSky className="min-h-[calc(100vh-4rem)] py-14 sm:py-20">
+        <div className="mx-auto max-w-3xl px-4 sm:px-6">
+          {loading ? (
+            <div className="space-y-4" role="status" aria-live="polite">
+              <span className="sr-only">Cargando evaluación…</span>
+              <div className="bg-muted h-10 w-2/3 animate-pulse rounded-lg" />
+              <div className="bg-muted h-4 w-1/2 animate-pulse rounded-lg" />
+              <div className="bg-muted mt-8 h-64 animate-pulse rounded-xl" />
+            </div>
+          ) : null}
 
-      {/* Main content */}
-      <main id="main-content" className="py-5 bg-light min-vh-100" ref={mainContentRef}>
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-12 col-lg-8">
-              {/* Loading state */}
-              {loading && (
-                <div className="text-center py-5" role="status" aria-live="polite">
-                  <div className="spinner-border text-primary mb-3" role="status">
-                    <span className="visually-hidden">Cargando...</span>
-                  </div>
-                  <p className="text-muted">Cargando evaluación...</p>
+          {error && !loading ? (
+            <Card role="alert" className="border-2 border-destructive/40">
+              <CardContent className="p-8 text-center">
+                <TriangleAlertIcon
+                  className="text-destructive mx-auto size-10"
+                  aria-hidden="true"
+                />
+                <h1 className="mt-4 text-2xl font-bold">
+                  Error al cargar la evaluación
+                </h1>
+                <p className="text-muted-foreground mt-3">{error}</p>
+                <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
+                  <Button
+                    variant="pixel"
+                    onClick={() => window.location.reload()}
+                  >
+                    <RotateCwIcon aria-hidden="true" />
+                    Intentar de nuevo
+                  </Button>
+                  <Button asChild variant="pixelOutline">
+                    <Link to="/">
+                      <HomeIcon aria-hidden="true" />
+                      Volver al inicio
+                    </Link>
+                  </Button>
                 </div>
-              )}
+              </CardContent>
+            </Card>
+          ) : null}
 
-              {/* Error state */}
-              {error && !loading && (
-                <div className="card shadow-sm border-0" role="alert">
-                  <div className="card-body p-4 text-center">
-                    <i className="bi bi-exclamation-triangle text-danger fs-1 mb-3 d-block" aria-hidden="true"></i>
-                    <h2 className="h4 mb-3">Error al cargar la evaluación</h2>
-                    <p className="text-muted mb-4">{error}</p>
-                    <div className="d-flex flex-column flex-sm-row gap-3 justify-content-center">
-                      <button
-                        type="button"
-                        className="btn btn-primary d-flex align-items-center justify-content-center gap-2"
-                        onClick={() => window.location.reload()}
-                      >
-                        <i className="bi bi-arrow-clockwise" aria-hidden="true"></i>
-                        Intentar de nuevo
-                      </button>
-                      <Link
-                        to="/"
-                        className="btn btn-outline-primary d-flex align-items-center justify-content-center gap-2"
-                      >
-                        <i className="bi bi-house" aria-hidden="true"></i>
-                        Volver al inicio
-                      </Link>
-                    </div>
+          {config && !loading && !error ? (
+            <>
+              {showThankYou ? (
+                <div
+                  className="border-success/40 bg-success/10 relative mb-8 flex items-start gap-3 rounded-xl border-2 p-5"
+                  role="alert"
+                >
+                  <CheckCircle2Icon
+                    className="text-success mt-0.5 size-6 shrink-0"
+                    aria-hidden="true"
+                  />
+                  <div className="pr-8">
+                    <h2 className="text-lg font-bold">
+                      ¡Gracias por unirte a la lista de espera!
+                    </h2>
+                    <p className="text-muted-foreground mt-1.5 text-sm leading-relaxed">
+                      Recibirás tu guía gratuita pronto. Mientras tanto, ¿por
+                      qué no evalúas qué tan preparada está tu empresa?
+                    </p>
                   </div>
+                  <button
+                    type="button"
+                    aria-label="Cerrar mensaje"
+                    onClick={() => setShowThankYou(false)}
+                    className="hover:bg-success/15 absolute top-3 right-3 rounded-md p-1.5 transition-colors"
+                  >
+                    <XIcon className="size-4" />
+                  </button>
                 </div>
-              )}
+              ) : null}
 
-              {/* Quiz content */}
-              {config && !loading && !error && (
+              <div className="mb-8">
+                <h1 className="flex items-start gap-3 text-3xl font-extrabold tracking-tight">
+                  <ClipboardCheckIcon
+                    className="text-primary mt-1 size-7 shrink-0"
+                    aria-hidden="true"
+                  />
+                  {config.quiz.title}
+                </h1>
+                <p className="text-muted-foreground mt-3 leading-relaxed">
+                  {config.quiz.description}
+                </p>
+              </div>
+
+              {!quizStarted ? (
+                <Card className="border-2 border-foreground shadow-[8px_8px_0_0_var(--sky-400)]">
+                  <CardContent className="p-8 text-center sm:p-12">
+                    <ClipboardCheckIcon
+                      className="text-primary mx-auto size-12"
+                      aria-hidden="true"
+                    />
+                    <h2 className="mt-5 text-2xl font-bold tracking-tight">
+                      ¿Listo para comenzar?
+                    </h2>
+                    <p className="text-muted-foreground mt-4 leading-relaxed">
+                      Esta evaluación te ayudará a determinar qué tan preparada
+                      está tu empresa para cumplir con la Ley de Protección de
+                      Datos.
+                    </p>
+                    <p className="text-muted-foreground mt-3 leading-relaxed">
+                      Responderás {totalSteps}{' '}
+                      {totalSteps === 1 ? 'pregunta' : 'preguntas'} y recibirás
+                      una evaluación personalizada al final.
+                    </p>
+                    <Button
+                      variant="pixel"
+                      size="lg"
+                      className="mt-8"
+                      onClick={() => {
+                        setQuizStarted(true)
+                        logQuizStarted()
+                      }}
+                    >
+                      <PlayCircleIcon aria-hidden="true" />
+                      Comenzar evaluación
+                    </Button>
+                  </CardContent>
+                </Card>
+              ) : (
                 <>
-                  {/* Thank you message for waitlist signup */}
-                  {showThankYou && (
-                    <div className="alert alert-success d-flex align-items-start gap-3 mb-4" role="alert">
-                      <i className="bi bi-check-circle-fill fs-4 flex-shrink-0" aria-hidden="true"></i>
-                      <div>
-                        <h2 className="alert-heading h5 mb-2">¡Gracias por unirte a la lista de espera!</h2>
-                        <p className="mb-2">
-                          Recibirás tu guía gratuita pronto. Mientras tanto, ¿por qué no evalúas qué tan preparada está tu empresa?
-                        </p>
-                        <button
-                          type="button"
-                          className="btn-close position-absolute top-0 end-0 m-3"
-                          aria-label="Cerrar mensaje"
-                          onClick={() => setShowThankYou(false)}
-                        ></button>
-                      </div>
-                    </div>
-                  )}
+                  {!quizEngine.isComplete ? (
+                    <QuizProgress
+                      currentStep={currentStep}
+                      totalSteps={totalSteps}
+                    />
+                  ) : null}
 
-                  {/* Quiz header */}
-                  <div className="mb-4">
-                    <h1 className="h3 mb-2 d-flex align-items-center gap-2">
-                      <i className="bi bi-clipboard-check text-primary" aria-hidden="true"></i>
-                      {config.quiz.title}
-                    </h1>
-                    <p className="text-muted mb-0">{config.quiz.description}</p>
-                  </div>
-
-                  {/* Start screen - shown before quiz begins */}
-                  {!quizStarted ? (
-                    <div className="card shadow-sm border-0">
-                      <div className="card-body p-5 text-center">
-                        <i className="bi bi-clipboard-check text-primary fs-1 mb-4 d-block" aria-hidden="true"></i>
-                        <h2 className="h4 mb-3">¿Listo para comenzar?</h2>
-                        <p className="text-muted mb-4">
-                          Esta evaluación te ayudará a determinar qué tan preparada está tu empresa para cumplir con la Ley de Protección de Datos.
+                  {quizEngine.isComplete && quizEngine.outcome ? (
+                    <OutcomeCard
+                      outcome={quizEngine.outcome}
+                      onRestart={() => {
+                        quizEngine.restart()
+                        setQuizStarted(false)
+                        resultSavedRef.current = false
+                      }}
+                    />
+                  ) : quizEngine.currentQuestion ? (
+                    <QuestionCard
+                      question={quizEngine.currentQuestion}
+                      onAnswer={quizEngine.handleAnswer}
+                    />
+                  ) : (
+                    <Card role="alert">
+                      <CardContent className="p-8 text-center">
+                        <HelpCircleIcon
+                          className="text-warning mx-auto size-10"
+                          aria-hidden="true"
+                        />
+                        <h2 className="mt-4 text-xl font-bold">
+                          Estado inesperado
+                        </h2>
+                        <p className="text-muted-foreground mt-3">
+                          No se pudo determinar la siguiente pregunta. Por
+                          favor, reinicia la evaluación.
                         </p>
-                        <p className="text-muted mb-4">
-                          Responderás {totalSteps} {totalSteps === 1 ? 'pregunta' : 'preguntas'} y recibirás una evaluación personalizada al final.
-                        </p>
-                        <button
-                          type="button"
-                          className="btn btn-primary btn-lg d-flex align-items-center justify-content-center gap-2 mx-auto"
+                        <Button
+                          variant="pixel"
+                          className="mt-6"
                           onClick={() => {
-                            setQuizStarted(true);
-                            logQuizStarted();
+                            quizEngine.restart()
+                            setQuizStarted(false)
                           }}
                         >
-                          <i className="bi bi-play-circle" aria-hidden="true"></i>
-                          Comenzar evaluación
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    <>
-                      {/* Progress indicator - only show during quiz, not on outcome */}
-                      {!quizEngine.isComplete && (
-                        <QuizProgress 
-                          currentStep={currentStep} 
-                          totalSteps={totalSteps} 
-                        />
-                      )}
-
-                      {/* Question or Outcome */}
-                      {quizEngine.isComplete && quizEngine.outcome ? (
-                        <OutcomeCard 
-                          outcome={quizEngine.outcome} 
-                          onRestart={() => {
-                            quizEngine.restart();
-                            setQuizStarted(false);
-                            resultSavedRef.current = false;
-                          }} 
-                        />
-                      ) : quizEngine.currentQuestion ? (
-                        <QuestionCard 
-                          question={quizEngine.currentQuestion} 
-                          onAnswer={quizEngine.handleAnswer} 
-                        />
-                      ) : (
-                        <div className="card shadow-sm border-0" role="alert">
-                          <div className="card-body p-4 text-center">
-                            <i className="bi bi-question-circle text-warning fs-1 mb-3 d-block" aria-hidden="true"></i>
-                            <h2 className="h4 mb-3">Estado inesperado</h2>
-                            <p className="text-muted mb-4">
-                              No se pudo determinar la siguiente pregunta. Por favor, reinicia la evaluación.
-                            </p>
-                            <button
-                              type="button"
-                              className="btn btn-primary d-flex align-items-center justify-content-center gap-2 mx-auto"
-                              onClick={() => {
-                                quizEngine.restart();
-                                setQuizStarted(false);
-                              }}
-                            >
-                              <i className="bi bi-arrow-clockwise" aria-hidden="true"></i>
-                              Reiniciar evaluación
-                            </button>
-                          </div>
-                        </div>
-                      )}
-                    </>
+                          <RotateCwIcon aria-hidden="true" />
+                          Reiniciar evaluación
+                        </Button>
+                      </CardContent>
+                    </Card>
                   )}
                 </>
               )}
-            </div>
-          </div>
+            </>
+          ) : null}
         </div>
-      </main>
-
-      <Footer />
+      </PixelSky>
     </>
-  );
+  )
 }
 
-export default EvaluationPage;
+export default EvaluationPage
