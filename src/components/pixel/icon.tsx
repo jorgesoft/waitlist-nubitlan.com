@@ -95,7 +95,9 @@ export function PixelIcon({
       aria-label={title}
       aria-hidden={title ? undefined : true}
       focusable="false"
-      className={cn('pixelated size-6 shrink-0', className)}
+      /* No default size: callers set one, which lets a component class such
+         as .cloud-sprite own the sizing without losing to a utility. */
+      className={cn('pixelated shrink-0', className)}
       /* Build-time constants from the pixelarticons package — never user
          input, so there is nothing here to sanitise at runtime. */
       dangerouslySetInnerHTML={{ __html: ICONS[name] }}

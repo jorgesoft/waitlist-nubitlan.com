@@ -3,15 +3,11 @@ import { LinkedinIcon, MailIcon } from 'lucide-react'
 
 import { SERVICES, SITE } from '@/lib/site'
 import { PixelLogo } from '@/components/pixel/pixel-logo'
-import { PixelHorizon } from '@/components/pixel/pixel-sky'
 import { Separator } from '@/components/ui/separator'
 
 function Footer() {
   return (
-    <footer className="relative mt-24">
-      {/* Pixel skyline capping the footer band */}
-      <PixelHorizon className="text-sky-100 dark:text-sky-950" />
-
+    <footer className="relative mt-24 border-t border-border">
       <div className="bg-sky-100 dark:bg-sky-950">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-4">
           <div className="md:col-span-1">

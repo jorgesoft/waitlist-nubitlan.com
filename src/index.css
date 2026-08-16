@@ -77,7 +77,6 @@
      that has to carry against the sky rather than a fill. */
   --cloud-line: oklch(0.782 0.132 236); /* sky-400 */
 
-  --pixel-grid: oklch(0.594 0.171 244 / 0.09);
 }
 
 .dark {
@@ -125,7 +124,6 @@
   /* Night sky: the clouds read as light lines against the navy. */
   --cloud-line: oklch(0.863 0.088 234); /* sky-300 */
 
-  --pixel-grid: oklch(0.782 0.132 236 / 0.1);
 }
 
 @theme inline {
@@ -244,22 +242,18 @@
     background: var(--sky-wash);
   }
 
-  /* Pixel grid overlay — the retro "graph paper" behind hero content */
-  .pixel-grid {
-    background-image: linear-gradient(var(--pixel-grid) 1px, transparent 1px),
-      linear-gradient(90deg, var(--pixel-grid) 1px, transparent 1px);
-    background-size: 32px 32px;
-    mask-image: radial-gradient(
-      ellipse 80% 60% at 50% 40%,
-      #000 30%,
-      transparent 78%
-    );
+  /* Drifting cloud sizing. `--cloud-w` is the desktop width, set inline per
+     cloud; phones get a fraction of it so a single cloud does not span the
+     whole viewport and sit behind the headline. */
+  .cloud-sprite {
+    width: calc(var(--cloud-w, 160px) * 0.5);
+    height: auto;
   }
 
-  .pixel-grid-sm {
-    background-image: linear-gradient(var(--pixel-grid) 1px, transparent 1px),
-      linear-gradient(90deg, var(--pixel-grid) 1px, transparent 1px);
-    background-size: 8px 8px;
+  @media (min-width: 640px) {
+    .cloud-sprite {
+      width: var(--cloud-w, 160px);
+    }
   }
 
   /* Hard-edged "8-bit" border + shadow, no border radius */

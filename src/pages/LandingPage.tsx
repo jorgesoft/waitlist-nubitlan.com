@@ -6,7 +6,7 @@ import { SERVICES } from '@/lib/site'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
-import { PixelSky, PixelHorizon } from '@/components/pixel/pixel-sky'
+import { PixelSky } from '@/components/pixel/pixel-sky'
 import { PixelIcon, type PixelIconName } from '@/components/pixel/icon'
 
 const RISKS = [
@@ -93,13 +93,13 @@ function LandingPage() {
               </Badge>
             </div>
 
-            <h1 className="mt-7 text-4xl font-extrabold tracking-tight text-balance sm:text-6xl lg:text-7xl">
+            <h1 className="mt-7 text-3xl font-extrabold tracking-tight text-balance sm:text-6xl lg:text-7xl">
               Evalúa tu seguridad y{' '}
               <span className="text-sky-gradient">cumplimiento</span> con
               inteligencia artificial
             </h1>
 
-            <p className="text-muted-foreground mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-pretty sm:text-xl">
+            <p className="text-foreground/80 mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-pretty sm:text-xl">
               Diagnósticos rápidos, recomendaciones prácticas y una ruta clara
               hacia el cumplimiento de la Ley de Protección de Datos.
             </p>
@@ -178,8 +178,7 @@ function LandingPage() {
 
       {/* ========================= Solution =========================== */}
       <div className="relative">
-        <PixelHorizon className="text-sky-50 dark:text-sky-950/60" flip />
-        <section className="bg-sky-50 py-20 sm:py-24 dark:bg-sky-950/60">
+        <section className="border-y border-border bg-sky-50 py-20 sm:py-24 dark:bg-sky-950/60">
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <SectionHeading
               eyebrow="La solución"
@@ -207,7 +206,6 @@ function LandingPage() {
             </div>
           </div>
         </section>
-        <PixelHorizon className="text-sky-50 dark:text-sky-950/60" />
       </div>
 
       {/* ========================= Services =========================== */}

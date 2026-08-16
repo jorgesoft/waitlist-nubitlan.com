@@ -46,7 +46,7 @@ export function PageHeader({
             </div>
           ) : null}
 
-          <h1 className="text-4xl font-extrabold tracking-tight text-balance sm:text-5xl">
+          <h1 className="text-3xl font-extrabold tracking-tight text-balance sm:text-5xl">
             {title}
           </h1>
 
