@@ -195,7 +195,7 @@ export function ServicePageTemplate({
                   </a>
                 </Button>
                 {cta.extra ? (
-                  <Button asChild variant="outline" size="lg">
+                  <Button asChild variant="pixelOutline" size="lg">
                     <Link to={cta.extra.to}>
                       <cta.extra.icon />
                       {cta.extra.label}
