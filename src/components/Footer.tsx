@@ -53,8 +53,8 @@ function Footer() {
 
           <FooterColumn title="Empresa">
             <FooterLink to="/quienes-somos">Quiénes somos</FooterLink>
-            <FooterLink to="/terminos">Política de privacidad</FooterLink>
-            <FooterLink to="/terminos#terms">Términos y condiciones</FooterLink>
+            <FooterLink to="/privacidad">Política de privacidad</FooterLink>
+            <FooterLink to="/terminos">Términos y condiciones</FooterLink>
             <a
               href={`mailto:${SITE.email}`}
               className="text-muted-foreground hover:text-primary text-sm transition-colors"
