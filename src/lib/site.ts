@@ -40,6 +40,6 @@ export const MAIN_NAV: NavLink[] = [
 ]
 
 export const FOOTER_LEGAL: NavLink[] = [
-  { label: 'Política de Privacidad', to: '/terminos' },
-  { label: 'Términos y Condiciones', to: '/terminos#terms' },
+  { label: 'Política de Privacidad', to: '/privacidad' },
+  { label: 'Términos y Condiciones', to: '/terminos' },
 ]

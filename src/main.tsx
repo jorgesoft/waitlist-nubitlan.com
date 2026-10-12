@@ -39,6 +39,7 @@ createRoot(document.getElementById('root')!).render(
             }
           />
 
+          <Route path="/privacidad" element={<PrivacyPage />} />
           <Route path="/terminos" element={<PrivacyPage />} />
           <Route path="/quienes-somos" element={<AboutPage />} />
           <Route path="/caso-de-estudio" element={<CaseStudyPage />} />
