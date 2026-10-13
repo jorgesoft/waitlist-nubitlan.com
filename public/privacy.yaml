@@ -56,11 +56,12 @@ privacy:
       heading: "6. TRX Lite (capacitación)"
       content: |
         - Cuenta: tu correo y, si entras con Google, tu nombre y foto de perfil.
-        - Capacitación: los módulos y secciones que completas, tus respuestas y puntajes en los cuestionarios, y los certificados que obtienes. Puedes retirar un certificado tuyo.
+        - Capacitación: los módulos y secciones que completas, tus respuestas y puntajes en los cuestionarios, y los certificados que obtienes.
+        - Certificados: son privados salvo que decidas publicarlos. Si publicas uno, tu nombre y la capacitación quedan visibles para cualquiera con el enlace, hasta que lo retires.
         - Comentarios que nos envías: el mensaje, la calificación, la categoría, el módulo y tu correo, para darte seguimiento.
         - Analítica: Google Analytics para Firebase registra eventos como empezar o completar un módulo y el resultado de un cuestionario. No incluye el texto de tus respuestas ni de tus comentarios.
 
-        Tu organización puede ver tu avance. Si tu organización contrata el servicio de Concientización de Nubitlan, y tu correo pertenece a un dominio de esa organización o ella registró tu correo específico, verá en el Portal Nubitlan tu nombre, tu correo, los módulos que iniciaste o completaste, las fechas y tus puntajes. Nubitlan registra cada dominio o correo solo con la autorización de la organización, y nunca dominios de correo públicos como gmail.com. El portal lee esta información con un acceso de solo lectura.
+        Tu organización puede ver tu avance. Si tu empresa te inscribió en TRX Lite, sus administradores ven si completaste la capacitación y tu fecha límite. Además, si tu organización contrata el servicio de Concientización de Nubitlan, y tu correo pertenece a un dominio de esa organización o ella registró tu correo específico, verá en el Portal Nubitlan tu nombre, tu correo, los módulos que iniciaste o completaste, las fechas y tus puntajes. Nubitlan registra cada dominio o correo solo con la autorización de la organización, y nunca dominios de correo públicos como gmail.com. El portal lee esta información con un acceso de solo lectura.
 
     - id: "finalidades"
       heading: "7. Para qué usamos tus datos y con qué base"
