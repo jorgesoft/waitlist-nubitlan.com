@@ -13,6 +13,7 @@ import CaseStudyPage from '@/pages/CaseStudyPage'
 import AISecurityEvaluationPage from '@/pages/AISecurityEvaluationPage'
 import DataProtectionEvaluationPage from '@/pages/DataProtectionEvaluationPage'
 import SecurityTrainingPage from '@/pages/SecurityTrainingPage'
+import CompleteGuidePage from '@/pages/CompleteGuidePage'
 import BlogIndexPage from '@/pages/BlogIndexPage'
 import BlogPostPage from '@/pages/BlogPostPage'
 import ToolsIndexPage from '@/pages/ToolsIndexPage'
@@ -56,6 +57,8 @@ createRoot(document.getElementById('root')!).render(
             path="/servicios/capacitacion-seguridad"
             element={<SecurityTrainingPage />}
           />
+
+          <Route path="/guia_completa" element={<CompleteGuidePage />} />
 
           <Route path="/blog" element={<BlogIndexPage />} />
           <Route path="/blog/:slug" element={<BlogPostPage />} />
