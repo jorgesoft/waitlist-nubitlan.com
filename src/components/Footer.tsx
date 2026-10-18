@@ -46,6 +46,7 @@ function Footer() {
 
           <FooterColumn title="Recursos">
             <FooterLink to="/herramientas">Herramientas gratuitas</FooterLink>
+            <FooterLink to="/guia_completa">Guía completa LPDP</FooterLink>
             <FooterLink to="/blog">Blog</FooterLink>
             <FooterLink to="/evaluacion">Evaluación de preparación</FooterLink>
             <FooterLink to="/caso-de-estudio">Caso de estudio</FooterLink>
