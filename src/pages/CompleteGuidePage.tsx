@@ -8,15 +8,11 @@ import {
   MailIcon,
 } from 'lucide-react'
 
-import { SITE } from '@/lib/site'
+import { SELF_ASSESSMENT, SITE } from '@/lib/site'
 import { PageHeader } from '@/components/PageHeader'
 import { PixelIcon } from '@/components/pixel/icon'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-
-const SELF_ASSESSMENT_REPO =
-  'https://github.com/Nubitlan-Security/autoevaluacion-lpdp'
-const SELF_ASSESSMENT_URL = `${SELF_ASSESSMENT_REPO}/raw/refs/heads/main/dist/Autoevaluacion-LPDP.xlsx`
 
 const CONTACT_HREF = `mailto:${SITE.email}?subject=${encodeURIComponent('Ayuda con la Ley de Protección de Datos')}`
 
@@ -69,7 +65,7 @@ function CompleteGuidePage() {
       >
         <div className="flex flex-col justify-center gap-3 sm:flex-row">
           <Button asChild variant="pixel" size="lg">
-            <a href={SELF_ASSESSMENT_URL} download>
+            <a href={SELF_ASSESSMENT.download} download>
               <DownloadIcon />
               Descargar autoevaluación
             </a>
@@ -149,14 +145,14 @@ function CompleteGuidePage() {
               </ol>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
                 <Button asChild variant="pixel" size="lg">
-                  <a href={SELF_ASSESSMENT_URL} download>
+                  <a href={SELF_ASSESSMENT.download} download>
                     <DownloadIcon />
                     Descargar (.xlsx)
                   </a>
                 </Button>
                 <Button asChild variant="ghost" size="sm">
                   <a
-                    href={SELF_ASSESSMENT_REPO}
+                    href={SELF_ASSESSMENT.repo}
                     target="_blank"
                     rel="noopener noreferrer"
                   >

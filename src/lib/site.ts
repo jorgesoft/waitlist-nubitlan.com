@@ -7,6 +7,14 @@ export const SITE = {
   url: 'https://nubitlan.com',
 } as const
 
+/** Free LPDP self-assessment workbook (open source, CC BY-SA 4.0). */
+export const SELF_ASSESSMENT = {
+  repo: 'https://github.com/Nubitlan-Security/autoevaluacion-lpdp',
+  download:
+    'https://github.com/Nubitlan-Security/autoevaluacion-lpdp/raw/refs/heads/main/dist/Autoevaluacion-LPDP.xlsx',
+  guide: '/guia_completa',
+} as const
+
 export interface NavLink {
   label: string
   to: string

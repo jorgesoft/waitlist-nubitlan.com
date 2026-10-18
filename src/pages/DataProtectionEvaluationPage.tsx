@@ -45,6 +45,7 @@ function DataProtectionEvaluationPage() {
           ],
         },
       ]}
+      selfAssessment
       cta={{
         title: 'Comienza tu evaluación hoy',
         body: 'Contáctanos para programar tu evaluación inicial de cumplimiento con la Ley de Protección de Datos.',
