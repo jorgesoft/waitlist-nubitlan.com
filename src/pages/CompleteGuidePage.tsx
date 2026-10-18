@@ -1,10 +1,16 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRightIcon, DownloadIcon, FileSpreadsheetIcon } from 'lucide-react'
+import {
+  ArrowRightIcon,
+  DownloadIcon,
+  FileSpreadsheetIcon,
+  GithubIcon,
+} from 'lucide-react'
 
 import { SITE } from '@/lib/site'
 import { PageHeader } from '@/components/PageHeader'
 import { PixelIcon } from '@/components/pixel/icon'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import {
@@ -14,95 +20,324 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 
-const SELF_ASSESSMENT_URL =
-  'https://github.com/Nubitlan-Security/autoevaluacion-lpdp/raw/refs/heads/main/dist/Autoevaluacion-LPDP.xlsx'
+const SELF_ASSESSMENT_REPO =
+  'https://github.com/Nubitlan-Security/autoevaluacion-lpdp'
+const SELF_ASSESSMENT_URL = `${SELF_ASSESSMENT_REPO}/raw/refs/heads/main/dist/Autoevaluacion-LPDP.xlsx`
 
 /** Table of contents; ids match the section anchors below. */
 const SECTIONS = [
-  { id: 'a-quien-aplica', label: '¿A quién aplica la ley?' },
+  { id: 'reforma-2026', label: 'Reforma de septiembre de 2026' },
+  { id: 'marco-normativo', label: 'Marco normativo' },
   { id: 'conceptos', label: 'Conceptos clave' },
-  { id: 'principios', label: 'Principios del tratamiento' },
-  { id: 'paso-a-paso', label: 'Plan de cumplimiento en 10 pasos' },
-  { id: 'documentos', label: 'Documentos que deberías tener' },
+  { id: 'arco-pol', label: 'Derechos ARCO-POL y plazos' },
+  { id: 'controles', label: 'Los 19 controles' },
+  { id: 'vulneraciones', label: 'Vulneraciones: 72 horas' },
+  { id: 'autoevaluacion', label: 'Cómo usar la autoevaluación' },
   { id: 'preguntas', label: 'Preguntas frecuentes' },
 ]
 
-const STEPS: { title: string; body: React.ReactNode }[] = [
+/** Response deadlines for ARCO-POL requests (LPDP, text as reformed in 2026). */
+const DEADLINES = [
   {
-    title: 'Nombra a un responsable interno',
-    body: 'Asigna a una persona (o un pequeño comité) que coordine el cumplimiento, reciba solicitudes de los titulares y sea el punto de contacto ante incidentes. Sin un dueño claro, el resto del plan no avanza.',
+    what: 'Responder la solicitud',
+    term: '20 días hábiles, prorrogables por otros 20',
+    basis: 'Art. 20',
   },
   {
-    title: 'Inventaria tus datos personales',
-    body: 'Lista cada proceso que usa datos personales: ventas, facturación, recursos humanos, marketing, soporte, videovigilancia. Para cada uno anota qué datos recolectas, de quién, en qué sistema viven, quién tiene acceso, con quién los compartes y cuánto tiempo los guardas.',
+    what: 'Prevenir al titular para que complete su solicitud',
+    term: '10 días hábiles',
+    basis: 'Art. 18',
   },
   {
-    title: 'Identifica la base legal de cada tratamiento',
-    body: 'Para cada proceso del inventario documenta por qué tienes derecho a tratar esos datos: consentimiento del titular, ejecución de un contrato, cumplimiento de una obligación legal u otra base permitida. Si no encuentras una base, deja de recolectar ese dato.',
+    what: 'Avisar que la empresa no es competente',
+    term: '5 días hábiles',
+    basis: 'Art. 19',
   },
   {
-    title: 'Minimiza y define plazos de conservación',
-    body: 'Elimina los datos que no necesitas y fija cuánto tiempo conservas cada categoría. Luego configura el proceso que efectivamente los elimina o anonimiza al vencer el plazo: una política sin ejecución no es evidencia.',
+    what: 'Avisar de una rectificación',
+    term: '5 días hábiles',
+    basis: 'Art. 21',
   },
   {
-    title: 'Publica tu aviso de privacidad',
-    body: 'Redacta un aviso en lenguaje sencillo que diga quién recolecta los datos, para qué, con qué base, con quién se comparten, por cuánto tiempo se guardan y cómo ejercer los derechos. Colócalo donde la gente entrega sus datos: formularios web, contratos, punto de venta.',
+    what: 'Comunicar una denegatoria',
+    term: '3 días hábiles',
+    basis: 'Art. 22',
   },
   {
-    title: 'Gestiona el consentimiento',
-    body: 'Cuando el consentimiento sea tu base legal, asegúrate de que sea libre, informado, específico e inequívoco, y de que puedas demostrar cuándo y cómo se otorgó. Para datos sensibles, pide consentimiento expreso. Ofrece una forma igual de sencilla para retirarlo.',
-  },
-  {
-    title: 'Habilita los derechos de los titulares',
-    body: 'Define un canal conocido (por ejemplo, un correo dedicado) y un procedimiento interno para atender solicitudes de acceso, rectificación, cancelación y oposición, entre otros derechos. Registra cada solicitud, verifica la identidad del solicitante y responde dentro del plazo legal.',
-  },
-  {
-    title: 'Formaliza la relación con tus proveedores',
-    body: 'Hosting, nube, nómina, CRM, agencias de marketing: si un tercero trata datos por cuenta tuya, firma un contrato que limite el uso de los datos a tus instrucciones, exija medidas de seguridad y regule qué pasa al terminar la relación. Revisa también si los datos salen del país.',
-  },
-  {
-    title: 'Implementa medidas de seguridad demostrables',
-    body: 'Control de acceso con mínimo privilegio, autenticación multifactor, cifrado donde corresponda, respaldos probados, registro de accesos, baja oportuna de ex empleados y capacitación del personal. Documenta cada medida para poder demostrarla.',
-  },
-  {
-    title: 'Prepara tu respuesta ante incidentes',
-    body: 'Ten un plan escrito: quién decide, cómo se contiene el incidente, cómo se evalúa el impacto, a quién se notifica (autoridad y titulares afectados, cuando corresponda) y cómo se documenta. Practícalo al menos una vez al año.',
+    what: 'Avisar de la revocación del consentimiento',
+    term: '5 días hábiles',
+    basis: 'Art. 30',
   },
 ]
 
-const DOCUMENTS = [
-  'Inventario o registro de actividades de tratamiento',
-  'Aviso de privacidad (web, contratos y puntos de recolección)',
-  'Política interna de protección de datos',
-  'Formularios y registros de consentimiento',
-  'Procedimiento para atender derechos de los titulares',
-  'Política de conservación y eliminación de datos',
-  'Contratos o cláusulas con encargados y proveedores',
-  'Política de seguridad de la información y control de accesos',
-  'Plan de respuesta ante incidentes y bitácora de incidentes',
-  'Registro de capacitaciones al personal',
+type Priority = 'Alta' | 'Media'
+
+interface Control {
+  question: string
+  action: string
+  why: string
+  basis: string
+  priority: Priority
+  owner: string
+}
+
+/**
+ * Mirrors the "Autoevaluación" and "Plan de acción" sheets of the workbook.
+ * Keep in sync with scripts/build_workbook.py in the autoevaluacion-lpdp repo.
+ */
+const CONTROL_GROUPS: { category: string; controls: Control[] }[] = [
+  {
+    category: 'Organización',
+    controls: [
+      {
+        question:
+          'Política interna escrita de protección de datos personales, conocida por el personal',
+        action:
+          'Redactar y aprobar una política interna de protección de datos personales, y divulgarla a todo el personal.',
+        why: 'Sin una política escrita no existe una referencia común sobre cómo tratar un dato personal, y ante una inspección de la ACE no podrá demostrar que el tema se gestiona de forma ordenada.',
+        basis:
+          'Políticas ACE N.º 001-0309025-DPDP, Art. 4 (Medidas Organizativas, lit. a) y Art. 6 lit. a)',
+        priority: 'Alta',
+        owner: 'Entidad',
+      },
+      {
+        question:
+          'Persona o área designada para atender solicitudes ARCO-POL y orientar a dependencias y proveedores',
+        action:
+          'Designar por escrito a una persona o área responsable de recibir y resolver las solicitudes ARCO-POL. Ya no se requiere nombrar un Delegado formal ni certificarlo ante la ACE, salvo en instituciones públicas.',
+        why: 'Las solicitudes siguen llegando a la empresa y deben responderse en veinte días hábiles. Si nadie tiene el encargo de recibirlas, el plazo corre igual y normalmente se vence.',
+        basis:
+          'LPDP Art. 16 lit. b) (texto reformado en 2026); Art. 15 derogado; Art. 47 reformado',
+        priority: 'Alta',
+        owner: 'Entidad',
+      },
+      {
+        question:
+          'Lineamientos internos escritos para recibir, tramitar y resolver solicitudes ARCO-POL',
+        action:
+          'Redactar y aprobar lineamientos que definan quién recibe cada solicitud, cómo se registra, quién la resuelve, en qué plazos y cómo se documenta la respuesta al titular.',
+        why: 'Es una obligación nueva y expresa para toda empresa. Sin lineamientos, cada solicitud se resuelve de forma improvisada y la empresa no puede demostrar que cuenta con un procedimiento.',
+        basis: 'LPDP Art. 16 lit. d) (texto reformado en 2026)',
+        priority: 'Alta',
+        owner: 'Responsable interno o asesor legal',
+      },
+      {
+        question:
+          'Registro de Actividades de Tratamiento: qué datos recopila, para qué y dónde los almacena',
+        action:
+          'Elaborar un inventario de los tratamientos (finalidad, tipo de dato, base de tratamiento, plazo de conservación, a quién se transfiere) y mantenerlo actualizado.',
+        why: 'Sin este registro no puede demostrar qué tratamientos realiza, lo que dificulta responder solicitudes ARCO-POL y cualquier requerimiento de la ACE.',
+        basis:
+          'Políticas ACE Art. 4 (Medidas Organizativas, lit. d) y Art. 6 lit. a)',
+        priority: 'Alta',
+        owner: 'Responsable interno o asesor legal',
+      },
+      {
+        question:
+          'Evaluación de Impacto en la Privacidad (EIPD) para los tratamientos de mayor riesgo',
+        action:
+          'Identificar los tratamientos de mayor riesgo (datos sensibles, datos de menores) y documentar sus riesgos y las medidas de mitigación adoptadas.',
+        why: 'Sin una EIPD, la empresa no ha identificado formalmente los riesgos de sus tratamientos más sensibles ni cómo mitigarlos.',
+        basis: 'Políticas ACE Art. 4 (Medidas Organizativas, lit. e)',
+        priority: 'Media',
+        owner: 'Responsable interno o asesor legal',
+      },
+      {
+        question:
+          'Capacitación anual del personal sobre protección de datos y derechos ARCO-POL',
+        action:
+          'Programar una capacitación anual para todo el personal, incluido el de nuevo ingreso, y conservar la evidencia.',
+        why: 'Un personal sin capacitación comete más errores que terminan en vulneraciones, como enviar información al destinatario equivocado.',
+        basis:
+          'Políticas ACE Art. 4 (Medidas Organizativas, lit. c — Capacitación del Personal)',
+        priority: 'Media',
+        owner: 'Responsable interno o asesor legal',
+      },
+    ],
+  },
+  {
+    category: 'Derechos de los titulares',
+    controls: [
+      {
+        question:
+          'Aviso de Privacidad publicado en el sitio web y/o en los establecimientos, autorizado y documentado',
+        action:
+          'Redactar y publicar el Aviso de Privacidad verificando que incluya todos los contenidos del Art. 24, en particular los medios para presentar solicitudes ARCO-POL. Conserve la documentación de su publicación.',
+        why: 'Informar a clientes y empleados cómo se usan sus datos es una de las obligaciones más básicas. Tras la reforma, el aviso debe decir expresamente por qué medio se presentan las solicitudes.',
+        basis: 'LPDP Art. 24, en especial lit. f) (texto reformado en 2026)',
+        priority: 'Alta',
+        owner: 'Responsable interno o asesor legal',
+      },
+      {
+        question:
+          'Medio claro (formulario, correo o ventanilla) para presentar solicitudes ARCO-POL ante la empresa',
+        action:
+          'Habilitar y publicar al menos un medio concreto para recibir solicitudes e indicarlo expresamente en el Aviso de Privacidad.',
+        why: 'Las solicitudes ya no se canalizan a través de un Delegado: llegan directamente a la empresa. Si el titular no encuentra un medio claro, puede tomarse como un obstáculo a su ejercicio.',
+        basis:
+          'LPDP Art. 18 y Art. 24 lit. f) (texto reformado en 2026)',
+        priority: 'Media',
+        owner: 'Responsable interno o asesor legal',
+      },
+      {
+        question:
+          'Procedimiento interno que controle los plazos para resolver solicitudes ARCO-POL',
+        action:
+          'Implementar una bitácora que registre la fecha de cada solicitud, el plazo que le aplica y una alerta antes de su vencimiento.',
+        why: 'Los plazos corren contra la empresa. Una solicitud sin respuesta dentro del plazo legal es en sí misma un incumplimiento, aunque después se resuelva favorablemente.',
+        basis:
+          'LPDP Arts. 18, 19, 20, 21, 22 y 30 (texto reformado en 2026)',
+        priority: 'Alta',
+        owner: 'Responsable interno o asesor legal',
+      },
+    ],
+  },
+  {
+    category: 'Medidas técnicas',
+    controls: [
+      {
+        question:
+          'Protección contra programas maliciosos en todos los equipos, administrada desde una consola central',
+        action:
+          'Instalar una solución antimalware con consola central en todos los equipos y verificar periódicamente que esté activa y actualizada.',
+        why: 'Un equipo sin protección centralizada puede infectarse sin que nadie se entere hasta que ya ocurrió una fuga de datos.',
+        basis:
+          'Políticas ACE Art. 4 (Medidas Técnicas, lit. e — Protección de Infraestructura)',
+        priority: 'Alta',
+        owner: 'Apoyo técnico',
+      },
+      {
+        question:
+          'Cifrado de equipos (laptops, discos) y respaldos que contienen datos personales',
+        action:
+          'Activar el cifrado de disco completo en los equipos con datos personales y cifrar los respaldos, incluidos los que se guardan fuera de las instalaciones.',
+        why: 'Una laptop robada sin cifrado es una vulneración notificable. Con cifrado, normalmente no lo es.',
+        basis:
+          'Políticas ACE Art. 4 (Medidas Técnicas, lit. b — Cifrado de Datos)',
+        priority: 'Alta',
+        owner: 'Apoyo técnico',
+      },
+      {
+        question:
+          'Doble factor de autenticación (2FA/MFA) en el correo institucional y los sistemas críticos',
+        action:
+          'Activar la autenticación de doble factor en el correo y en todos los sistemas que almacenen o den acceso a datos personales.',
+        why: 'Una contraseña filtrada o adivinada, sin un segundo factor, basta para que un tercero acceda y extraiga datos personales.',
+        basis:
+          'Políticas ACE Art. 4 (Medidas Técnicas, lit. a — Control de Acceso)',
+        priority: 'Alta',
+        owner: 'Apoyo técnico',
+      },
+      {
+        question:
+          'Mecanismo para detectar incidentes fuera del horario laboral (noches, fines de semana)',
+        action:
+          'Implementar alertas automáticas o un servicio de monitoreo que detecte incidentes en cualquier horario y active el protocolo de respuesta.',
+        why: 'La mayoría de incidentes ocurren o se descubren fuera de horario. Sin monitoreo, el plazo de 72 horas para notificar puede correr sin que la empresa se entere.',
+        basis:
+          'Políticas ACE Art. 4 (Medidas Técnicas, lit. e; Medidas de Seguridad en Transferencias de Datos, lit. d)',
+        priority: 'Alta',
+        owner: 'Apoyo técnico',
+      },
+      {
+        question:
+          'Respaldos periódicos con pruebas de restauración exitosas',
+        action:
+          'Definir una frecuencia de respaldo acorde al volumen de información y realizar al menos una prueba de restauración al año, documentando el resultado.',
+        why: 'Un respaldo nunca probado puede fallar justo cuando se necesita, por ejemplo tras un ataque de ransomware.',
+        basis:
+          'Políticas ACE Art. 4 (Medidas Técnicas, lit. d — Copias de Seguridad y Recuperación)',
+        priority: 'Media',
+        owner: 'Apoyo técnico',
+      },
+      {
+        question:
+          'Análisis periódicos de vulnerabilidades en los sistemas con datos personales',
+        action:
+          'Programar análisis de vulnerabilidades con una periodicidad definida (por ejemplo, anual) y dar seguimiento a los hallazgos.',
+        why: 'Sin análisis periódicos, la empresa no sabe qué puertas quedaron abiertas hasta que alguien más las encuentra primero.',
+        basis:
+          'Políticas ACE Art. 4 (Medidas Técnicas, lit. f — Análisis de Vulnerabilidades y Pruebas de Penetración)',
+        priority: 'Media',
+        owner: 'Apoyo técnico',
+      },
+    ],
+  },
+  {
+    category: 'Entorno y terceros',
+    controls: [
+      {
+        question:
+          'Contratos con proveedores que tratan datos por cuenta de la empresa, con cláusulas de tratamiento y confidencialidad',
+        action:
+          'Revisar los contratos vigentes con proveedores (nómina, hosting, mercadeo) e incorporar cláusulas de confidencialidad y tratamiento de datos; incluirlas también en los nuevos.',
+        why: 'La empresa sigue siendo responsable ante la ACE por lo que haga el proveedor con los datos, pero sin cláusulas no puede exigirle nada.',
+        basis:
+          'Políticas ACE Art. 4 (Medidas de Seguridad en Transferencias de Datos, lit. b)',
+        priority: 'Alta',
+        owner: 'Responsable interno o asesor legal',
+      },
+      {
+        question:
+          'Procedimiento escrito para notificar una vulneración a la ACE, a la Fiscalía y a los titulares en 72 horas',
+        action:
+          'Documentar un procedimiento de respuesta a incidentes que defina quién decide, a quién se notifica y en qué plazo, para activarlo de inmediato.',
+        why: 'Sin un procedimiento previo, las 72 horas se consumen decidiendo qué hacer, lo que aumenta el riesgo de notificar tarde o de forma incompleta.',
+        basis:
+          'Políticas ACE Art. 4 (Medidas de Seguridad en Transferencias de Datos, lit. d — Notificación de Brechas de Seguridad)',
+        priority: 'Alta',
+        owner: 'Responsable interno o asesor legal',
+      },
+      {
+        question:
+          'Acceso físico a servidores y archivos con datos personales restringido al personal autorizado',
+        action:
+          'Restringir el acceso a esas áreas mediante llave, tarjeta u otro control, y llevar un registro de ingreso.',
+        why: 'Quien entra sin control a donde están los servidores o archivos puede copiar, alterar o sustraer datos sin dejar registro.',
+        basis:
+          'Políticas ACE Art. 4 (Medidas Físicas, lit. a — Control de Acceso a Instalaciones)',
+        priority: 'Media',
+        owner: 'Entidad',
+      },
+      {
+        question:
+          'Conocimiento del país o países donde se almacenan físicamente los datos personales',
+        action:
+          'Identificar en qué país se almacenan los datos con cada proveedor (nube, correo, respaldo) y verificar las condiciones de protección del país o del contrato.',
+        why: 'Si no sabe dónde están sus datos, no puede verificar que el país de destino ofrezca una protección equivalente, requisito de toda transferencia internacional.',
+        basis:
+          'Políticas ACE Art. 4 (Medidas de Seguridad en Transferencias de Datos, lit. c — Transferencias Internacionales Seguras)',
+        priority: 'Media',
+        owner: 'Responsable interno o asesor legal',
+      },
+    ],
+  },
 ]
 
 const FAQS = [
   {
-    q: '¿Mi empresa es muy pequeña para que la ley le aplique?',
-    a: 'El tamaño no es lo que determina si la ley aplica, sino si tratas datos personales. Una pyme con una base de clientes en una hoja de cálculo ya trata datos personales. Lo que sí cambia con el tamaño es la complejidad razonable de las medidas.',
+    q: '¿Mi empresa todavía tiene que nombrar un Delegado de Protección de Datos?',
+    a: 'Conforme a las reformas aprobadas el 17 de septiembre de 2026, no: se derogaron los artículos 15 y 17 y la obligación queda solo para instituciones públicas. Pero la reforma entra en vigencia ocho días después de su publicación en el Diario Oficial; mientras eso no ocurra, rige el texto anterior. Verifique la fecha de publicación antes de decidir.',
   },
   {
-    q: '¿Basta con copiar un aviso de privacidad de otra empresa?',
-    a: 'No. El aviso debe describir lo que tu empresa realmente hace con los datos. Un aviso copiado que no coincide con tus procesos crea un riesgo adicional, porque documenta compromisos que no cumples.',
+    q: 'Si ya no hay Delegado, ¿qué tengo que hacer en su lugar?',
+    a: 'Las funciones pasan a la empresa: designar internamente a alguien que reciba y resuelva las solicitudes ARCO-POL, tener lineamientos escritos para gestionarlas, publicar en el Aviso de Privacidad el medio para presentarlas y cumplir los plazos de respuesta.',
+  },
+  {
+    q: '¿Mi empresa es muy pequeña para que la ley le aplique?',
+    a: 'El tamaño no determina si la ley aplica, sino si trata datos personales. Una pyme con una base de clientes en una hoja de cálculo ya trata datos personales. Lo que sí cambia con el tamaño es la complejidad razonable de las medidas.',
   },
   {
     q: '¿Los datos de mis empleados también están cubiertos?',
-    a: 'Sí. Expedientes de personal, planillas, datos de salud, controles de asistencia biométricos y cámaras en el lugar de trabajo son tratamientos de datos personales y deben estar en tu inventario.',
+    a: 'Sí. Expedientes de personal, planillas, controles de asistencia biométricos y cámaras en el lugar de trabajo son tratamientos de datos personales; además, los empleados también pueden presentar solicitudes ARCO-POL.',
   },
   {
-    q: '¿Qué hago con los datos que ya tengo desde antes de la ley?',
-    a: 'Inclúyelos en tu inventario, verifica que tengan una base legal vigente y elimina lo que no necesitas. Si dependías de un consentimiento que no puedes demostrar, evalúa si existe otra base o si debes solicitarlo de nuevo.',
+    q: '¿La hoja de autoevaluación envía mis respuestas a Nubitlan?',
+    a: 'No. Es un archivo de Excel que se descarga, se llena y se queda en su computadora. Funciona en Excel, LibreOffice Calc o Google Sheets, y no envía ni recopila ninguna información.',
   },
   {
-    q: '¿Cómo uso la hoja de autoevaluación?',
-    a: 'Descárgala, respóndela con las personas que conocen cada área (legal, TI, RR. HH., ventas) y usa los resultados para priorizar. Repítela periódicamente para medir tu avance.',
+    q: '¿El resultado certifica que cumplo con la LPDP?',
+    a: 'No. La autoevaluación es declarativa: no verifica evidencia, no es una auditoría ni una certificación, y la ACE no participa en ella ni la respalda. Sirve para que la empresa identifique por sí misma sus brechas más evidentes.',
   },
 ]
 
@@ -119,8 +354,8 @@ function CompleteGuidePage() {
     <>
       <PageHeader
         eyebrow="Guía completa"
-        title="Cómo cumplir la Ley de Protección de Datos Personales"
-        description="Una guía paso a paso para que tu empresa en El Salvador pase de la incertidumbre a un programa de cumplimiento demostrable, con una hoja de autoevaluación gratuita."
+        title="Cómo cumplir la Ley para la Protección de Datos Personales"
+        description="Qué exigen la LPDP, sus reformas de 2026 y la normativa de la ACE a una empresa privada en El Salvador, con una autoevaluación gratuita para medir dónde estás."
         icon={<PixelIcon name="book" className="text-primary size-14" />}
       >
         <div className="flex flex-col justify-center gap-3 sm:flex-row">
@@ -131,8 +366,8 @@ function CompleteGuidePage() {
             </a>
           </Button>
           <Button asChild variant="pixelOutline" size="lg">
-            <a href="#paso-a-paso">
-              Ver el plan paso a paso
+            <a href="#controles">
+              Ver los 19 controles
               <ArrowRightIcon />
             </a>
           </Button>
@@ -160,11 +395,14 @@ function CompleteGuidePage() {
           <div className="min-w-0 max-w-3xl">
             <div className="prose-nubitlan">
               <p>
-                La Ley de Protección de Datos Personales (LPDP) establece reglas
-                sobre cómo las organizaciones en El Salvador recolectan, usan,
-                comparten, conservan y protegen la información de las personas.
-                Esta guía traduce esas obligaciones en un plan de trabajo
-                concreto. Si buscas una introducción breve, empieza por nuestro{' '}
+                La Ley para la Protección de Datos Personales (LPDP) establece
+                cómo las organizaciones en El Salvador pueden recolectar, usar,
+                compartir, conservar y proteger la información de las personas.
+                La Agencia de Ciberseguridad del Estado (ACE) la desarrolla con
+                políticas que detallan las medidas de seguridad exigidas. Esta
+                guía traduce ambas en un plan de trabajo concreto para una
+                empresa privada. Si buscas una introducción breve, empieza por
+                nuestro{' '}
                 <Link to="/blog/ley-proteccion-datos-el-salvador-guia">
                   resumen de la ley
                 </Link>
@@ -172,18 +410,77 @@ function CompleteGuidePage() {
               </p>
 
               <blockquote>
-                Esta guía es informativa y no sustituye la asesoría legal sobre
-                tu caso concreto. Verifica siempre el texto vigente de la ley y
-                su reglamento.
+                Esta guía es informativa y de autodiagnóstico. No constituye
+                asesoría legal ni certificación oficial de la ACE. Antes de
+                tomar decisiones con impacto legal, contable o económico,
+                consulta con un asesor calificado.
               </blockquote>
 
-              <h2 id="a-quien-aplica">¿A quién aplica la ley?</h2>
+              <h2 id="reforma-2026">Reforma de septiembre de 2026</h2>
               <p>
-                A cualquier persona natural o jurídica, pública o privada, que
-                trate datos personales: desde una tienda con una lista de
-                clientes en WhatsApp hasta un banco. Si tu empresa guarda datos
-                de clientes, empleados, proveedores o visitantes, la ley te
-                aplica, sin importar su tamaño.
+                El 17 de septiembre de 2026 la Asamblea Legislativa aprobó
+                reformas a la LPDP que cambian el reparto de obligaciones para
+                las empresas privadas:
+              </p>
+              <ul>
+                <li>
+                  <strong>Ya no se exige un Delegado de Protección de Datos
+                  Personales.</strong>{' '}
+                  Se derogaron los artículos 15 y 17. La obligación subsiste
+                  solo para las instituciones públicas (Art. 47 reformado).
+                </li>
+                <li>
+                  <strong>Las obligaciones pasan a la empresa.</strong> El Art.
+                  16 reformado le exige, entre otras cosas, orientar a sus
+                  dependencias y proveedores (lit. b) y establecer lineamientos
+                  internos escritos para gestionar las solicitudes ARCO-POL
+                  (lit. d).
+                </li>
+                <li>
+                  <strong>Las solicitudes se presentan directamente ante la
+                  empresa</strong> (Art. 18 reformado), y los plazos corren
+                  contra ella.
+                </li>
+                <li>
+                  <strong>El Aviso de Privacidad debe indicar los medios para
+                  presentar esas solicitudes</strong> (Art. 24 lit. f
+                  reformado).
+                </li>
+              </ul>
+              <blockquote>
+                <strong>Sobre la vigencia:</strong> la reforma entra en vigor
+                ocho días después de su publicación en el Diario Oficial.
+                Mientras tanto sigue vigente el texto anterior. Esta guía se
+                adelanta a la reforma para que no inviertas en nombrar un
+                Delegado que ya no se te exigirá, pero verifica la fecha de
+                publicación antes de tomar decisiones.
+              </blockquote>
+
+              <h2 id="marco-normativo">Marco normativo</h2>
+              <ul>
+                <li>
+                  Ley para la Protección de Datos Personales (Decreto
+                  Legislativo N.º 144).
+                </li>
+                <li>
+                  Reformas a la LPDP aprobadas el 17 de septiembre de 2026.
+                </li>
+                <li>
+                  Políticas de Actuación y Manejo de Datos Personales de la ACE
+                  (Políticas N.º 001-0309025-DPDP), que detallan las medidas
+                  organizativas, técnicas, físicas y de transferencia de datos.
+                </li>
+                <li>
+                  Normativa para el Desarrollo del Procedimiento Administrativo
+                  Sancionador en el Ámbito de la LPDP (Diario Oficial, Tomo 452,
+                  N.º 146, 11 de agosto de 2026).
+                </li>
+              </ul>
+              <p>
+                Los Lineamientos para el Delegado de la ACE desarrollaban
+                artículos que la reforma derogó o reescribió, por lo que ya no
+                aplican a una empresa privada; siguen siendo pertinentes para
+                las instituciones públicas.
               </p>
 
               <h2 id="conceptos">Conceptos clave</h2>
@@ -194,125 +491,166 @@ function CompleteGuidePage() {
                   teléfono, correo, dirección, fotografía, historial de compras.
                 </li>
                 <li>
-                  <strong>Dato sensible:</strong> información cuyo uso indebido
-                  puede causar discriminación o un daño grave, como salud,
-                  biometría, creencias, vida sexual u origen étnico. Exige
-                  protección reforzada y, en general, consentimiento expreso.
+                  <strong>Datos sensibles:</strong> como los de salud o
+                  biométricos, o los de menores de edad, requieren mayor
+                  cuidado; sus tratamientos son candidatos a una Evaluación de
+                  Impacto en la Privacidad.
                 </li>
                 <li>
                   <strong>Titular:</strong> la persona a quien pertenecen los
-                  datos.
+                  datos: tus clientes, empleados o proveedores.
                 </li>
                 <li>
-                  <strong>Responsable:</strong> quien decide para qué y cómo se
-                  tratan los datos. Normalmente, tu empresa.
-                </li>
-                <li>
-                  <strong>Encargado:</strong> un tercero que trata los datos por
-                  cuenta del responsable, como un proveedor de nube o de nómina.
+                  <strong>Sujeto obligado:</strong> quien trata los datos y
+                  debe cumplir la ley. Normalmente, tu empresa.
                 </li>
                 <li>
                   <strong>Tratamiento:</strong> cualquier operación con datos:
-                  recolectar, guardar, consultar, modificar, compartir o
+                  recolectar, guardar, consultar, modificar, transferir o
                   eliminar.
                 </li>
               </ul>
 
-              <h2 id="principios">Principios del tratamiento</h2>
+              <h2 id="arco-pol">Derechos ARCO-POL y plazos</h2>
               <p>
-                Todo el cumplimiento se apoya en unos pocos principios. Si una
-                práctica de tu empresa choca con alguno, es una brecha.
+                Los titulares pueden ejercer ante tu empresa los derechos de{' '}
+                <strong>A</strong>cceso, <strong>R</strong>ectificación,{' '}
+                <strong>C</strong>ancelación, <strong>O</strong>posición,{' '}
+                <strong>P</strong>ortabilidad, <strong>O</strong>lvido y{' '}
+                <strong>L</strong>imitación. Tras la reforma, estos son los
+                plazos que corren contra la empresa:
               </p>
-              <ul>
-                <li>
-                  <strong>Licitud y lealtad:</strong> trata datos solo con una
-                  base legal y sin engañar al titular.
-                </li>
-                <li>
-                  <strong>Finalidad:</strong> usa los datos solo para los fines
-                  que informaste.
-                </li>
-                <li>
-                  <strong>Minimización:</strong> recolecta únicamente lo
-                  necesario.
-                </li>
-                <li>
-                  <strong>Calidad:</strong> mantén los datos exactos y
-                  actualizados.
-                </li>
-                <li>
-                  <strong>Conservación limitada:</strong> no guardes los datos
-                  más tiempo del necesario.
-                </li>
-                <li>
-                  <strong>Seguridad y confidencialidad:</strong> protégelos
-                  contra accesos, pérdidas o alteraciones no autorizadas.
-                </li>
-                <li>
-                  <strong>Responsabilidad proactiva:</strong> debes poder
-                  demostrar que cumples, no solo afirmarlo.
-                </li>
-              </ul>
+              <div className="overflow-x-auto">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Acción</th>
+                      <th>Plazo</th>
+                      <th>LPDP</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {DEADLINES.map((row) => (
+                      <tr key={row.basis}>
+                        <td>{row.what}</td>
+                        <td className="whitespace-nowrap">{row.term}</td>
+                        <td className="whitespace-nowrap">{row.basis}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p>
+                Una solicitud sin respuesta dentro del plazo es en sí misma un
+                incumplimiento, aunque después se resuelva a favor del titular.
+              </p>
             </div>
 
             <DownloadCard className="my-14" />
 
             <h2
-              id="paso-a-paso"
+              id="controles"
               className="scroll-mt-24 text-2xl font-bold tracking-tight"
             >
-              Plan de cumplimiento en 10 pasos
+              Los 19 controles
             </h2>
             <p className="text-muted-foreground mt-3 leading-relaxed">
-              Avanza en orden: cada paso se apoya en el anterior. La hoja de
-              autoevaluación te ayuda a medir dónde estás en cada uno.
+              Son los mismos que evalúa la hoja de autoevaluación, con la
+              acción recomendada y su base legal. Empieza por los de prioridad{' '}
+              <strong className="text-foreground">Alta</strong>, en especial el
+              Aviso de Privacidad y los lineamientos internos para atender
+              solicitudes ARCO-POL.
             </p>
-            <ol className="mt-8 space-y-4">
-              {STEPS.map((step, i) => (
-                <li key={step.title}>
-                  <Card>
-                    <CardContent className="flex gap-5 p-6">
-                      <span className="bg-primary text-primary-foreground flex size-10 shrink-0 items-center justify-center rounded-lg font-mono text-lg font-bold">
-                        {i + 1}
-                      </span>
-                      <div>
-                        <h3 className="text-lg font-bold tracking-tight">
-                          {step.title}
-                        </h3>
-                        <p className="text-muted-foreground mt-2 leading-relaxed">
-                          {step.body}
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </li>
-              ))}
-            </ol>
 
-            <h2
-              id="documentos"
-              className="mt-16 scroll-mt-24 text-2xl font-bold tracking-tight"
-            >
-              Documentos que deberías tener
-            </h2>
-            <p className="text-muted-foreground mt-3 leading-relaxed">
-              La evidencia es lo que demuestra el cumplimiento. Al terminar el
-              plan, tu empresa debería contar con:
-            </p>
-            <ul className="mt-6 grid gap-3 sm:grid-cols-2">
-              {DOCUMENTS.map((doc) => (
-                <li
-                  key={doc}
-                  className="border-border bg-card flex items-start gap-3 rounded-lg border p-4 text-sm"
-                >
-                  <PixelIcon
-                    name="check"
-                    className="text-primary mt-0.5 size-4 shrink-0"
-                  />
-                  {doc}
+            {CONTROL_GROUPS.map((group) => (
+              <div key={group.category} className="mt-10">
+                <h3 className="eyebrow text-primary">{group.category}</h3>
+                <ol className="mt-4 space-y-4">
+                  {group.controls.map((control) => (
+                    <li key={control.question}>
+                      <ControlCard control={control} />
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            ))}
+
+            <div className="prose-nubitlan mt-16">
+              <h2 id="vulneraciones">Vulneraciones: 72 horas</h2>
+              <p>
+                Si ocurre una vulneración de datos personales, la empresa debe
+                notificarla a la ACE, a la Fiscalía General de la República y a
+                los titulares afectados en un plazo máximo de 72 horas. Ese
+                plazo es corto, y en la práctica se pierde por dos motivos:
+              </p>
+              <ul>
+                <li>
+                  <strong>Nadie se entera a tiempo.</strong> Muchos incidentes
+                  ocurren de noche o en fin de semana. Sin monitoreo, el plazo
+                  corre sin que la empresa lo sepa.
                 </li>
-              ))}
-            </ul>
+                <li>
+                  <strong>Nadie sabe qué hacer.</strong> Sin un procedimiento
+                  escrito, las horas se van decidiendo quién decide y a quién
+                  avisar.
+                </li>
+              </ul>
+              <p>
+                El cifrado reduce el problema de raíz: una laptop robada sin
+                cifrar es una vulneración notificable; con cifrado, normalmente
+                no lo es.
+              </p>
+
+              <h2 id="autoevaluacion">Cómo usar la autoevaluación</h2>
+              <p>
+                La hoja está pensada para quien administra o dirige un negocio,
+                no para un especialista. Se completa en menos de una hora y no
+                envía tus respuestas a ningún lado.
+              </p>
+              <ol>
+                <li>
+                  Ábrela en Excel, LibreOffice Calc o Google Sheets y lee la
+                  hoja <strong>Instrucciones</strong>.
+                </li>
+                <li>
+                  En la hoja <strong>Autoevaluación</strong>, responde las 19
+                  preguntas en la columna amarilla con <em>Sí</em>,{' '}
+                  <em>Parcialmente</em>, <em>No</em> o <em>No sé</em>. Cada
+                  respuesta distinta de “Sí” muestra en lenguaje simple qué
+                  implica.
+                </li>
+                <li>
+                  En <strong>Resultados</strong> verás tu porcentaje general y
+                  por categoría, con una lectura de lo que significa.
+                </li>
+                <li>
+                  En <strong>Plan de acción</strong> verás las acciones
+                  pendientes ordenadas por prioridad y quién debería encargarse
+                  de cada una.
+                </li>
+              </ol>
+              <p>
+                Puntaje: <em>Sí</em> vale 1, <em>Parcialmente</em> 0.5, y{' '}
+                <em>No</em> y <em>No sé</em> valen 0. “No sé” cuenta igual que
+                “No” porque un control que nadie puede confirmar no es un
+                control del que se pueda dar cuenta ante la ACE, un cliente o
+                una auditoría.
+              </p>
+              <p>
+                El resultado es declarativo: no es una auditoría ni una
+                certificación, y no vincula a la ACE. La hoja es de código
+                abierto bajo licencia CC BY-SA 4.0; si encuentras una cita
+                incorrecta, puedes{' '}
+                <a
+                  href={`${SELF_ASSESSMENT_REPO}/issues`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  reportarla en GitHub
+                </a>
+                .
+              </p>
+            </div>
 
             <h2
               id="preguntas"
@@ -362,6 +700,33 @@ function CompleteGuidePage() {
   )
 }
 
+function ControlCard({ control }: { control: Control }) {
+  return (
+    <Card>
+      <CardContent className="p-6">
+        <div className="flex flex-col-reverse items-start gap-3 sm:flex-row sm:justify-between">
+          <h4 className="flex-1 text-lg font-bold tracking-tight text-pretty">
+            {control.question}
+          </h4>
+          <Badge variant={control.priority === 'Alta' ? 'pixel' : 'outline'}>
+            Prioridad {control.priority}
+          </Badge>
+        </div>
+        <p className="mt-3 leading-relaxed">{control.action}</p>
+        <p className="text-muted-foreground mt-2 text-sm leading-relaxed">
+          {control.why}
+        </p>
+        <dl className="text-muted-foreground mt-4 grid gap-1 font-mono text-xs sm:grid-cols-[auto_1fr] sm:gap-x-3">
+          <dt className="text-foreground font-semibold">Base legal</dt>
+          <dd>{control.basis}</dd>
+          <dt className="text-foreground font-semibold">Responsable</dt>
+          <dd>{control.owner}</dd>
+        </dl>
+      </CardContent>
+    </Card>
+  )
+}
+
 function DownloadCard({ className }: { className?: string }) {
   return (
     <Card
@@ -376,16 +741,29 @@ function DownloadCard({ className }: { className?: string }) {
             Hoja de autoevaluación LPDP
           </h2>
           <p className="text-muted-foreground mt-2 leading-relaxed">
-            Nuestra guía en Excel para revisar, punto por punto, el estado de
-            cumplimiento de tu empresa. Gratuita y sin registro.
+            19 preguntas en lenguaje sencillo, con resultados por categoría y
+            un plan de acción priorizado. Gratuita, de código abierto y sin
+            registro.
           </p>
         </div>
-        <Button asChild variant="pixel" size="lg" className="shrink-0">
-          <a href={SELF_ASSESSMENT_URL} download>
-            <DownloadIcon />
-            Descargar
-          </a>
-        </Button>
+        <div className="flex shrink-0 flex-col gap-2">
+          <Button asChild variant="pixel" size="lg">
+            <a href={SELF_ASSESSMENT_URL} download>
+              <DownloadIcon />
+              Descargar
+            </a>
+          </Button>
+          <Button asChild variant="ghost" size="sm">
+            <a
+              href={SELF_ASSESSMENT_REPO}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <GithubIcon />
+              Ver en GitHub
+            </a>
+          </Button>
+        </div>
       </CardContent>
     </Card>
   )
