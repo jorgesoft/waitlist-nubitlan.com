@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 import { PixelIcon } from './icon'
-import { AsciiSky } from './ascii-sky'
+import { VantaSky } from './vanta-sky'
 
 export interface PixelCloudProps extends React.ComponentProps<'div'> {
   /** Rendered width in pixels. The cloud is square-ish, so height follows. */
@@ -37,8 +37,8 @@ export function PixelCloud({
 }
 
 /**
- * Full hero backdrop: the sky gradient with the ASCII sky (clouds by day,
- * clouds and stars by night) on top. Children render above all of it.
+ * Full hero backdrop: the sky gradient with Vanta's volumetric clouds on
+ * top. Children render above all of it.
  */
 export function PixelSky({
   children,
@@ -52,7 +52,7 @@ export function PixelSky({
       {...props}
     >
       <div className="sky-wash absolute inset-0 -z-30" aria-hidden="true" />
-      {showClouds ? <AsciiSky className="-z-10" /> : null}
+      {showClouds ? <VantaSky className="-z-10" /> : null}
       {children}
     </div>
   )
