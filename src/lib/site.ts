@@ -28,6 +28,11 @@ export const SERVICES: NavLink[] = [
     description: 'Analiza tu exposición externa con apoyo de IA.',
   },
   {
+    label: 'Pruebas de Penetración con IA',
+    to: '/servicios/pruebas-de-penetracion-ia',
+    description: 'Pruebas seguras y de bajo riesgo, asistidas por IA.',
+  },
+  {
     label: 'Evaluación de Protección de Datos',
     to: '/servicios/evaluacion-proteccion-datos',
     description: 'Diagnóstico inicial frente a la Ley de Datos.',

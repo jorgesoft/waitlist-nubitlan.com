@@ -55,7 +55,7 @@ const BENEFITS: {
   },
 ]
 
-const SERVICE_ICONS: PixelIconName[] = ['robot', 'lock', 'teach']
+const SERVICE_ICONS: PixelIconName[] = ['robot', 'target', 'lock', 'teach']
 
 function LandingPage() {
   const navigate = useNavigate()
@@ -214,10 +214,10 @@ function LandingPage() {
           <SectionHeading
             eyebrow="Servicios"
             title="Elige por dónde empezar"
-            description="Tres formas de trabajar con nosotros, según qué tan avanzada esté tu empresa."
+            description="Cuatro formas de trabajar con nosotros, según qué tan avanzada esté tu empresa."
           />
 
-          <div className="stagger mt-12 grid gap-6 md:grid-cols-3">
+          <div className="stagger mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {SERVICES.map((service, i) => (
               <Link
                 key={service.to}
