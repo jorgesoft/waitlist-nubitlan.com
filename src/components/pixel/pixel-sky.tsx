@@ -2,6 +2,7 @@ import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 import { PixelIcon } from './icon'
+import { DataCloudField } from './data-clouds'
 
 export interface PixelCloudProps extends React.ComponentProps<'div'> {
   /** Rendered width in pixels. The cloud is square-ish, so height follows. */
@@ -31,78 +32,6 @@ export function PixelCloud({
       {...props}
     >
       <PixelIcon name="cloud" className="cloud-sprite text-[var(--cloud-line)]" />
-    </div>
-  )
-}
-
-interface DriftingCloud {
-  /** Vertical position as a percentage of the container height. */
-  top: number
-  width: number
-  opacity: number
-  duration: number
-  /** Negative delay so clouds are already mid-flight on first paint. */
-  delay: number
-  /**
-   * Whether this cloud also shows on small screens. Most are desktop-only:
-   * a phone hero is almost entirely text, so clouds crossing the middle
-   * land behind the headline and make it hard to read.
-   */
-  onMobile?: boolean
-}
-
-/**
- * Hand-placed rather than random: a fixed layout keeps the composition
- * balanced, avoids clouds stacking on the headline, and stays identical
- * across renders. Larger, more opaque clouds drift faster to read as nearer.
- */
-const FIELD: DriftingCloud[] = [
-  { top: 4, width: 190, opacity: 0.8, duration: 44, delay: -6, onMobile: true },
-  { top: 24, width: 120, opacity: 0.42, duration: 68, delay: -30 },
-  { top: 44, width: 92, opacity: 0.28, duration: 86, delay: -12 },
-  { top: 60, width: 150, opacity: 0.55, duration: 52, delay: -40 },
-  { top: 14, width: 80, opacity: 0.25, duration: 94, delay: -70 },
-  { top: 88, width: 230, opacity: 0.8, duration: 38, delay: -22, onMobile: true },
-  { top: 34, width: 105, opacity: 0.32, duration: 76, delay: -55 },
-  { top: 74, width: 88, opacity: 0.28, duration: 64, delay: -18 },
-]
-
-/**
- * Parallax layer of pixel clouds drifting left to right.
- *
- * Animation is pure CSS transform (`drift`), so it runs on the compositor and
- * costs no main-thread work. `prefers-reduced-motion` freezes it globally via
- * the rule in index.css.
- */
-export function CloudField({
-  className,
-  ...props
-}: React.ComponentProps<'div'>) {
-  return (
-    <div
-      aria-hidden="true"
-      data-clouds=""
-      className={cn(
-        'pointer-events-none absolute inset-0 overflow-hidden',
-        className
-      )}
-      {...props}
-    >
-      {FIELD.map((cloud, i) => (
-        <div
-          key={i}
-          className={cn(
-            'absolute left-0 will-change-transform',
-            !cloud.onMobile && 'hidden sm:block'
-          )}
-          style={{
-            top: `${cloud.top}%`,
-            animation: `drift ${cloud.duration}s linear ${cloud.delay}s infinite`,
-          }}
-        >
-          <PixelCloud width={cloud.width} opacity={cloud.opacity} />
-        </div>
-      ))}
     </div>
   )
 }
@@ -150,8 +79,8 @@ export function PixelStars({ className }: { className?: string }) {
 }
 
 /**
- * Full hero backdrop: sky gradient, stars (dark mode) and the drifting cloud
- * field. Children render above all of it.
+ * Full hero backdrop: sky gradient, stars (dark mode) and the drifting data
+ * cloud field. Children render above all of it.
  */
 export function PixelSky({
   children,
@@ -166,7 +95,7 @@ export function PixelSky({
     >
       <div className="sky-wash absolute inset-0 -z-30" aria-hidden="true" />
       <PixelStars />
-      {showClouds ? <CloudField className="-z-10" /> : null}
+      {showClouds ? <DataCloudField className="-z-10" /> : null}
       {children}
     </div>
   )
