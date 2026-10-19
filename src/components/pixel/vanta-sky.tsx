@@ -78,7 +78,7 @@ export function VantaSky({
           // are soft, so the saving is invisible.
           scale: 3,
           scaleMobile: 6,
-          speed: 1.6,
+          speed: 1.1,
           ...currentPalette(),
         })
 
