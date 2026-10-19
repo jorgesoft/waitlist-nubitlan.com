@@ -17,3 +17,9 @@ declare module 'vanta/src/vanta.clouds.js' {
   const CLOUDS: (options: Record<string, unknown>) => VantaEffect
   export default CLOUDS
 }
+
+declare module 'vanta/src/vanta.clouds2.js' {
+  import type { VantaEffect } from 'vanta/src/vanta.clouds.js'
+  const CLOUDS2: (options: Record<string, unknown>) => VantaEffect
+  export default CLOUDS2
+}
