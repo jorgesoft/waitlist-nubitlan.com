@@ -11,6 +11,7 @@ import PrivacyPage from '@/pages/PrivacyPage'
 import AboutPage from '@/pages/AboutPage'
 import CaseStudyPage from '@/pages/CaseStudyPage'
 import AISecurityEvaluationPage from '@/pages/AISecurityEvaluationPage'
+import AIPenTestingPage from '@/pages/AIPenTestingPage'
 import DataProtectionEvaluationPage from '@/pages/DataProtectionEvaluationPage'
 import SecurityTrainingPage from '@/pages/SecurityTrainingPage'
 import CompleteGuidePage from '@/pages/CompleteGuidePage'
@@ -48,6 +49,10 @@ createRoot(document.getElementById('root')!).render(
           <Route
             path="/servicios/evaluacion-seguridad-ia"
             element={<AISecurityEvaluationPage />}
+          />
+          <Route
+            path="/servicios/pruebas-de-penetracion-ia"
+            element={<AIPenTestingPage />}
           />
           <Route
             path="/servicios/evaluacion-proteccion-datos"
