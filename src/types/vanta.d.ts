@@ -6,6 +6,12 @@ declare module 'vanta/src/vanta.clouds.js' {
     destroy(): void
     /** Id of the pending animation frame. */
     req?: number
+    /** Called right before each frame renders. */
+    onUpdate?: () => void
+    renderer?: import('three').WebGLRenderer
+    scene?: import('three').Scene
+    camera?: import('three').Camera
+    uniforms?: Record<string, { value: import('three').Vector2 }>
   }
 
   const CLOUDS: (options: Record<string, unknown>) => VantaEffect

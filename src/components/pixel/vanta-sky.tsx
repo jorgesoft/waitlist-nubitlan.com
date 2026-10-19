@@ -68,6 +68,8 @@ export function VantaSky({
           el,
           THREE,
           mouseControls: false,
+          // The camera is pinned in onUpdate; easing would fight it.
+          mouseEase: false,
           touchControls: false,
           gyroControls: false,
           minHeight: 200,
@@ -80,11 +82,28 @@ export function VantaSky({
           ...currentPalette(),
         })
 
+        // Vanta sizes iResolution in CSS pixels, but the canvas draws
+        // devicePixelRatio times as many. On any screen denser than 1x
+        // (phones, Retina laptops) that stretches the view upward and pushes
+        // the clouds to the bottom. Feed the shader the real buffer size each
+        // frame, and pin the camera to the centre (where the mouse would rest)
+        // so the horizon sits the same on every device.
+        const buffer = new THREE.Vector2()
+        const fix = effect
+        fix.onUpdate = () => {
+          if (!fix.renderer || !fix.uniforms) return
+          fix.renderer.getDrawingBufferSize(buffer)
+          fix.uniforms.iResolution.value.set(buffer.x, buffer.y)
+          fix.uniforms.iMouse.value.set(buffer.x / 2, buffer.y / 2)
+        }
+
         if (reducedMotion) {
-          // Let one frame render, then stop the loop.
-          requestAnimationFrame(() => {
-            if (effect?.req) cancelAnimationFrame(effect.req)
-          })
+          // Stop the loop and draw one corrected frame.
+          if (fix.req) cancelAnimationFrame(fix.req)
+          fix.onUpdate()
+          if (fix.renderer && fix.scene && fix.camera) {
+            fix.renderer.render(fix.scene, fix.camera)
+          }
         }
 
         // Theme switches toggle `.dark` on <html>; swap the palette live.
