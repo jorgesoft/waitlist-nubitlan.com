@@ -2,7 +2,6 @@ import * as React from 'react'
 import type { VantaEffect } from 'vanta/src/vanta.clouds.js'
 
 import { cn } from '@/lib/utils'
-import { asset } from '@/lib/asset'
 
 /**
  * Volumetric cloud sky from Vanta.js (https://github.com/tengbao/vanta),
@@ -39,38 +38,10 @@ const PALETTES = {
   },
 } as const
 
-/**
- * CLOUDS2: a lighter, stylised cloud layer. Its shader brightens the sky
- * toward the bottom of the screen by itself, so the night sky colour starts
- * close to black to keep the horizon from glowing.
- */
-const PALETTES_2 = {
-  light: {
-    backgroundColor: 0x7dd3fc,
-    skyColor: 0x6cc0f5,
-    cloudColor: 0xb9d4ee,
-    lightColor: 0xffffff,
-  },
-  dark: {
-    backgroundColor: 0x0b1530,
-    skyColor: 0x000814,
-    cloudColor: 0x26406a,
-    lightColor: 0xa9c8f0,
-  },
-} as const
-
-/**
- * Temporary A/B switch while we pick an effect: `?cielo=2` shows CLOUDS2,
- * anything else the original CLOUDS.
- */
-const useClouds2 =
-  typeof window !== 'undefined' &&
-  new URLSearchParams(window.location.search).get('cielo') === '2'
-
 function currentPalette() {
-  const dark = document.documentElement.classList.contains('dark')
-  const set = useClouds2 ? PALETTES_2 : PALETTES
-  return dark ? set.dark : set.light
+  return document.documentElement.classList.contains('dark')
+    ? PALETTES.dark
+    : PALETTES.light
 }
 
 export function VantaSky({
@@ -90,15 +61,10 @@ export function VantaSky({
     let cancelled = false
     let themeObserver: MutationObserver | null = null
 
-    Promise.all([
-      import('three'),
-      useClouds2
-        ? import('vanta/src/vanta.clouds2.js')
-        : import('vanta/src/vanta.clouds.js'),
-    ])
-      .then(([THREE, { default: createEffect }]) => {
+    Promise.all([import('three'), import('vanta/src/vanta.clouds.js')])
+      .then(([THREE, { default: CLOUDS }]) => {
         if (cancelled) return
-        effect = createEffect({
+        effect = CLOUDS({
           el,
           THREE,
           mouseControls: false,
@@ -113,11 +79,6 @@ export function VantaSky({
           scale: 3,
           scaleMobile: 6,
           speed: 1.1,
-          // CLOUDS2 samples a noise texture (ours is generated, see
-          // public/textures/cloud-noise.png); CLOUDS would load it unused.
-          ...(useClouds2
-            ? { texturePath: asset('/textures/cloud-noise.png') }
-            : {}),
           ...currentPalette(),
         })
 
