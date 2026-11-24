@@ -1,1 +1,6 @@
-/* /index.html 200
+# Cloudflare Pages.
+#
+# No SPA catch-all here on purpose: Pages already serves index.html for
+# unknown paths when the build has no top-level 404.html, and a
+# "/* /index.html 200" rule is flagged as an infinite loop and ignored.
+# Prerendered routes (dist/blog/post.html, …) are served at /blog/post.

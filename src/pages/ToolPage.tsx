@@ -1,8 +1,6 @@
-import * as React from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { ArrowLeftIcon, SearchXIcon } from 'lucide-react'
 
-import { SITE } from '@/lib/site'
 import { getToolBySlug, type Tool } from '@/tools/registry'
 import { Button } from '@/components/ui/button'
 import { PixelSky } from '@/components/pixel/pixel-sky'
@@ -18,14 +16,6 @@ function ToolPage({ tool: toolProp }: { tool?: Tool }) {
   const { slug } = useParams<{ slug: string }>()
   const tool = toolProp ?? (slug ? getToolBySlug(slug) : undefined)
 
-  React.useEffect(() => {
-    if (!tool) return
-    const previous = document.title
-    document.title = `${tool.name} — ${SITE.name}`
-    return () => {
-      document.title = previous
-    }
-  }, [tool])
 
   if (!tool) return <ToolNotFound />
 

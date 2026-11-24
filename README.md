@@ -27,6 +27,28 @@ Design tokens (the sky/cloud palette, radii, fonts and animations) all live in
 the `:root` / `.dark` blocks of `src/index.css`. Change a colour there and it
 propagates everywhere.
 
+## SEO
+
+Per-route metadata (title, description, canonical, Open Graph/Twitter card,
+JSON-LD) lives in one place: `src/lib/seo.ts`.
+
+- **Build:** `vite/seo-prerender.ts` writes one HTML file per route
+  (`dist/blog/post.html`, …) with those tags already in `<head>`, plus
+  `dist/sitemap.xml`. Crawlers and link-preview bots that don't run JavaScript
+  see the right card for every page. Blog posts and tools are picked up
+  automatically; add other pages to `STATIC_PAGES`.
+- **Runtime:** `src/components/RouteMeta.tsx` swaps the tags on client-side
+  navigation.
+
+## Email security checker (`/correo`)
+
+SPF/DKIM/DMARC checker backed by a Cloudflare Pages Function at
+`functions/api/email-security.ts`, deployed automatically by Pages. The logic
+is in `src/tools/email-security/analyze.ts` and resolves DNS over HTTPS
+(Cloudflare 1.1.1.1). `npm run dev` serves the same endpoint through a Vite
+middleware (`vite/email-security-dev.ts`). GitHub Pages PR previews are static,
+so the checker shows an error there.
+
 ## PR previews
 
 Every pull request is built and published to GitHub Pages at:

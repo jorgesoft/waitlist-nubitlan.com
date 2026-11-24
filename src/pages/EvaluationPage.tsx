@@ -1,14 +1,12 @@
 import { useState, useEffect, useRef } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import {
-  CheckCircle2Icon,
   ClipboardCheckIcon,
   HelpCircleIcon,
   HomeIcon,
   PlayCircleIcon,
   RotateCwIcon,
   TriangleAlertIcon,
-  XIcon,
 } from 'lucide-react'
 
 import { loadQuizConfig } from '@/utils/loadQuizConfig'
@@ -29,18 +27,7 @@ function EvaluationPage() {
   const [error, setError] = useState<string | null>(null)
   const [announcement, setAnnouncement] = useState<string>('')
   const [quizStarted, setQuizStarted] = useState(false)
-  const [showThankYou, setShowThankYou] = useState(false)
-  const [searchParams, setSearchParams] = useSearchParams()
   const resultSavedRef = useRef(false)
-
-  // Visitors arriving straight from the waitlist form get a thank-you note.
-  useEffect(() => {
-    if (searchParams.get('joined') === 'true') {
-      setShowThankYou(true)
-      searchParams.delete('joined')
-      setSearchParams(searchParams, { replace: true })
-    }
-  }, [searchParams, setSearchParams])
 
   useEffect(() => {
     const loadConfig = async () => {
@@ -183,35 +170,6 @@ function EvaluationPage() {
 
           {config && !loading && !error ? (
             <>
-              {showThankYou ? (
-                <div
-                  className="border-success/40 bg-success/10 relative mb-8 flex items-start gap-3 rounded-xl border-2 p-5"
-                  role="alert"
-                >
-                  <CheckCircle2Icon
-                    className="text-success mt-0.5 size-6 shrink-0"
-                    aria-hidden="true"
-                  />
-                  <div className="pr-8">
-                    <h2 className="text-lg font-bold">
-                      ¡Gracias por unirte a la lista de espera!
-                    </h2>
-                    <p className="text-muted-foreground mt-1.5 text-sm leading-relaxed">
-                      Recibirás tu guía gratuita pronto. Mientras tanto, ¿por
-                      qué no evalúas qué tan preparada está tu empresa?
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    aria-label="Cerrar mensaje"
-                    onClick={() => setShowThankYou(false)}
-                    className="hover:bg-success/15 absolute top-3 right-3 rounded-md p-1.5 transition-colors"
-                  >
-                    <XIcon className="size-4" />
-                  </button>
-                </div>
-              ) : null}
-
               <div className="mb-8">
                 <h1 className="flex items-start gap-3 text-3xl font-extrabold tracking-tight">
                   <ClipboardCheckIcon
