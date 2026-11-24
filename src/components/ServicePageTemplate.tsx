@@ -1,9 +1,15 @@
 import { Link } from 'react-router-dom'
-import { LinkedinIcon, MailIcon } from 'lucide-react'
+import {
+  ArrowRightIcon,
+  DownloadIcon,
+  FileSpreadsheetIcon,
+  LinkedinIcon,
+  MailIcon,
+} from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
-import { SITE } from '@/lib/site'
+import { SELF_ASSESSMENT, SITE } from '@/lib/site'
 import { PageHeader } from '@/components/PageHeader'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -46,6 +52,8 @@ export interface ServicePageProps {
   features: ServiceFeature[]
   sections: ServiceSection[]
   cta: ServiceCta
+  /** Shows a banner pointing to the free LPDP self-assessment before the CTA. */
+  selfAssessment?: boolean
 }
 
 const TONE_CLASSES = {
@@ -65,6 +73,7 @@ export function ServicePageTemplate({
   features,
   sections,
   cta,
+  selfAssessment = false,
 }: ServicePageProps) {
   return (
     <>
@@ -166,6 +175,8 @@ export function ServicePageTemplate({
         </section>
       ))}
 
+      {selfAssessment ? <SelfAssessmentBanner /> : null}
+
       {/* CTA */}
       <section className="pb-24">
         <div className="mx-auto max-w-3xl px-4 sm:px-6">
@@ -208,5 +219,45 @@ export function ServicePageTemplate({
         </div>
       </section>
     </>
+  )
+}
+
+function SelfAssessmentBanner() {
+  return (
+    <section className="pt-16 pb-12">
+      <div className="mx-auto max-w-3xl px-4 sm:px-6">
+        <Card className="border-sky-300 bg-sky-50 dark:border-sky-800 dark:bg-sky-950/60">
+          <CardContent className="flex flex-col items-start gap-5 p-7 sm:flex-row sm:items-center">
+            <span className="bg-primary text-primary-foreground flex size-12 shrink-0 items-center justify-center rounded-xl">
+              <FileSpreadsheetIcon className="size-6" />
+            </span>
+            <div className="flex-1">
+              <h2 className="text-lg font-bold tracking-tight">
+                ¿Quieres empezar por tu cuenta?
+              </h2>
+              <p className="text-muted-foreground mt-1 text-sm leading-relaxed">
+                Descarga nuestra autoevaluación gratuita de la Ley de
+                Protección de Datos: 19 preguntas sobre las medidas de
+                seguridad y organización que exige la ley.
+              </p>
+            </div>
+            <div className="flex shrink-0 flex-col gap-2">
+              <Button asChild variant="pixel">
+                <a href={SELF_ASSESSMENT.download} download>
+                  <DownloadIcon />
+                  Descargar
+                </a>
+              </Button>
+              <Button asChild variant="ghost" size="sm">
+                <Link to={SELF_ASSESSMENT.guide}>
+                  Ver la guía
+                  <ArrowRightIcon />
+                </Link>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </section>
   )
 }

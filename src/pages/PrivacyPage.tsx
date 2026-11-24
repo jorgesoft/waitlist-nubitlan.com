@@ -23,8 +23,9 @@ function PrivacyPage() {
   const [error, setError] = useState<string | null>(null)
   const location = useLocation()
 
-  // The hash selects which of the two documents is shown.
-  const showTerms = location.hash === '#terms'
+  // /privacidad is the privacy policy (its hash is a section anchor);
+  // /terminos is the terms (#terms kept for old links).
+  const showTerms = location.pathname === '/terminos'
   const activeContent: PolicyContent | null = content
     ? showTerms
       ? content.terms
@@ -51,6 +52,12 @@ function PrivacyPage() {
     loadContent()
   }, [])
 
+  // Section anchors (/privacidad#portal) once the content is in the page.
+  useEffect(() => {
+    if (!content || !location.hash || location.hash === '#terms') return
+    document.getElementById(decodeURIComponent(location.hash.slice(1)))?.scrollIntoView()
+  }, [content, location.hash])
+
   return (
     <>
       <PageHeader
@@ -66,11 +73,11 @@ function PrivacyPage() {
               className="mb-8 inline-flex border-2 border-foreground p-1"
               role="tablist"
             >
-              <PolicyTab to="/terminos" active={!showTerms}>
+              <PolicyTab to="/privacidad" active={!showTerms}>
                 <ShieldIcon className="size-4" />
                 Privacidad
               </PolicyTab>
-              <PolicyTab to="/terminos#terms" active={showTerms}>
+              <PolicyTab to="/terminos" active={showTerms}>
                 <FileTextIcon className="size-4" />
                 Términos
               </PolicyTab>
@@ -121,11 +128,12 @@ function PrivacyPage() {
               </h2>
               <p className="text-muted-foreground font-mono mt-2 text-sm">
                 Última actualización: {activeContent.lastUpdated}
+                {activeContent.version ? ` · Versión ${activeContent.version}` : ''}
               </p>
 
               <div className="prose-nubitlan mt-10">
                 {activeContent.sections.map((section, index) => (
-                  <section key={index}>
+                  <section key={index} id={section.id} className="scroll-mt-24">
                     <h2>{section.heading}</h2>
                     <p className="whitespace-pre-line">{section.content}</p>
                   </section>

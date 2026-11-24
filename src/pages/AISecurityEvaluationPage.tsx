@@ -43,6 +43,7 @@ function AISecurityEvaluationPage() {
           ],
         },
       ]}
+      selfAssessment
       cta={{
         title: '¿Listo para fortalecer tu seguridad?',
         body: 'Contáctanos para obtener más información sobre nuestro servicio de evaluación de seguridad con IA.',

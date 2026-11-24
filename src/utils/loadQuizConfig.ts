@@ -1,5 +1,5 @@
 import yaml from 'js-yaml';
-import type { QuizConfig, Question } from '../types/quiz';
+import type { QuizConfig } from '../types/quiz';
 import { asset } from '../lib/asset';
 
 interface ValidationError {
@@ -17,7 +17,38 @@ class ConfigValidationError extends Error {
   }
 }
 
-function validateQuizConfig(config: any): QuizConfig {
+/**
+ * Parsed YAML before validation: every field may be missing, so each one is
+ * optional here and checked explicitly below.
+ */
+interface RawAnswer {
+  id?: string;
+  text?: string;
+  nextQuestionId?: string;
+  outcomeId?: string;
+}
+
+interface RawQuestion {
+  id?: string;
+  text?: string;
+  answers?: RawAnswer[];
+}
+
+interface RawOutcome {
+  id?: string;
+  level?: string;
+  title?: string;
+  message?: string;
+  recommendations?: unknown;
+}
+
+interface RawQuizConfig {
+  quiz?: { title?: string; description?: string; startQuestionId?: string };
+  questions?: RawQuestion[];
+  outcomes?: RawOutcome[];
+}
+
+function validateQuizConfig(config: RawQuizConfig): QuizConfig {
   const errors: ValidationError[] = [];
 
   // Validate quiz metadata
@@ -43,7 +74,7 @@ function validateQuizConfig(config: any): QuizConfig {
   } else {
     const questionIds = new Set<string>();
     
-    config.questions.forEach((question: any, index: number) => {
+    config.questions.forEach((question, index) => {
       if (!question.id) {
         errors.push({ field: `questions[${index}].id`, message: 'Missing question ID' });
       } else {
@@ -60,7 +91,7 @@ function validateQuizConfig(config: any): QuizConfig {
       if (!Array.isArray(question.answers) || question.answers.length === 0) {
         errors.push({ field: `questions[${index}].answers`, message: 'Question must have at least one answer' });
       } else {
-        question.answers.forEach((answer: any, answerIndex: number) => {
+        question.answers.forEach((answer, answerIndex) => {
           if (!answer.id) {
             errors.push({ field: `questions[${index}].answers[${answerIndex}].id`, message: 'Missing answer ID' });
           }
@@ -94,7 +125,7 @@ function validateQuizConfig(config: any): QuizConfig {
   } else {
     const outcomeIds = new Set<string>();
     
-    config.outcomes.forEach((outcome: any, index: number) => {
+    config.outcomes.forEach((outcome, index) => {
       if (!outcome.id) {
         errors.push({ field: `outcomes[${index}].id`, message: 'Missing outcome ID' });
       } else {
@@ -128,10 +159,10 @@ function validateQuizConfig(config: any): QuizConfig {
 
     // Validate references
     if (Array.isArray(config.questions)) {
-      const questionIds = new Set(config.questions.map((q: Question) => q.id));
-      
-      config.questions.forEach((question: Question, qIndex: number) => {
-        question.answers.forEach((answer, aIndex) => {
+      const questionIds = new Set(config.questions.map((q) => q.id));
+
+      config.questions.forEach((question, qIndex) => {
+        question.answers?.forEach((answer, aIndex) => {
           if (answer.nextQuestionId && !questionIds.has(answer.nextQuestionId)) {
             errors.push({ 
               field: `questions[${qIndex}].answers[${aIndex}].nextQuestionId`, 
@@ -156,12 +187,12 @@ function validateQuizConfig(config: any): QuizConfig {
         return true;
       }
 
-      const question = config.questions.find((q: Question) => q.id === questionId);
+      const question = config.questions?.find((q) => q.id === questionId);
       if (!question) return false;
 
       visited.add(questionId);
 
-      for (const answer of question.answers) {
+      for (const answer of question.answers ?? []) {
         if (answer.nextQuestionId) {
           if (detectCircular(answer.nextQuestionId, new Set(visited))) {
             return true;
@@ -198,7 +229,7 @@ export async function loadQuizConfig(): Promise<QuizConfig> {
     const yamlText = await response.text();
     const config = yaml.load(yamlText);
 
-    return validateQuizConfig(config);
+    return validateQuizConfig((config ?? {}) as RawQuizConfig);
   } catch (error) {
     if (error instanceof ConfigValidationError) {
       console.error('Quiz configuration validation errors:', error.errors);

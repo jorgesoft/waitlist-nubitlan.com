@@ -11,8 +11,10 @@ import PrivacyPage from '@/pages/PrivacyPage'
 import AboutPage from '@/pages/AboutPage'
 import CaseStudyPage from '@/pages/CaseStudyPage'
 import AISecurityEvaluationPage from '@/pages/AISecurityEvaluationPage'
+import AIPenTestingPage from '@/pages/AIPenTestingPage'
 import DataProtectionEvaluationPage from '@/pages/DataProtectionEvaluationPage'
 import SecurityTrainingPage from '@/pages/SecurityTrainingPage'
+import CompleteGuidePage from '@/pages/CompleteGuidePage'
 import BlogIndexPage from '@/pages/BlogIndexPage'
 import BlogPostPage from '@/pages/BlogPostPage'
 import ToolsIndexPage from '@/pages/ToolsIndexPage'
@@ -39,6 +41,7 @@ createRoot(document.getElementById('root')!).render(
             }
           />
 
+          <Route path="/privacidad" element={<PrivacyPage />} />
           <Route path="/terminos" element={<PrivacyPage />} />
           <Route path="/quienes-somos" element={<AboutPage />} />
           <Route path="/caso-de-estudio" element={<CaseStudyPage />} />
@@ -48,6 +51,10 @@ createRoot(document.getElementById('root')!).render(
             element={<AISecurityEvaluationPage />}
           />
           <Route
+            path="/servicios/pruebas-de-penetracion-ia"
+            element={<AIPenTestingPage />}
+          />
+          <Route
             path="/servicios/evaluacion-proteccion-datos"
             element={<DataProtectionEvaluationPage />}
           />
@@ -55,6 +62,8 @@ createRoot(document.getElementById('root')!).render(
             path="/servicios/capacitacion-seguridad"
             element={<SecurityTrainingPage />}
           />
+
+          <Route path="/guia_completa" element={<CompleteGuidePage />} />
 
           <Route path="/blog" element={<BlogIndexPage />} />
           <Route path="/blog/:slug" element={<BlogPostPage />} />

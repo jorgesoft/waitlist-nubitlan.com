@@ -95,3 +95,5 @@ misma mesa desde el inicio.
 Si no sabes en qué punto está tu empresa, empieza midiendo. Nuestra
 [evaluación gratuita](/evaluacion) toma pocos minutos y te da una lectura clara
 de tu nivel de preparación, junto con recomendaciones ordenadas por prioridad.
+Y si quieres el plan completo, consulta nuestra [guía completa de
+cumplimiento](/guia_completa), con una hoja de autoevaluación descargable.

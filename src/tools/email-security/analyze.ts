@@ -2,7 +2,7 @@
  * Email security analysis: SPF, DKIM and DMARC.
  *
  * Runtime-agnostic on purpose — it only needs `fetch`, so the same module runs
- * in the Cloudflare Pages Function (`functions/api/email-security.ts`) in
+ * in the Cloudflare Worker (`worker/index.ts`) in
  * production and in the Vite dev-server middleware (`vite.config.ts`) locally.
  * It must not import anything browser- or React-specific.
  *

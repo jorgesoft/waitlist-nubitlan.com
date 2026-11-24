@@ -1,0 +1,18 @@
+# Cloudflare Worker for the site's API (currently the email security checker).
+#
+# nubitlan.com is a static site on DigitalOcean App Platform behind the
+# Cloudflare proxy, so it cannot run server code itself. This Worker is
+# attached to the nubitlan.com/api/* route: Cloudflare answers those requests
+# at the edge and everything else still goes to DigitalOcean.
+#
+#   Local:   npm run api:dev      (http://localhost:8787/api/email-security?domain=…)
+#   Deploy:  npm run api:deploy   (needs `npx wrangler login` once)
+
+name = "nubitlan-api"
+main = "index.ts"
+compatibility_date = "2026-11-01"
+workers_dev = true
+
+routes = [
+  { pattern = "nubitlan.com/api/*", zone_name = "nubitlan.com" },
+]

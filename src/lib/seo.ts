@@ -14,8 +14,10 @@ import { getToolBySlug, TOOLS, toolPath } from '@/tools/registry'
  *  - At runtime, `RouteMeta` in SiteLayout swaps the tags on client-side
  *    navigation.
  *
- * Adding a page: add it to STATIC_PAGES. Blog posts and tools are picked up
- * automatically.
+ * Adding a page: add it to STATIC_PAGES (services come from SERVICES in
+ * site.ts). Blog posts and tools are picked up automatically. A route missing
+ * here falls back to the 404 metadata, which is noindex — so every new
+ * <Route> in main.tsx needs an entry.
  */
 
 export interface PageMeta {
@@ -101,6 +103,11 @@ const SERVICE_COPY: Record<string, { title: string; description: string }> = {
     description:
       'Análisis de vulnerabilidades y exposición externa de tu empresa con apoyo de inteligencia artificial. Reporte priorizado para gerencia y equipo técnico.',
   },
+  '/servicios/pruebas-de-penetracion-ia': {
+    title: 'Pruebas de penetración asistidas por IA',
+    description:
+      'Pruebas de penetración seguras y de bajo riesgo para empresas en El Salvador, potenciadas por inteligencia artificial. Hallazgos verificados y priorizados.',
+  },
   '/servicios/evaluacion-proteccion-datos': {
     title: 'Evaluación de cumplimiento de la Ley de Protección de Datos',
     description:
@@ -174,9 +181,23 @@ const STATIC_PAGES: PageMeta[] = [
     priority: 0.6,
   },
   {
+    path: '/guia_completa',
+    title: 'Guía de cumplimiento de la Ley de Protección de Datos (LPDP)',
+    description:
+      'Mide en menos de una hora qué tan cerca está tu empresa de cumplir la Ley de Protección de Datos Personales de El Salvador, con nuestra autoevaluación gratuita.',
+    priority: 0.8,
+  },
+  {
+    path: '/privacidad',
+    title: 'Política de privacidad',
+    description:
+      'Política de privacidad de Nubitlan: cómo tratamos los datos en nubitlan.com, el Portal Nubitlan y TRX Lite.',
+    priority: 0.2,
+  },
+  {
     path: '/terminos',
-    title: 'Política de privacidad y términos',
-    description: 'Política de privacidad y términos y condiciones de uso de Nubitlan.',
+    title: 'Términos y condiciones',
+    description: 'Términos y condiciones de uso del sitio y los servicios de Nubitlan.',
     priority: 0.2,
   },
 ]

@@ -2,11 +2,10 @@ import type { Plugin } from 'vite'
 
 /**
  * Serves GET /api/email-security during `vite dev`, mirroring the Cloudflare
- * Pages Function in `functions/api/email-security.ts`. Both call the same
+ * Cloudflare Worker in `worker/index.ts`. Both call the same
  * analysis module, so local results match production.
  *
- * To run the real Pages runtime locally instead:
- *   npm run build && npx wrangler pages dev dist
+ * To run the real Worker runtime locally instead: `npm run api:dev`.
  */
 export function emailSecurityDevApi(): Plugin {
   return {

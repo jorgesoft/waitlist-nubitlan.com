@@ -31,10 +31,11 @@ interface SeoModule {
  * but crawlers and link-preview bots that do not run JavaScript now see the
  * correct title, description, canonical URL, social card and JSON-LD.
  *
- * Output layout: `/blog/post` → `dist/blog/post.html`. Cloudflare Pages (and
- * GitHub Pages) serve `x.html` at `/x` without a trailing-slash redirect.
- * Unknown paths fall through to Pages' SPA fallback (index.html), which works
- * because there is no top-level 404.html.
+ * Output layout: each route is written twice, as `dist/blog/post.html` and
+ * `dist/blog/post/index.html`, because static hosts disagree on which one
+ * `/blog/post` resolves to (GitHub Pages and Cloudflare Pages use the first,
+ * Vercel and most bucket-based hosts the second). Unknown paths still fall
+ * through to the host's SPA catch-all (index.html).
  *
  * Metadata comes from `src/lib/seo.ts`, loaded through a throwaway Vite SSR
  * server so its `@/` aliases, `import.meta.glob` and `?raw` imports resolve
@@ -60,8 +61,10 @@ function renderTag({ tag, attrs, text }: HeadTag): string {
   return `<${tag} ${attributes} data-seo />`
 }
 
-function outputFile(routePath: string): string {
-  return routePath === '/' ? 'index.html' : `${routePath.slice(1)}.html`
+function outputFiles(routePath: string): string[] {
+  if (routePath === '/') return ['index.html']
+  const name = routePath.slice(1)
+  return [`${name}.html`, `${name}/index.html`]
 }
 
 function renderSitemap(siteUrl: string, entries: PageMeta[]): string {
@@ -141,9 +144,11 @@ export function seoPrerender(): Plugin {
             `${START}\n${head}\n    ${END}`
           )
 
-          const file = path.join(outDir, outputFile(routePath))
-          await fs.mkdir(path.dirname(file), { recursive: true })
-          await fs.writeFile(file, html)
+          for (const relative of outputFiles(routePath)) {
+            const file = path.join(outDir, relative)
+            await fs.mkdir(path.dirname(file), { recursive: true })
+            await fs.writeFile(file, html)
+          }
         }
 
         const entries = seo.sitemapEntries()

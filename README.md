@@ -42,12 +42,22 @@ JSON-LD) lives in one place: `src/lib/seo.ts`.
 
 ## Email security checker (`/correo`)
 
-SPF/DKIM/DMARC checker backed by a Cloudflare Pages Function at
-`functions/api/email-security.ts`, deployed automatically by Pages. The logic
-is in `src/tools/email-security/analyze.ts` and resolves DNS over HTTPS
-(Cloudflare 1.1.1.1). `npm run dev` serves the same endpoint through a Vite
-middleware (`vite/email-security-dev.ts`). GitHub Pages PR previews are static,
-so the checker shows an error there.
+The SPF/DKIM/DMARC checker calls `/api/email-security`. The site itself is a
+static build (DigitalOcean App Platform behind the Cloudflare proxy), so the
+API is a separate **Cloudflare Worker** in `worker/`, attached to the
+`nubitlan.com/api/*` route. The analysis lives in
+`src/tools/email-security/analyze.ts` and resolves DNS over HTTPS (1.1.1.1).
+
+| Where | How the API is served |
+| --- | --- |
+| `npm run dev` | Vite middleware (`vite/email-security-dev.ts`), same code |
+| nubitlan.com | Worker on the `/api/*` route |
+| Vercel / GitHub Pages previews | `https://nubitlan.com/api/...` (CORS open) |
+
+```sh
+npm run api:dev      # run the Worker locally on :8787
+npm run api:deploy   # deploy it (run `npx wrangler login` once first)
+```
 
 ## PR previews
 

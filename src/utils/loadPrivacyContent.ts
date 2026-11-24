@@ -2,12 +2,16 @@ import yaml from 'js-yaml';
 import { asset } from '../lib/asset';
 
 export interface ContentSection {
+  /** Anchor, so products can link to their part: /privacidad#trx-lite. */
+  id?: string;
   heading: string;
   content: string;
 }
 
 export interface PolicyContent {
   title: string;
+  /** Version that products record when someone acknowledges the policy. */
+  version?: string;
   lastUpdated: string;
   sections: ContentSection[];
 }

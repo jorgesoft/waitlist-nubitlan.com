@@ -19,11 +19,18 @@ import { Label } from '@/components/ui/label'
 import type { EmailSecurityReport, Finding, Status } from './analyze'
 
 /**
- * Same-origin in production (Cloudflare Pages Function) and in `vite dev`
- * (middleware in vite.config.ts). Not available on GitHub Pages PR previews,
- * which are static-only.
+ * Served by the `nubitlan-api` Cloudflare Worker (worker/) on the
+ * nubitlan.com/api/* route. Production calls it same-origin; any other
+ * build (Vercel previews, GitHub Pages) calls the production URL, which
+ * allows CORS. `npm run dev` serves it locally through a Vite middleware.
+ * Override with VITE_EMAIL_SECURITY_API, e.g. to point at `npm run api:dev`.
  */
-const ENDPOINT = '/api/email-security'
+const ENDPOINT =
+  import.meta.env.VITE_EMAIL_SECURITY_API ??
+  (import.meta.env.DEV ||
+  (typeof window !== 'undefined' && window.location.hostname === 'nubitlan.com')
+    ? '/api/email-security'
+    : 'https://nubitlan.com/api/email-security')
 
 type State =
   | { kind: 'idle' }
@@ -59,6 +66,12 @@ async function fetchReport(domain: string, selector: string): Promise<EmailSecur
     response = await fetch(`${ENDPOINT}?${params}`)
   } catch {
     throw new Error('No hay conexión con el servidor. Revisa tu internet e intenta de nuevo.')
+  }
+
+  // An HTML body means the request reached the static site instead of the
+  // Worker, i.e. the /api route is not deployed where this page is served.
+  if (!response.headers.get('content-type')?.includes('application/json')) {
+    throw new Error('La revisión no está disponible en este momento. Intenta más tarde.')
   }
 
   const body = await response.json().catch(() => null)

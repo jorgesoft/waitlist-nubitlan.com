@@ -46,6 +46,7 @@ function Footer() {
 
           <FooterColumn title="Recursos">
             <FooterLink to="/herramientas">Herramientas gratuitas</FooterLink>
+            <FooterLink to="/guia_completa">Guía completa LPDP</FooterLink>
             <FooterLink to="/blog">Blog</FooterLink>
             <FooterLink to="/evaluacion">Evaluación de preparación</FooterLink>
             <FooterLink to="/caso-de-estudio">Caso de estudio</FooterLink>
@@ -53,8 +54,8 @@ function Footer() {
 
           <FooterColumn title="Empresa">
             <FooterLink to="/quienes-somos">Quiénes somos</FooterLink>
-            <FooterLink to="/terminos">Política de privacidad</FooterLink>
-            <FooterLink to="/terminos#terms">Términos y condiciones</FooterLink>
+            <FooterLink to="/privacidad">Política de privacidad</FooterLink>
+            <FooterLink to="/terminos">Términos y condiciones</FooterLink>
             <a
               href={`mailto:${SITE.email}`}
               className="text-muted-foreground hover:text-primary text-sm transition-colors"
