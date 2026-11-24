@@ -27,6 +27,38 @@ Design tokens (the sky/cloud palette, radii, fonts and animations) all live in
 the `:root` / `.dark` blocks of `src/index.css`. Change a colour there and it
 propagates everywhere.
 
+## SEO
+
+Per-route metadata (title, description, canonical, Open Graph/Twitter card,
+JSON-LD) lives in one place: `src/lib/seo.ts`.
+
+- **Build:** `vite/seo-prerender.ts` writes one HTML file per route
+  (`dist/blog/post.html`, …) with those tags already in `<head>`, plus
+  `dist/sitemap.xml`. Crawlers and link-preview bots that don't run JavaScript
+  see the right card for every page. Blog posts and tools are picked up
+  automatically; add other pages to `STATIC_PAGES`.
+- **Runtime:** `src/components/RouteMeta.tsx` swaps the tags on client-side
+  navigation.
+
+## Email security checker (`/correo`)
+
+The SPF/DKIM/DMARC checker calls `/api/email-security`. The site itself is a
+static build (DigitalOcean App Platform behind the Cloudflare proxy), so the
+API is a separate **Cloudflare Worker** in `worker/`, attached to the
+`nubitlan.com/api/*` route. The analysis lives in
+`src/tools/email-security/analyze.ts` and resolves DNS over HTTPS (1.1.1.1).
+
+| Where | How the API is served |
+| --- | --- |
+| `npm run dev` | Vite middleware (`vite/email-security-dev.ts`), same code |
+| nubitlan.com | Worker on the `/api/*` route |
+| Vercel / GitHub Pages previews | `https://nubitlan.com/api/...` (CORS open) |
+
+```sh
+npm run api:dev      # run the Worker locally on :8787
+npm run api:deploy   # deploy it (run `npx wrangler login` once first)
+```
+
 ## PR previews
 
 Every pull request is built and published to GitHub Pages at:

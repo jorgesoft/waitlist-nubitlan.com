@@ -3,6 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom'
 
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import RouteMeta from '@/components/RouteMeta'
 import { TooltipProvider } from '@/components/ui/tooltip'
 
 /**
@@ -32,6 +33,7 @@ export default function SiteLayout() {
   return (
     <TooltipProvider>
       <ScrollManager />
+      <RouteMeta />
       <a
         href="#contenido"
         className="bg-primary text-primary-foreground sr-only rounded-md px-4 py-2 focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50"

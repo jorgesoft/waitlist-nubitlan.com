@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { MailPlusIcon, StarIcon } from 'lucide-react'
+import { ClipboardCheckIcon, StarIcon } from 'lucide-react'
 
 import { PageHeader } from '@/components/PageHeader'
 import { Button } from '@/components/ui/button'
@@ -77,12 +77,12 @@ function CaseStudyPage() {
             ¿Listo para preparar tu empresa?
           </h2>
           <p className="text-muted-foreground mt-4 text-lg">
-            Únete a la lista de espera y recibe una evaluación rápida.
+            Haz la evaluación gratuita y descubre por dónde empezar.
           </p>
           <Button asChild variant="pixel" size="xl" className="mt-8">
-            <Link to="/#lista-de-espera">
-              <MailPlusIcon />
-              Únete a la lista de espera
+            <Link to="/evaluacion">
+              <ClipboardCheckIcon />
+              Haz la evaluación gratuita
             </Link>
           </Button>
         </div>

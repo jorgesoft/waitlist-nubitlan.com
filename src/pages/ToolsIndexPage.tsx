@@ -13,7 +13,7 @@ function ToolsIndexPage() {
       <PageHeader
         eyebrow="Herramientas"
         title="Herramientas gratuitas"
-        description="Utilidades de seguridad que funcionan por completo en tu navegador. Sin registro, sin enviar datos a ningún servidor."
+        description="Utilidades de seguridad gratuitas y sin registro, para revisar y mejorar la protección de tu empresa."
         icon={
           <PixelIcon name="lock" className="text-primary size-14" />
         }

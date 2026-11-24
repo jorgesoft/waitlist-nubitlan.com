@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import {
   CheckCircle2Icon,
   CheckIcon,
@@ -12,6 +11,7 @@ import {
 
 import type { Outcome } from '@/types/quiz'
 import { cn } from '@/lib/utils'
+import { SITE } from '@/lib/site'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 
@@ -41,7 +41,7 @@ const LEVEL_CONFIG = {
 function OutcomeCard({ outcome, onRestart }: OutcomeCardProps) {
   const config = LEVEL_CONFIG[outcome.level]
   const LevelIcon = config.icon
-  const showWaitlistCTA = outcome.level === 'needs-work'
+  const showContactCTA = outcome.level !== 'ready'
 
   return (
     <Card
@@ -97,7 +97,7 @@ function OutcomeCard({ outcome, onRestart }: OutcomeCardProps) {
           </div>
         ) : null}
 
-        {showWaitlistCTA ? (
+        {showContactCTA ? (
           <div
             className="bg-sky-50 mt-8 flex items-start gap-3 rounded-xl border border-sky-200 p-4 dark:bg-sky-950/50 dark:border-sky-800"
             role="alert"
@@ -107,8 +107,8 @@ function OutcomeCard({ outcome, onRestart }: OutcomeCardProps) {
               aria-hidden="true"
             />
             <p className="text-sm leading-relaxed">
-              <strong className="font-semibold">¿Necesitas ayuda?</strong> Únete
-              a nuestra lista de espera para recibir guía personalizada.
+              <strong className="font-semibold">¿Necesitas ayuda?</strong>{' '}
+              Escríbenos y revisamos tus resultados contigo, sin compromiso.
             </p>
           </div>
         ) : null}
@@ -124,15 +124,16 @@ function OutcomeCard({ outcome, onRestart }: OutcomeCardProps) {
             Volver a evaluar
           </Button>
 
-          {showWaitlistCTA ? (
+          {showContactCTA ? (
             <Button asChild variant="pixelOutline" size="lg">
-              <Link
-                to="/#lista-de-espera"
-                aria-label="Ir al formulario de lista de espera"
+              <a
+                href={`mailto:${SITE.email}?subject=${encodeURIComponent(
+                  `Resultado de mi evaluación: ${outcome.title}`
+                )}`}
               >
                 <MailIcon aria-hidden="true" />
-                Únete a la lista de espera
-              </Link>
+                Habla con nuestro equipo
+              </a>
             </Button>
           ) : null}
         </div>

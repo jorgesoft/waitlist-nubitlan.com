@@ -102,7 +102,7 @@ function Navbar() {
           <ThemeToggle className="ml-1" />
 
           <Button asChild variant="pixel" size="sm" className="ml-2">
-            <Link to="/#lista-de-espera">Lista de espera</Link>
+            <Link to="/evaluacion">Evaluación gratuita</Link>
           </Button>
         </div>
 
@@ -161,7 +161,7 @@ function Navbar() {
 
                 <SheetClose asChild>
                   <Button asChild variant="pixel" className="mt-6 mx-3">
-                    <Link to="/#lista-de-espera">Únete a la lista</Link>
+                    <Link to="/evaluacion">Evaluación gratuita</Link>
                   </Button>
                 </SheetClose>
               </div>

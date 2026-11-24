@@ -12,22 +12,11 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <!-- SEO Meta Tags -->
-    <title>Nubitlan — Cumplimiento y Seguridad de Datos (El Salvador)</title>
-    <meta name="description" content="Herramienta impulsada por IA para cumplir la Ley de Protección de Datos Personales de El Salvador y fortalecer la ciberseguridad en PYMEs." />
-
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Cumplimiento y Seguridad de Datos — El Salvador" />
-    <meta property="og:description" content="Evita sanciones y mejora tu seguridad con una guía simple e impulsada por IA. Únete a la lista de espera." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://nubitlan.com/" />
-    <meta property="og:image" content="https://nubitlan.com/pictures/nubitlan_thumbnail.png" />
-
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Cumplimiento y Seguridad de Datos — El Salvador" />
-    <meta name="twitter:description" content="Evita sanciones y mejora tu seguridad con una guía simple e impulsada por IA." />
-    <meta name="twitter:image" content="https://nubitlan.com/pictures/nubitlan_thumbnail.png" />
+    <!-- SEO: replaced per route at build time by vite/seo-prerender.ts and
+         on navigation by src/components/RouteMeta.tsx. Source: src/lib/seo.ts -->
+    <!-- seo:start -->
+    <title>Nubitlan — Ciberseguridad y Ley de Protección de Datos en El Salvador</title>
+    <!-- seo:end -->
 
     <!-- Set the color theme before first paint so there is no flash -->
     <script>
@@ -45,41 +34,10 @@
       })();
     </script>
 
-    <!-- Fonts: Inter (UI), JetBrains Mono (code), Silkscreen (pixel accents) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Silkscreen:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
 
-    <!-- JotForm Embed Handler (waitlist form on the landing page) -->
-    <script src="https://cdn.jotfor.ms/s/umd/latest/for-form-embed-handler.js"></script>
-    <script>
-      window.addEventListener('load', function () {
-        if (window.jotformEmbedHandler) {
-          window.jotformEmbedHandler(
-            "iframe[id='JotFormIFrame-253112397254051']",
-            'https://form.jotform.com/'
-          );
-        }
-      });
-    </script>
-
-    <!-- Google Ads page-view conversion. Guarded: gtag.js is not loaded on
-         this site yet, and an unguarded call throws on every page load. -->
-    <script>
-      if (typeof window.gtag === 'function') {
-        window.gtag('event', 'conversion', {
-          send_to: 'AW-16553970392/POq8CJqPyssbENiVxtU9',
-          value: 1.0,
-          currency: 'USD',
-        });
-      }
-    </script>
   </body>
 </html>

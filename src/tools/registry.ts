@@ -2,6 +2,7 @@ import type { ComponentType } from 'react'
 
 import type { PixelIconName } from '@/components/pixel/icon'
 import PasswordGenerator from './password-generator/PasswordGenerator'
+import EmailSecurityChecker from './email-security/EmailSecurityChecker'
 
 /**
  * Tool registry.
@@ -38,6 +39,17 @@ export const TOOLS: Tool[] = [
     icon: 'lock',
     component: PasswordGenerator,
     highlights: ['100% local', 'Sin registro', 'Código abierto'],
+  },
+  {
+    slug: 'seguridad-de-correo',
+    shortPath: '/correo',
+    name: 'Revisión de seguridad de correo',
+    tagline: 'Comprueba SPF, DKIM y DMARC de tu dominio en segundos.',
+    description:
+      'Revisa si tu dominio está protegido contra la suplantación de correo. Analizamos tus registros SPF, DKIM y DMARC, te damos una calificación y te decimos exactamente qué corregir.',
+    icon: 'mail',
+    component: EmailSecurityChecker,
+    highlights: ['SPF · DKIM · DMARC', 'Sin registro', 'Resultado al instante'],
   },
 ]
 

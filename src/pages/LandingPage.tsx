@@ -1,8 +1,7 @@
-import * as React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { ArrowRightIcon, ChevronDownIcon } from 'lucide-react'
 
-import { SERVICES } from '@/lib/site'
+import { SERVICES, SITE } from '@/lib/site'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
@@ -58,24 +57,6 @@ const BENEFITS: {
 const SERVICE_ICONS: PixelIconName[] = ['robot', 'target', 'lock', 'teach']
 
 function LandingPage() {
-  const navigate = useNavigate()
-
-  // JotForm posts a message to the parent window on submit; move the visitor
-  // straight into the readiness quiz when that happens.
-  React.useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
-      if (
-        event.origin === 'https://form.jotform.com' &&
-        event.data === 'form-submitted'
-      ) {
-        navigate('/evaluacion?joined=true')
-      }
-    }
-
-    window.addEventListener('message', handleMessage)
-    return () => window.removeEventListener('message', handleMessage)
-  }, [navigate])
-
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
   }
@@ -105,13 +86,11 @@ function LandingPage() {
             </p>
 
             <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <Button
-                variant="pixel"
-                size="xl"
-                onClick={() => scrollTo('lista-de-espera')}
-              >
-                <PixelIcon name="clipboard" className="size-5" />
-                Únete a la lista de espera
+              <Button asChild variant="pixel" size="xl">
+                <Link to="/evaluacion">
+                  <PixelIcon name="clipboard" className="size-5" />
+                  Haz la evaluación gratuita
+                </Link>
               </Button>
 
               <Button asChild variant="pixelOutline" size="xl">
@@ -123,8 +102,8 @@ function LandingPage() {
             </div>
 
             <p className="text-muted-foreground mt-6 text-sm">
-              Recibe nuestra guía de la Ley de Datos + mini evaluación de
-              preparación.
+              Cinco minutos, sin registro. Sabrás qué tan preparada está tu
+              empresa para la Ley de Datos.
             </p>
           </div>
         </div>
@@ -267,41 +246,44 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* ========================= Waitlist =========================== */}
+      {/* ========================= Contact ============================ */}
       <section
-        id="lista-de-espera"
+        id="contacto"
         className="scroll-mt-20 pb-4"
-        aria-labelledby="lista-de-espera-titulo"
+        aria-labelledby="contacto-titulo"
       >
         <PixelSky className="border-y border-border py-20 sm:py-24">
-          <div className="mx-auto max-w-4xl px-4 sm:px-6">
-            <div className="text-center">
-              <Badge variant="pixel" size="lg">
-                Lista de espera
-              </Badge>
-              <h2
-                id="lista-de-espera-titulo"
-                className="mt-5 text-3xl font-extrabold tracking-tight text-balance sm:text-4xl"
-              >
-                Sé de los primeros en probarlo
-              </h2>
-              <p className="text-muted-foreground mx-auto mt-4 max-w-xl text-lg text-pretty">
-                Déjanos tus datos y recibirás la guía de la Ley de Protección de
-                Datos junto con tu mini evaluación de preparación.
-              </p>
-            </div>
+          <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
+            <Badge variant="pixel" size="lg">
+              Contacto
+            </Badge>
+            <h2
+              id="contacto-titulo"
+              className="mt-5 text-3xl font-extrabold tracking-tight text-balance sm:text-4xl"
+            >
+              Hablemos de tu empresa
+            </h2>
+            <p className="text-muted-foreground mx-auto mt-4 max-w-xl text-lg text-pretty">
+              Cuéntanos qué te preocupa y te respondemos con una propuesta
+              concreta. Si prefieres empezar por tu cuenta, revisa la seguridad
+              de tu correo o haz la evaluación gratuita.
+            </p>
 
-            <div className="bg-card mt-10 overflow-hidden rounded-xl border-2 border-foreground shadow-[8px_8px_0_0_var(--sky-400)]">
-              <iframe
-                id="JotFormIFrame-253112397254051"
-                title="Únete a la lista de espera"
-                allow="geolocation; microphone; camera; fullscreen; payment"
-                src="https://form.jotform.com/253112397254051"
-                className="w-full border-0"
-                style={{ height: 1000 }}
-                scrolling="no"
-              />
+            <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <Button asChild variant="pixel" size="xl">
+                <a href={`mailto:${SITE.email}`}>
+                  <PixelIcon name="mail" className="size-5" />
+                  Escríbenos
+                </a>
+              </Button>
+              <Button asChild variant="pixelOutline" size="xl">
+                <Link to="/herramientas/seguridad-de-correo">
+                  Revisa tu correo
+                  <ArrowRightIcon />
+                </Link>
+              </Button>
             </div>
+            <p className="text-muted-foreground mt-6 text-sm">{SITE.email}</p>
           </div>
         </PixelSky>
       </section>

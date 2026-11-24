@@ -9,7 +9,6 @@ import {
 } from 'lucide-react'
 
 import { formatPostDate, getPost, getRelatedPosts } from '@/lib/blog'
-import { SITE } from '@/lib/site'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -20,16 +19,6 @@ import { PostMeta } from '@/pages/BlogIndexPage'
 function BlogPostPage() {
   const { slug } = useParams<{ slug: string }>()
   const post = slug ? getPost(slug) : undefined
-
-  // Keep the document title in sync for sharing and browser history.
-  React.useEffect(() => {
-    if (!post) return
-    const previous = document.title
-    document.title = `${post.title} — ${SITE.name}`
-    return () => {
-      document.title = previous
-    }
-  }, [post])
 
   if (!post) return <PostNotFound />
 

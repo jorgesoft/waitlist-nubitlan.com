@@ -24,6 +24,7 @@ import clipboardSvg from 'pixelarticons/svg/clipboard.svg?raw'
 import cloudSvg from 'pixelarticons/svg/cloud.svg?raw'
 import cloudSunSvg from 'pixelarticons/svg/cloud-sun.svg?raw'
 import closeSvg from 'pixelarticons/svg/close.svg?raw'
+import mailSvg from 'pixelarticons/svg/mail.svg?raw'
 import lockSvg from 'pixelarticons/svg/lock.svg?raw'
 import monitorSvg from 'pixelarticons/svg/monitor.svg?raw'
 import moonSvg from 'pixelarticons/svg/moon.svg?raw'
@@ -56,6 +57,7 @@ const ICONS = {
   'cloud-sun': inner(cloudSunSvg),
   close: inner(closeSvg),
   lock: inner(lockSvg),
+  mail: inner(mailSvg),
   monitor: inner(monitorSvg),
   moon: inner(moonSvg),
   robot: inner(robotSvg),
