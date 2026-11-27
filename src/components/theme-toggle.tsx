@@ -5,9 +5,22 @@ import { MoonIcon, SunIcon } from 'lucide-react'
 
 const STORAGE_KEY = 'nubitlan-theme'
 
-function getInitialTheme(): 'light' | 'dark' {
-  if (typeof document === 'undefined') return 'light'
+type Theme = 'light' | 'dark'
+
+/** The theme lives on <html class="dark">; subscribe to changes of it. */
+function subscribe(onChange: () => void) {
+  const observer = new MutationObserver(onChange)
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+  return () => observer.disconnect()
+}
+
+function getTheme(): Theme {
   return document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+}
+
+/** Prerendered pages are built in the light theme; hydration starts there. */
+function getServerTheme(): Theme {
+  return 'light'
 }
 
 /**
@@ -15,20 +28,17 @@ function getInitialTheme(): 'light' | 'dark' {
  * index.html before first paint, so this only has to keep it in sync.
  */
 export function ThemeToggle({ className }: { className?: string }) {
-  const [theme, setTheme] = React.useState<'light' | 'dark'>(getInitialTheme)
+  const theme = React.useSyncExternalStore(subscribe, getTheme, getServerTheme)
 
   const toggle = React.useCallback(() => {
-    setTheme((current) => {
-      const next = current === 'dark' ? 'light' : 'dark'
-      document.documentElement.classList.toggle('dark', next === 'dark')
-      try {
-        localStorage.setItem(STORAGE_KEY, next)
-      } catch {
-        /* Private mode / storage disabled — the toggle still works for
-           this page view, it just will not be remembered. */
-      }
-      return next
-    })
+    const next: Theme = getTheme() === 'dark' ? 'light' : 'dark'
+    document.documentElement.classList.toggle('dark', next === 'dark')
+    try {
+      localStorage.setItem(STORAGE_KEY, next)
+    } catch {
+      /* Private mode / storage disabled — the toggle still works for
+         this page view, it just will not be remembered. */
+    }
   }, [])
 
   return (

@@ -161,7 +161,10 @@ jobs:
           [Generador (/ps)](${URL}ps) ·
           [Blog](${URL}blog) ·
           [Evaluación](${URL}evaluacion) ·
-          [Quiénes somos](${URL}quienes-somos)
+          [Quiénes somos](${URL}quienes-somos) ·
+          [Escuelas](${URL}escuelas) ·
+          [ISP](${URL}isp) ·
+          [Empresas](${URL}empresas)
 
           <sub>Commit \`${GITHUB_SHA::7}\`. The first deploy can take a minute to
           go live. This preview is deleted when the PR closes.</sub>

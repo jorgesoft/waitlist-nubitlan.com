@@ -59,6 +59,28 @@ npm run api:dev      # run the Worker locally on :8787
 npm run api:deploy   # deploy it (run `npx wrangler login` once first)
 ```
 
+## Flyer landing pages (`/escuelas`, `/isp`, `/empresas`)
+
+These URLs are printed as QR codes, so **never rename them**. One template
+(`src/landing/AudienceLandingPage.tsx`) renders all three; per-audience copy
+lives in `src/landing/audiences.ts`, SEO in `src/lib/seo.ts`, social cards in
+`public/og/`.
+
+- **Fast on mobile data:** the build prerenders their body HTML
+  (`src/entry-server.tsx`) and preloads their chunk and font, so they paint
+  before JavaScript runs; the browser then hydrates. No analytics or other
+  third-party requests.
+- **Form:** posts to `POST /api/solicitud` on the Worker
+  (`src/landing/solicitud-api.ts`; the same code runs under `npm run dev`).
+  Validation is shared with the browser (`src/landing/solicitud.ts`) and
+  drops any field that is not on the form. Spam: honeypot, minimum fill time,
+  per-IP rate limit (`SOLICITUD_LIMITER` binding).
+- **Delivery is a placeholder:** `deliverSolicitud` only writes each
+  submission to the Worker log (`npx wrangler tail nubitlan-api`). Wire it to
+  a store and an email to `NOTIFY_TO` before relying on it.
+- **WhatsApp:** set `WHATSAPP.number` in `src/lib/site.ts`; the link stays
+  hidden while it is empty.
+
 ## PR previews
 
 Every pull request is built and published to GitHub Pages at:

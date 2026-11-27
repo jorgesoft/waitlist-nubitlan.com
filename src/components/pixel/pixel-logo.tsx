@@ -43,7 +43,7 @@ export function PixelLogo({
       <PixelLogoMark size={size} />
       {showWord ? (
         <span className="text-lg font-extrabold tracking-tight">
-          nubit<span className="text-primary">lan</span>
+          nubit<span className="text-sky-700 dark:text-sky-400">lan</span>
         </span>
       ) : null}
     </span>

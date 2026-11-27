@@ -1,8 +1,10 @@
-import type { ComponentType } from 'react'
+import { lazy, type ComponentType } from 'react'
 
 import type { PixelIconName } from '@/components/pixel/icon'
-import PasswordGenerator from './password-generator/PasswordGenerator'
-import EmailSecurityChecker from './email-security/EmailSecurityChecker'
+
+// Loaded on demand so the tools stay out of every other page's bundle.
+const PasswordGenerator = lazy(() => import('./password-generator/PasswordGenerator'))
+const EmailSecurityChecker = lazy(() => import('./email-security/EmailSecurityChecker'))
 
 /**
  * Tool registry.
