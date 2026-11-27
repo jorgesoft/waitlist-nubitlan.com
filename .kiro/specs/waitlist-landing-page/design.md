@@ -1,5 +1,9 @@
 # Design Document
 
+> **Outdated styling:** this spec describes the original Bootstrap 5 design.
+> The site now uses Tailwind CSS v4 and its own components; for anything
+> visual follow [docs/STYLE_GUIDE.md](../../../docs/STYLE_GUIDE.md).
+
 ## Overview
 
 The waitlist landing page is a single-page React application built with TypeScript and Vite, styled exclusively with Bootstrap 5.3.3 via CDN. The page follows a linear narrative structure guiding visitors from problem awareness through solution understanding to signup action. The design prioritizes mobile-first responsiveness, accessibility, fast load times, and conversion optimization.

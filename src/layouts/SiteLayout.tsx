@@ -42,10 +42,14 @@ export default function SiteLayout() {
       </a>
       <div className="flex min-h-screen flex-col">
         <Navbar />
-        <main id="contenido" className="flex-1">
-          <Outlet />
-        </main>
-        <Footer />
+        {/* Pages are lazy chunks. The footer waits with the page, so it never
+            renders early and then jumps down (layout shift) when it arrives. */}
+        <React.Suspense fallback={<div className="flex-1" aria-busy="true" />}>
+          <main id="contenido" className="flex-1">
+            <Outlet />
+          </main>
+          <Footer />
+        </React.Suspense>
       </div>
     </TooltipProvider>
   )

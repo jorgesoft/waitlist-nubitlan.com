@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import { createServer, type Plugin, type ResolvedConfig } from 'vite'
+import { createServer, type Plugin, type ResolvedConfig, type Rollup } from 'vite'
 
 // Structural copies of the types in src/lib/seo.ts. Importing them would pull
 // the app's sources (and its `@/` alias) into the Node tsconfig project.
@@ -21,6 +21,13 @@ interface SeoModule {
   resolveMeta(path: string): PageMeta
   headTags(meta: PageMeta): { title: string; tags: HeadTag[] }
   sitemapEntries(): PageMeta[]
+  routePreloads(path: string): { module?: string; fonts?: string[]; body?: boolean }
+}
+
+/** Output files for one lazily loaded source module. */
+interface ChunkFiles {
+  js: string[]
+  css: string[]
 }
 
 /**
@@ -44,6 +51,7 @@ interface SeoModule {
 
 const START = '<!-- seo:start -->'
 const END = '<!-- seo:end -->'
+const ROOT = '<div id="root"></div>'
 
 function escapeAttr(value: string): string {
   return value.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;')
@@ -97,14 +105,69 @@ async function withFontPreload(html: string, outDir: string, base: string): Prom
   return html.replace('</head>', `    ${link}\n  </head>`)
 }
 
+/**
+ * For each dynamic-entry chunk, the JS files it needs (itself plus its static
+ * imports, minus what the entry already loads) and its CSS.
+ */
+function collectChunks(bundle: Rollup.OutputBundle, root: string): Map<string, ChunkFiles> {
+  const chunks = new Map<string, ChunkFiles>()
+  const entryFiles = new Set<string>()
+  const entryCss = new Set<string>()
+  for (const output of Object.values(bundle)) {
+    if (output.type === 'chunk' && output.isEntry) {
+      entryFiles.add(output.fileName)
+      output.imports.forEach((file) => entryFiles.add(file))
+      output.viteMetadata?.importedCss.forEach((file) => entryCss.add(file))
+    }
+  }
+
+  for (const output of Object.values(bundle)) {
+    if (output.type !== 'chunk' || !output.isDynamicEntry || !output.facadeModuleId) continue
+    const source = path.relative(root, output.facadeModuleId).split(path.sep).join('/')
+    const js = [output.fileName, ...output.imports].filter((file) => !entryFiles.has(file))
+    const css = new Set<string>()
+    for (const file of [output.fileName, ...output.imports]) {
+      const chunk = bundle[file]
+      if (chunk?.type === 'chunk') chunk.viteMetadata?.importedCss.forEach((name) => css.add(name))
+    }
+    entryCss.forEach((name) => css.delete(name))
+    chunks.set(source, { js, css: [...css] })
+  }
+  return chunks
+}
+
+function preloadLinks(
+  preload: { module?: string; fonts?: string[] },
+  chunks: Map<string, ChunkFiles>,
+  assets: string[],
+  base: string
+): string[] {
+  const links: string[] = []
+  const files = preload.module ? chunks.get(preload.module) : undefined
+  for (const file of files?.css ?? []) links.push(`<link rel="stylesheet" href="${base}${file}" />`)
+  for (const file of files?.js ?? []) links.push(`<link rel="modulepreload" crossorigin href="${base}${file}" />`)
+  for (const prefix of preload.fonts ?? []) {
+    const font = assets.find((file) => file.startsWith(prefix) && file.endsWith('.woff2'))
+    if (font) {
+      links.push(`<link rel="preload" href="${base}assets/${font}" as="font" type="font/woff2" crossorigin />`)
+    }
+  }
+  return links
+}
+
 export function seoPrerender(): Plugin {
   let config: ResolvedConfig
+  let chunks = new Map<string, ChunkFiles>()
 
   return {
     name: 'nubitlan:seo-prerender',
     apply: 'build',
     configResolved(resolved) {
       config = resolved
+    },
+
+    generateBundle(_options, bundle) {
+      chunks = collectChunks(bundle, config.root)
     },
 
     async closeBundle() {
@@ -121,6 +184,7 @@ export function seoPrerender(): Plugin {
         mode: 'production',
         logLevel: 'error',
         appType: 'custom',
+        base: config.base,
         resolve: { alias: config.resolve.alias },
         server: { middlewareMode: true, hmr: false, ws: false },
         // pixelarticons is imported as `?raw` SVG and must be handled by Vite.
@@ -131,18 +195,33 @@ export function seoPrerender(): Plugin {
       try {
         const seo = (await server.ssrLoadModule('/src/lib/seo.ts')) as unknown as SeoModule
         const site = (await server.ssrLoadModule('/src/lib/site.ts')) as { SITE: { url: string } }
+        const entry = (await server.ssrLoadModule('/src/entry-server.tsx')) as {
+          render(url: string): Promise<string>
+        }
+
+        const assets = await fs.readdir(path.join(outDir, 'assets')).catch(() => [] as string[])
 
         const paths = seo.prerenderPaths()
         for (const routePath of paths) {
           const { title, tags } = seo.headTags(seo.resolveMeta(routePath))
-          const head = [`<title>${escapeText(title)}</title>`, ...tags.map(renderTag)]
+          const head = [
+            `<title>${escapeText(title)}</title>`,
+            ...tags.map(renderTag),
+            ...preloadLinks(seo.routePreloads(routePath), chunks, assets, config.base),
+          ]
             .map((line) => `    ${line}`)
             .join('\n')
 
-          const html = template.replace(
+          let html = template.replace(
             new RegExp(`${START}[\\s\\S]*?${END}`),
             `${START}\n${head}\n    ${END}`
           )
+
+          if (seo.routePreloads(routePath).body) {
+            const body = await entry.render(routePath)
+            if (!html.includes(ROOT)) throw new Error(`[seo-prerender] index.html is missing ${ROOT}.`)
+            html = html.replace(ROOT, `<div id="root">${body}</div>`)
+          }
 
           for (const relative of outputFiles(routePath)) {
             const file = path.join(outDir, relative)

@@ -1,6 +1,8 @@
 import { SERVICES, SITE } from '@/lib/site'
 import { getPost, posts } from '@/lib/blog'
 import { getToolBySlug, TOOLS, toolPath } from '@/tools/registry'
+import { AUDIENCES } from '@/landing/audiences'
+import { AUDIENCE_SLUGS } from '@/landing/slugs'
 
 /**
  * Per-route SEO metadata — the single source for <title>, description,
@@ -187,6 +189,25 @@ const STATIC_PAGES: PageMeta[] = [
       'Mide en menos de una hora qué tan cerca está tu empresa de cumplir la Ley de Protección de Datos Personales de El Salvador, con nuestra autoevaluación gratuita.',
     priority: 0.8,
   },
+  // Flyer landing pages (QR codes). Each has its own branded social card.
+  ...AUDIENCE_SLUGS.map((slug): PageMeta => {
+    const { seo } = AUDIENCES[slug]
+    const path = `/${slug}`
+    return {
+      path,
+      title: seo.title,
+      description: seo.description,
+      image: `${SITE.url}/og/${slug}.png`,
+      priority: 0.8,
+      jsonLd: [
+        service(path, seo.title, seo.description),
+        breadcrumbs([
+          { name: 'Inicio', path: '/' },
+          { name: seo.title, path },
+        ]),
+      ],
+    }
+  }),
   {
     path: '/privacidad',
     title: 'Política de privacidad',
@@ -301,6 +322,28 @@ export function resolveMeta(pathname: string): PageMeta {
   if (alias) return toolMeta(alias.slug)!
 
   return NOT_FOUND
+}
+
+/**
+ * Extra preloads written into a route's prerendered HTML, so the browser
+ * fetches the page's lazy chunk and font alongside the main bundle instead
+ * of discovering them one round trip later. Used for the QR-code landing
+ * pages, which are opened on mobile data.
+ *
+ *   module  Source path of the route's lazy page component.
+ *   fonts   File-name prefixes of .woff2 files in dist/assets to preload.
+ *   body    Also render the page's HTML at build time (src/entry-server.tsx),
+ *           so it paints before the JavaScript has loaded.
+ */
+export function routePreloads(pathname: string): { module?: string; fonts?: string[]; body?: boolean } {
+  const path = pathname.replace(/\/+$/, '') || '/'
+  if ((AUDIENCE_SLUGS as readonly string[]).includes(path.slice(1))) {
+    return {
+      module: 'src/landing/AudienceLandingPage.tsx',
+      body: true,
+    }
+  }
+  return {}
 }
 
 /** Every path that gets its own prerendered HTML file. */

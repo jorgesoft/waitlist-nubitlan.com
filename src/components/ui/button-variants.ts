@@ -8,7 +8,7 @@ export const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          'bg-primary text-primary-foreground rounded-lg shadow-sm hover:bg-sky-700 dark:hover:bg-sky-300 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0',
+          'bg-primary text-primary-foreground rounded-lg shadow-sm hover:bg-sky-800 dark:hover:bg-sky-300 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0',
         /* The signature 8-bit button: hard edges, offset shadow that
            collapses as the button is pressed down into the page. */
         pixel:

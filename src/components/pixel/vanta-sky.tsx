@@ -46,13 +46,18 @@ function currentPalette() {
 
 export function VantaSky({
   className,
+  minWidth,
   ...props
-}: React.ComponentProps<'div'>) {
+}: React.ComponentProps<'div'> & {
+  /** Only start the WebGL sky on viewports at least this wide (px). */
+  minWidth?: number
+}) {
   const ref = React.useRef<HTMLDivElement>(null)
 
   React.useEffect(() => {
     const el = ref.current
     if (!el) return
+    if (minWidth && !window.matchMedia(`(min-width: ${minWidth}px)`).matches) return
 
     const reducedMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)'
@@ -124,7 +129,7 @@ export function VantaSky({
       themeObserver?.disconnect()
       effect?.destroy()
     }
-  }, [])
+  }, [minWidth])
 
   return (
     <div

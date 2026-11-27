@@ -1,5 +1,9 @@
 # Design Document
 
+> **Outdated styling:** this spec describes the original Bootstrap 5 design.
+> The site now uses Tailwind CSS v4 and its own components; for anything
+> visual follow [docs/STYLE_GUIDE.md](../../../docs/STYLE_GUIDE.md).
+
 ## Overview
 
 The readiness evaluation feature adds an interactive quiz at `/evaluacion` that assesses a company's preparedness for data protection laws. The design uses a decision-tree approach with conditional question flow, configured through a YAML file for easy content management. The implementation leverages React Router for navigation and a custom quiz engine that interprets the YAML configuration.

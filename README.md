@@ -27,6 +27,10 @@ Design tokens (the sky/cloud palette, radii, fonts and animations) all live in
 the `:root` / `.dark` blocks of `src/index.css`. Change a colour there and it
 propagates everywhere.
 
+**Building a page?** Follow [docs/STYLE_GUIDE.md](./docs/STYLE_GUIDE.md): the
+palette, type scale, page anatomy (hero, section headings, cards, contact
+band), buttons and icons, all taken from the home page.
+
 ## SEO
 
 Per-route metadata (title, description, canonical, Open Graph/Twitter card,
@@ -58,6 +62,24 @@ API is a separate **Cloudflare Worker** in `worker/`, attached to the
 npm run api:dev      # run the Worker locally on :8787
 npm run api:deploy   # deploy it (run `npx wrangler login` once first)
 ```
+
+## Flyer landing pages (`/escuelas`, `/isp`, `/empresas`)
+
+These URLs are printed as QR codes, so **never rename them**. One template
+(`src/landing/AudienceLandingPage.tsx`, built like the home page; see the
+style guide)
+renders all three; per-audience copy lives in `src/landing/audiences.ts`, SEO
+in `src/lib/seo.ts`, social cards in `public/og/`. Each page walks visitors
+through three steps: self-assess at `/guia_completa`, train their team on
+TRX Lite (trx.nubitlan.com), and contact Nubitlan for more help.
+
+- **Fast on mobile data:** the build prerenders their body HTML
+  (`src/entry-server.tsx`) and preloads their chunk, so they paint
+  before JavaScript runs; the browser then hydrates. No analytics or other
+  third-party requests.
+- **Contact:** no form. Visitors write by email (a `mailto:` with a
+  per-audience subject and a short template) or on LinkedIn, so the pages
+  collect no personal data themselves.
 
 ## PR previews
 
@@ -190,6 +212,7 @@ This application uses Firebase for:
 All documentation is in the [`docs/`](./docs) folder:
 
 - 🚀 [Quick Start Guide](./docs/QUICK_START.md) - Get up and running in 10 minutes
+- 🎨 [Style Guide](./docs/STYLE_GUIDE.md) - How the site looks and how to build a matching page
 - 🔥 [Firebase Setup](./docs/FIREBASE_SETUP.md) - Detailed Firebase configuration
 - 📊 [Analytics Events](./docs/ANALYTICS_EVENTS.md) - Custom analytics tracking
 - 🚀 [Deployment Checklist](./docs/DEPLOYMENT_CHECKLIST.md) - Pre-deployment guide

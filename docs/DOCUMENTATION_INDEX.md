@@ -13,6 +13,7 @@ Quick reference for all documentation files.
 | [ANALYTICS_EVENTS.md](./ANALYTICS_EVENTS.md) | Event tracking reference | Developers, Product |
 | [ANALYTICS_SETUP_COMPLETE.md](./ANALYTICS_SETUP_COMPLETE.md) | Analytics summary | Product, Marketing |
 | [DEPLOYMENT_CHECKLIST.md](./DEPLOYMENT_CHECKLIST.md) | Pre-deployment steps | DevOps, Developers |
+| [STYLE_GUIDE.md](./STYLE_GUIDE.md) | Visual design and page anatomy | Developers, Design |
 | [accessibility-enhancements.md](./accessibility-enhancements.md) | Accessibility features | Developers, QA |
 | [accessibility-validation.md](./accessibility-validation.md) | Accessibility testing | QA, Developers |
 | [scripts/init-firestore.md](./scripts/init-firestore.md) | Database initialization | Developers, DevOps |

@@ -1,90 +1,28 @@
 import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { createRoot, hydrateRoot } from 'react-dom/client'
+import { BrowserRouter } from 'react-router-dom'
 
 import './index.css'
-import SiteLayout from '@/layouts/SiteLayout'
-import ErrorBoundary from '@/components/ErrorBoundary'
-import LandingPage from '@/pages/LandingPage'
-import EvaluationPage from '@/pages/EvaluationPage'
-import PrivacyPage from '@/pages/PrivacyPage'
-import AboutPage from '@/pages/AboutPage'
-import CaseStudyPage from '@/pages/CaseStudyPage'
-import AISecurityEvaluationPage from '@/pages/AISecurityEvaluationPage'
-import AIPenTestingPage from '@/pages/AIPenTestingPage'
-import DataProtectionEvaluationPage from '@/pages/DataProtectionEvaluationPage'
-import SecurityTrainingPage from '@/pages/SecurityTrainingPage'
-import CompleteGuidePage from '@/pages/CompleteGuidePage'
-import BlogIndexPage from '@/pages/BlogIndexPage'
-import BlogPostPage from '@/pages/BlogPostPage'
-import ToolsIndexPage from '@/pages/ToolsIndexPage'
-import ToolPage from '@/pages/ToolPage'
-import NotFoundPage from '@/pages/NotFoundPage'
-import { TOOLS } from '@/tools/registry'
+import AppRoutes from '@/App'
 import { routerBasename } from '@/lib/asset'
 
-createRoot(document.getElementById('root')!).render(
+const container = document.getElementById('root')!
+
+const app = (
   <StrictMode>
     {/* basename keeps routing correct when the app is served from a
         subdirectory, as PR previews are. Empty in production. */}
     <BrowserRouter basename={routerBasename}>
-      <Routes>
-        <Route element={<SiteLayout />}>
-          <Route path="/" element={<LandingPage />} />
-
-          <Route
-            path="/evaluacion"
-            element={
-              <ErrorBoundary>
-                <EvaluationPage />
-              </ErrorBoundary>
-            }
-          />
-
-          <Route path="/privacidad" element={<PrivacyPage />} />
-          <Route path="/terminos" element={<PrivacyPage />} />
-          <Route path="/quienes-somos" element={<AboutPage />} />
-          <Route path="/caso-de-estudio" element={<CaseStudyPage />} />
-
-          <Route
-            path="/servicios/evaluacion-seguridad-ia"
-            element={<AISecurityEvaluationPage />}
-          />
-          <Route
-            path="/servicios/pruebas-de-penetracion-ia"
-            element={<AIPenTestingPage />}
-          />
-          <Route
-            path="/servicios/evaluacion-proteccion-datos"
-            element={<DataProtectionEvaluationPage />}
-          />
-          <Route
-            path="/servicios/capacitacion-seguridad"
-            element={<SecurityTrainingPage />}
-          />
-
-          <Route path="/guia_completa" element={<CompleteGuidePage />} />
-
-          <Route path="/blog" element={<BlogIndexPage />} />
-          <Route path="/blog/:slug" element={<BlogPostPage />} />
-
-          <Route path="/herramientas" element={<ToolsIndexPage />} />
-          <Route path="/herramientas/:slug" element={<ToolPage />} />
-
-          {/* Short aliases (e.g. /ps) render the tool directly, so a shared
-              link never bounces through a redirect. Generated from the tool
-              registry, so adding a tool needs no change here. */}
-          {TOOLS.map((tool) => (
-            <Route
-              key={tool.shortPath}
-              path={tool.shortPath}
-              element={<ToolPage tool={tool} />}
-            />
-          ))}
-
-          <Route path="*" element={<NotFoundPage />} />
-        </Route>
-      </Routes>
+      <AppRoutes />
     </BrowserRouter>
   </StrictMode>
 )
+
+// Some routes (the flyer landing pages) ship with their HTML already rendered
+// at build time — see entry-server.tsx and vite/seo-prerender.ts. Hydrate
+// those; every other route still renders from scratch.
+if (container.hasChildNodes()) {
+  hydrateRoot(container, app)
+} else {
+  createRoot(container).render(app)
+}

@@ -56,3 +56,6 @@ export const FOOTER_LEGAL: NavLink[] = [
   { label: 'Política de Privacidad', to: '/privacidad' },
   { label: 'Términos y Condiciones', to: '/terminos' },
 ]
+
+/** TRX Lite, the security-awareness training platform. */
+export const TRAINING_URL = 'https://trx.nubitlan.com'
