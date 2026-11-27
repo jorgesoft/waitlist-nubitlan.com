@@ -340,7 +340,6 @@ export function routePreloads(pathname: string): { module?: string; fonts?: stri
   if ((AUDIENCE_SLUGS as readonly string[]).includes(path.slice(1))) {
     return {
       module: 'src/landing/AudienceLandingPage.tsx',
-      fonts: ['plus-jakarta-sans-latin-wght-normal-'],
       body: true,
     }
   }

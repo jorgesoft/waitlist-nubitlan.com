@@ -175,8 +175,23 @@ export const OBLIGATIONS = [
   },
 ]
 
-export const STEPS = [
-  { title: 'Escríbanos', body: 'Por correo o por LinkedIn, con unos datos básicos.' },
-  { title: 'Le contactamos para una reunión corta', body: 'Por teléfono, videollamada o en persona.' },
-  { title: 'Recibe su plan y acceso a la capacitación', body: 'Sin costo y sin compromiso.' },
-]
+/**
+ * The three-step path every page leads to: self-assess, train the team,
+ * then reach out for anything more. Links are added by the page.
+ */
+export const STEPS = {
+  assess: {
+    title: 'Evalúe qué tan preparado está',
+    body: 'Haga la autoevaluación gratuita de la Ley de Protección de Datos: 19 preguntas sencillas y un plan de acción priorizado.',
+  },
+  train: {
+    title: 'Capacite a su personal',
+    /** Completed with the audience's `trainingFor`. */
+    body: 'Cursos cortos en línea en TRX Lite para',
+    bodyEnd: ': cómo reconocer correos falsos, crear contraseñas seguras y manejar datos personales con cuidado.',
+  },
+  help: {
+    title: 'Pida ayuda a Nubitlan',
+    body: '¿Necesita apoyo con su plan de ciberseguridad o con el cumplimiento de la ley? Escríbanos por correo o por LinkedIn y coordinamos una reunión corta.',
+  },
+}

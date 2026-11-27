@@ -41,7 +41,9 @@
   --popover: oklch(1 0 0);
   --popover-foreground: var(--foreground);
 
-  --primary: var(--sky-600);
+  /* sky-700, not sky-600: white on sky-600 (and sky-600 on white) is only
+     3.8:1, below WCAG AA's 4.5:1 for normal text. */
+  --primary: var(--sky-700);
   --primary-foreground: oklch(0.99 0.008 232);
 
   --secondary: var(--sky-100);

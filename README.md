@@ -62,12 +62,14 @@ npm run api:deploy   # deploy it (run `npx wrangler login` once first)
 ## Flyer landing pages (`/escuelas`, `/isp`, `/empresas`)
 
 These URLs are printed as QR codes, so **never rename them**. One template
-(`src/landing/AudienceLandingPage.tsx`) renders all three; per-audience copy
-lives in `src/landing/audiences.ts`, SEO in `src/lib/seo.ts`, social cards in
-`public/og/`.
+(`src/landing/AudienceLandingPage.tsx`, built from the site's own components)
+renders all three; per-audience copy lives in `src/landing/audiences.ts`, SEO
+in `src/lib/seo.ts`, social cards in `public/og/`. Each page walks visitors
+through three steps: self-assess at `/guia_completa`, train their team on
+TRX Lite (trx.nubitlan.com), and contact Nubitlan for more help.
 
 - **Fast on mobile data:** the build prerenders their body HTML
-  (`src/entry-server.tsx`) and preloads their chunk and font, so they paint
+  (`src/entry-server.tsx`) and preloads their chunk, so they paint
   before JavaScript runs; the browser then hydrates. No analytics or other
   third-party requests.
 - **Contact:** no form. Visitors write by email (a `mailto:` with a

@@ -3,256 +3,248 @@ import { Link } from 'react-router-dom'
 import {
   ArrowDownIcon,
   ArrowRightIcon,
-  CheckIcon,
-  ClipboardCheckIcon,
+  ExternalLinkIcon,
   GraduationCapIcon,
+  LifeBuoyIcon,
   LinkedinIcon,
   MailIcon,
   MapPinIcon,
   ScaleIcon,
+  type LucideIcon,
 } from 'lucide-react'
 
-import './landing.css'
 import { asset } from '@/lib/asset'
 import { SELF_ASSESSMENT, SITE, TRAINING_URL } from '@/lib/site'
+import { PageHeader } from '@/components/PageHeader'
+import { PixelIcon } from '@/components/pixel/icon'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
 import { AUDIENCES, OBLIGATIONS, STEPS, type Audience } from './audiences'
 import type { AudienceSlug } from './slugs'
 
 /**
- * Shared template for the flyer landing pages (/escuelas, /isp, /empresas).
- * All per-audience copy comes from `AUDIENCES` in ./audiences.ts.
+ * Shared template for the flyer landing pages (/escuelas, /isp, /empresas),
+ * built from the same components as the rest of the site. All per-audience
+ * copy comes from `AUDIENCES` in ./audiences.ts.
  *
- * Built for a QR scan on a mid-range phone over mobile data: no WebGL sky,
- * no entrance animations, inline SVG clouds, one font, small images loaded
- * lazily below the fold, and no analytics or third-party scripts.
+ * The page leads to three steps: self-assess at /guia_completa, train the
+ * team on TRX Lite, then contact Nubitlan for anything more.
  */
 export default function AudienceLandingPage({ slug }: { slug: AudienceSlug }) {
   const audience = AUDIENCES[slug]
 
   return (
-    <div className="flyer">
-      <Hero eyebrow={audience.eyebrow} headline={audience.headline} subtitle={audience.subtitle} />
+    <>
+      <PageHeader
+        eyebrow={audience.eyebrow}
+        title={audience.headline}
+        description={audience.subtitle}
+        icon={<PixelIcon name="shield" className="text-primary size-14" />}
+        lightweight
+      >
+        <Button asChild variant="pixel" size="lg">
+          <a href="#pasos">
+            Cómo empezar
+            <ArrowDownIcon />
+          </a>
+        </Button>
+      </PageHeader>
 
-      {/* 2. Los riesgos reales */}
-      <section aria-labelledby="riesgos" className="px-4 pt-10 pb-14 sm:px-6 sm:pt-14 sm:pb-20">
-        <div className="mx-auto max-w-5xl">
-          <SectionHeading id="riesgos">Los riesgos reales</SectionHeading>
-          <ul className="mt-8 grid gap-4 md:grid-cols-3">
+      {/* Los riesgos reales */}
+      <section className="py-16 sm:py-20">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <h2 className="text-center text-3xl font-extrabold tracking-tight text-balance">
+            Los riesgos reales
+          </h2>
+          <ul className="mt-10 grid gap-6 md:grid-cols-3">
             {audience.risks.map(({ icon: Icon, title, body }) => (
-              <li key={title} className="fl-card p-5 sm:p-6">
-                <Icon className="fl-icon size-9" strokeWidth={1.5} aria-hidden="true" />
-                <h3 className="mt-4 text-lg font-bold">{title}</h3>
-                <p className="mt-2 leading-relaxed">{body}</p>
+              <li key={title}>
+                <Card className="h-full">
+                  <CardContent className="flex gap-4 p-6 sm:p-7">
+                    <IconChip icon={Icon} />
+                    <div>
+                      <h3 className="text-lg font-semibold">{title}</h3>
+                      <p className="text-muted-foreground mt-2 text-sm leading-relaxed">{body}</p>
+                    </div>
+                  </CardContent>
+                </Card>
               </li>
             ))}
           </ul>
         </div>
       </section>
 
-      {/* 3. Ley de Protección de Datos Personales */}
-      <section aria-labelledby="lpdp" className="px-4 pb-14 sm:px-6 sm:pb-20">
-        <div className="fl-panel mx-auto max-w-5xl p-5 sm:p-10">
-          <div className="flex items-start gap-3">
-            <ScaleIcon className="fl-icon mt-1 size-8 flex-none" strokeWidth={1.5} aria-hidden="true" />
-            <div>
-              <p className="fl-eyebrow">{audience.lpdpLead}</p>
-              <h2 id="lpdp" className="mt-1 text-2xl font-extrabold text-balance sm:text-3xl">
-                Ley de Protección de Datos Personales
-              </h2>
-            </div>
-          </div>
-
-          <p className="mt-5 max-w-3xl text-base leading-relaxed sm:text-lg">{audience.lpdpBody}</p>
-
-          <h3 className="mt-8 text-lg font-bold">Lo que la ley le pide, en palabras sencillas</h3>
-          <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-            {OBLIGATIONS.map((item) => (
-              <li key={item.title} className="fl-card flex gap-3 p-4">
-                <CheckIcon className="fl-icon mt-0.5 size-5 flex-none" strokeWidth={2.5} aria-hidden="true" />
-                <div>
-                  <p className="font-bold text-[var(--fl-navy)]">{item.title}</p>
-                  <p className="mt-1 text-[0.9375rem] leading-relaxed">{item.body}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-
-          <div className="fl-card mt-6 border-l-4 border-l-[var(--fl-sky)] p-5 sm:p-6">
-            <p className="text-sm font-semibold tracking-wide uppercase">Si no cumple</p>
-            <p className="mt-1 text-2xl font-extrabold text-[var(--fl-navy)] sm:text-3xl">
-              Multas desde <span className="fl-accent">$409</span> hasta{' '}
-              <span className="fl-accent">$16,352</span>*
+      {/* Ley de Protección de Datos Personales */}
+      <section className="bg-sky-50 py-16 sm:py-20 dark:bg-sky-950/60">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6">
+          <div className="text-center">
+            <p className="eyebrow text-primary inline-flex items-center gap-2">
+              <ScaleIcon className="size-4" aria-hidden="true" />
+              {audience.lpdpLead}
             </p>
-            <p className="mt-2 text-sm">*Entre 1 y 40 salarios mínimos del sector comercio ($408.80).</p>
+            <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-balance">
+              Ley de Protección de Datos Personales
+            </h2>
+            <p className="text-muted-foreground mx-auto mt-4 max-w-3xl leading-relaxed text-pretty">
+              {audience.lpdpBody}
+            </p>
           </div>
 
-          <p className="mt-6 leading-relaxed">
-            ¿Quiere saber dónde está hoy? Haga la autoevaluación gratuita en{' '}
-            <Link to={SELF_ASSESSMENT.guide} className="fl-link">
-              nubitlan.com/guia_completa
-            </Link>
-            .
-          </p>
+          <ol className="mt-10 grid gap-4 sm:grid-cols-2">
+            {OBLIGATIONS.map((item, i) => (
+              <li key={item.title}>
+                <Card className="h-full">
+                  <CardContent className="p-5">
+                    <span className="text-primary font-mono text-sm font-bold">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <h3 className="mt-2 font-bold tracking-tight text-pretty">{item.title}</h3>
+                    <p className="text-muted-foreground mt-2 text-sm leading-relaxed">{item.body}</p>
+                  </CardContent>
+                </Card>
+              </li>
+            ))}
+          </ol>
+
+          <div className="bg-card mx-auto mt-8 max-w-3xl rounded-lg border-l-4 border-sky-400 px-5 py-4">
+            <p className="text-xl font-extrabold tracking-tight sm:text-2xl">
+              Multas desde <span className="text-sky-700 dark:text-sky-300">$409</span> hasta{' '}
+              <span className="text-sky-700 dark:text-sky-300">$16,352</span>*
+            </p>
+            <p className="text-muted-foreground mt-1 text-sm">
+              *Entre 1 y 40 salarios mínimos del sector comercio ($408.80).
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* 4. Nubitlan le ayuda gratis */}
-      <section aria-labelledby="ayuda" className="px-4 pb-14 sm:px-6 sm:pb-20">
-        <div className="mx-auto max-w-5xl">
-          <SectionHeading id="ayuda">Nubitlan le ayuda gratis</SectionHeading>
+      {/* Cómo empezar: 1) autoevaluación, 2) capacitación, 3) contacto */}
+      <section id="pasos" className="scroll-mt-20 py-16 sm:py-20">
+        <div className="mx-auto max-w-3xl px-4 sm:px-6">
+          <h2 className="text-center text-3xl font-extrabold tracking-tight text-balance">
+            Cómo empezar, en 3 pasos
+          </h2>
 
-          <ul className="mt-8 grid gap-4 md:grid-cols-2">
-            <li className="fl-card flex flex-col p-5 sm:p-6">
-              <GraduationCapIcon className="fl-icon size-9" strokeWidth={1.5} aria-hidden="true" />
-              <h3 className="mt-4 text-lg font-bold">
-                Capacitación de concientización en seguridad para su personal
-              </h3>
-              <p className="mt-2 leading-relaxed">
-                Cursos cortos en línea para {audience.trainingFor}: cómo reconocer correos falsos, crear
-                contraseñas seguras y manejar datos personales con cuidado.
-              </p>
-              <p className="mt-auto pt-4">
-                <a href={TRAINING_URL} className="fl-link" target="_blank" rel="noopener">
-                  Conozca la plataforma en trx.nubitlan.com
+          <ol className="mt-10 space-y-6">
+            <Step number={1} icon={ScaleIcon} title={STEPS.assess.title} body={STEPS.assess.body}>
+              <Button asChild variant="pixel">
+                <Link to={SELF_ASSESSMENT.guide}>
+                  Hacer la autoevaluación
+                  <ArrowRightIcon />
+                </Link>
+              </Button>
+            </Step>
+
+            <Step
+              number={2}
+              icon={GraduationCapIcon}
+              title={STEPS.train.title}
+              body={`${STEPS.train.body} ${audience.trainingFor}${STEPS.train.bodyEnd}`}
+            >
+              <Button asChild variant="pixel">
+                <a href={TRAINING_URL} target="_blank" rel="noopener noreferrer">
+                  Ir a trx.nubitlan.com
+                  <ExternalLinkIcon />
                 </a>
-              </p>
-            </li>
-            <li className="fl-card flex flex-col p-5 sm:p-6">
-              <ClipboardCheckIcon className="fl-icon size-9" strokeWidth={1.5} aria-hidden="true" />
-              <h3 className="mt-4 text-lg font-bold">
-                Plan de ciberseguridad y cumplimiento con la LPDP para su organización
-              </h3>
-              <p className="mt-2 leading-relaxed">
-                Revisamos con usted sus sistemas y cómo maneja los datos, y le entregamos un plan priorizado
-                con pasos concretos para protegerse y cumplir la ley.
-              </p>
-            </li>
-          </ul>
+              </Button>
+            </Step>
 
-          <h3 className="mt-12 text-xl font-extrabold">¿Cómo funciona?</h3>
-          <ol className="mt-5 grid gap-4 md:grid-cols-3">
-            {STEPS.map((step, index) => (
-              <li key={step.title} className="flex gap-4">
-                <span className="fl-step" aria-hidden="true">
-                  {index + 1}
-                </span>
-                <div>
-                  <p className="font-bold text-[var(--fl-navy)]">
-                    <span className="sr-only">Paso {index + 1}: </span>
-                    {step.title}
-                  </p>
-                  <p className="mt-1 text-[0.9375rem]">{step.body}</p>
-                </div>
-              </li>
-            ))}
+            <Step number={3} icon={LifeBuoyIcon} title={STEPS.help.title} body={STEPS.help.body}>
+              <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <Button asChild variant="pixel">
+                  <a href={mailtoHref(audience)}>
+                    <MailIcon />
+                    Escribir por correo
+                  </a>
+                </Button>
+                <Button asChild variant="pixelOutline">
+                  <a href={SITE.linkedin} target="_blank" rel="noopener noreferrer">
+                    <LinkedinIcon />
+                    LinkedIn
+                  </a>
+                </Button>
+              </div>
+              <p className="text-muted-foreground mt-3 text-sm">
+                O escríbanos directamente a{' '}
+                <a href={`mailto:${SITE.email}`} className="text-primary font-medium underline underline-offset-4">
+                  {SITE.email}
+                </a>
+                .
+              </p>
+            </Step>
           </ol>
         </div>
       </section>
 
-      {/* 5. Contacto: no form, so the page itself collects no personal data. */}
-      <section aria-labelledby="solicitud-titulo" className="px-4 pb-14 sm:px-6 sm:pb-20">
-        <div id="solicitud" className="fl-panel mx-auto max-w-3xl p-5 sm:p-10">
-          <h2 id="solicitud-titulo" className="text-2xl font-extrabold text-balance sm:text-3xl">
-            Solicite su evaluación gratuita
-          </h2>
-          <p className="mt-2 leading-relaxed">
-            Sin costo y sin compromiso. Escríbanos por correo o por LinkedIn y le contactaremos para
-            coordinar una reunión corta.
+      {/* Quiénes somos */}
+      <section className="pb-8">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6">
+          <h2 className="text-center text-3xl font-extrabold tracking-tight text-balance">¿Quiénes somos?</h2>
+          <p className="text-muted-foreground mx-auto mt-4 flex max-w-2xl items-start justify-center gap-2 text-center leading-relaxed">
+            <MapPinIcon className="text-primary mt-1 size-4 shrink-0" aria-hidden="true" />
+            <span>Nubitlan es una empresa salvadoreña de ciberseguridad y protección de datos con sede en Apopa.</span>
           </p>
 
-          <div className="mt-6 grid gap-3 sm:grid-cols-2">
-            <a href={mailtoHref(audience)} className="fl-btn">
-              <MailIcon className="size-5" aria-hidden="true" />
-              Escribir por correo
-            </a>
-            <a href={SITE.linkedin} className="fl-btn fl-btn-outline" target="_blank" rel="noopener">
-              <LinkedinIcon className="size-5" aria-hidden="true" />
-              Escribir por LinkedIn
-            </a>
-          </div>
-
-          <p className="mt-5 text-[0.9375rem] leading-relaxed">
-            Nuestro correo:{' '}
-            <a href={`mailto:${SITE.email}`} className="fl-link">
-              {SITE.email}
-            </a>
-            . Para agilizar, indíquenos su nombre, cargo, {audience.organizationNoun.toLowerCase()}, teléfono
-            o WhatsApp y qué servicio le interesa.
-          </p>
-        </div>
-      </section>
-
-      {/* 6. Credibilidad */}
-      <section aria-labelledby="quienes" className="px-4 pb-4 sm:px-6">
-        <div className="mx-auto max-w-5xl">
-          <SectionHeading id="quienes">¿Quiénes somos?</SectionHeading>
-          <p className="mt-4 flex items-start gap-2 leading-relaxed sm:text-lg">
-            <MapPinIcon className="fl-icon mt-1 size-5 flex-none" aria-hidden="true" />
-            <span>
-              Nubitlan es una empresa salvadoreña de ciberseguridad y protección de datos con sede en Apopa.
-            </span>
-          </p>
-
-          <ul className="mt-6 grid gap-4 md:grid-cols-2">
+          <ul className="mt-10 grid gap-6 md:grid-cols-2">
             <Founder
               photo="/pictures/jorge-192.webp"
               name="Jorge Carrillo Silva"
               credential="CISSP · M.S. Ciberseguridad, NYU"
-              role="Co-fundador"
               linkedin="https://www.linkedin.com/in/jorgeecsilva/"
             />
             <Founder
               photo="/pictures/chris-192.webp"
               name="Chris Sánchez"
               credential="Abogado especializado en ciberseguridad y protección de datos"
-              role="Co-fundador"
               linkedin="https://www.linkedin.com/in/chrisitlaw/"
             />
           </ul>
-
-          <p className="mt-8">
-            <a href="#solicitud" className="fl-link inline-flex items-center gap-1.5">
-              Solicitar evaluación gratuita
-              <ArrowRightIcon className="size-4" aria-hidden="true" />
-            </a>
-          </p>
         </div>
       </section>
-    </div>
+    </>
   )
 }
 
-function Hero({ eyebrow, headline, subtitle }: { eyebrow: string; headline: string; subtitle: string }) {
+function IconChip({ icon: Icon }: { icon: LucideIcon }) {
   return (
-    <section className="fl-hero">
-      <CloudOutline className="top-6 -left-10 w-44 sm:left-[4%] sm:w-60" />
-      <CloudOutline className="top-28 -right-12 w-40 sm:top-16 sm:right-[6%] sm:w-72" />
-      <CloudOutline className="bottom-20 left-[38%] hidden w-36 md:block" />
-
-      <div className="mx-auto max-w-3xl px-4 pt-10 pb-12 text-center sm:px-6 sm:pt-16 sm:pb-16">
-        <p className="fl-eyebrow">{eyebrow}</p>
-        <h1 className="mt-3 text-[1.875rem] leading-[1.15] font-extrabold text-balance sm:text-5xl">
-          {headline}
-        </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-pretty sm:text-xl">{subtitle}</p>
-        <span className="fl-rule mx-auto mt-6" aria-hidden="true" />
-        <a href="#solicitud" className="fl-btn mt-7 w-full sm:w-auto">
-          Solicitar evaluación gratuita
-          <ArrowDownIcon className="size-5" aria-hidden="true" />
-        </a>
-      </div>
-    </section>
+    <span className="bg-primary/10 text-primary flex size-11 shrink-0 items-center justify-center rounded-xl">
+      <Icon className="size-6" strokeWidth={1.75} aria-hidden="true" />
+    </span>
   )
 }
 
-function SectionHeading({ id, children }: { id: string; children: ReactNode }) {
+function Step({
+  number,
+  icon: Icon,
+  title,
+  body,
+  children,
+}: {
+  number: number
+  icon: LucideIcon
+  title: string
+  body: string
+  children: ReactNode
+}) {
   return (
-    <div>
-      <h2 id={id} className="text-2xl font-extrabold text-balance sm:text-3xl">
-        {children}
-      </h2>
-      <span className="fl-rule mt-3" aria-hidden="true" />
-    </div>
+    <li>
+      <Card className="border-2 border-foreground shadow-[6px_6px_0_0_var(--sky-400)]">
+        <CardContent className="p-6 sm:p-8">
+          <div className="flex items-center gap-3">
+            <span className="bg-primary text-primary-foreground flex size-9 shrink-0 items-center justify-center rounded font-mono text-base font-bold">
+              {number}
+            </span>
+            <Icon className="text-primary size-6" strokeWidth={1.75} aria-hidden="true" />
+          </div>
+          <h3 className="mt-4 text-xl font-extrabold tracking-tight">
+            <span className="sr-only">Paso {number}: </span>
+            {title}
+          </h3>
+          <p className="text-muted-foreground mt-2 leading-relaxed">{body}</p>
+          <div className="mt-5">{children}</div>
+        </CardContent>
+      </Card>
+    </li>
   )
 }
 
@@ -260,35 +252,42 @@ function Founder({
   photo,
   name,
   credential,
-  role,
   linkedin,
 }: {
   photo: string
   name: string
   credential: string
-  role: string
   linkedin: string
 }) {
   return (
-    <li className="fl-card flex items-center gap-4 p-4 sm:p-5">
-      <img
-        src={asset(photo)}
-        alt={`Foto de ${name}`}
-        width={72}
-        height={72}
-        loading="lazy"
-        decoding="async"
-        className="size-18 flex-none rounded-full border-2 border-[var(--fl-border)] object-cover"
-      />
-      <div>
-        <p className="text-lg font-bold text-[var(--fl-navy)]">{name}</p>
-        <p className="fl-accent mt-0.5 font-semibold">{credential}</p>
-        <p className="mt-0.5 text-sm">{role} de Nubitlan</p>
-        <a href={linkedin} className="fl-link mt-1 inline-flex items-center gap-1 text-sm" target="_blank" rel="noopener">
-          <LinkedinIcon className="size-4" aria-hidden="true" />
-          LinkedIn<span className="sr-only"> de {name}</span>
-        </a>
-      </div>
+    <li>
+      <Card className="h-full">
+        <CardContent className="flex items-center gap-5 p-6">
+          <img
+            src={asset(photo)}
+            alt={`Foto de ${name}`}
+            width={80}
+            height={80}
+            loading="lazy"
+            decoding="async"
+            className="size-20 shrink-0 rounded-full border-4 border-sky-200 object-cover dark:border-sky-800"
+          />
+          <div>
+            <h3 className="text-lg font-bold">{name}</h3>
+            <p className="text-primary mt-0.5 text-sm font-semibold">{credential}</p>
+            <p className="text-muted-foreground mt-0.5 text-sm">Co-fundador de Nubitlan</p>
+            <a
+              href={linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary mt-1.5 inline-flex items-center gap-1.5 text-sm font-medium underline underline-offset-4"
+            >
+              <LinkedinIcon className="size-4" aria-hidden="true" />
+              LinkedIn<span className="sr-only"> de {name}</span>
+            </a>
+          </div>
+        </CardContent>
+      </Card>
     </li>
   )
 }
@@ -298,35 +297,15 @@ function mailtoHref(audience: Audience): string {
   const body = [
     'Hola, equipo de Nubitlan:',
     '',
-    'Me interesa la evaluación gratuita.',
+    'Me gustaría recibir ayuda con la ciberseguridad y el cumplimiento de la ley.',
     '',
     'Nombre completo:',
     'Cargo:',
     `${audience.organizationNoun}:`,
     'Teléfono / WhatsApp:',
     'Número aproximado de empleados:',
-    'Servicio de interés (capacitación, plan de ciberseguridad y cumplimiento, o ambos):',
     '',
     `(Enviado desde nubitlan.com/${audience.slug})`,
   ].join('\n')
   return `mailto:${SITE.email}?subject=${encodeURIComponent(audience.emailSubject)}&body=${encodeURIComponent(body)}`
-}
-
-/** Faint line-drawn cloud, as on the printed flyers. */
-function CloudOutline({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 -6 120 70"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      focusable="false"
-      className={`fl-cloud ${className ?? ''}`}
-    >
-      <path d="M28 56h64a18 18 0 0 0 2-35.9A26 26 0 0 0 45 14a20 20 0 0 0-19 13.2A14.5 14.5 0 0 0 28 56Z" />
-    </svg>
-  )
 }
