@@ -14,7 +14,6 @@
   --fl-border: #c9d9e8;
   --fl-bg: #ffffff;
   --fl-card: #ffffff;
-  --fl-error: #b42318;
   --fl-on-blue: #ffffff;
 
   font-family: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', ui-sans-serif, system-ui,
@@ -39,7 +38,6 @@
   --fl-border: #2a4766;
   --fl-bg: #0c1c30;
   --fl-card: #10243c;
-  --fl-error: #ffb4a8;
   --fl-on-blue: #0c1c30;
 }
 
@@ -154,16 +152,9 @@
   background: var(--fl-blue-hover);
 }
 
-.fl-btn:focus-visible,
-.fl-input:focus-visible,
-.fl-check:focus-visible {
+.fl-btn:focus-visible {
   outline: 3px solid var(--fl-sky);
   outline-offset: 2px;
-}
-
-.fl-btn[disabled] {
-  opacity: 0.7;
-  cursor: progress;
 }
 
 .fl-btn-outline {
@@ -187,89 +178,6 @@
   border: 2px solid var(--fl-sky);
   color: var(--fl-navy);
   font-weight: 800;
-}
-
-/* Form */
-.fl-label {
-  display: block;
-  margin-bottom: 0.375rem;
-  font-size: 0.9375rem;
-  font-weight: 600;
-  color: var(--fl-navy);
-}
-
-.fl-input {
-  display: block;
-  width: 100%;
-  min-height: 48px;
-  padding: 0.625rem 0.875rem;
-  border: 1px solid var(--fl-border);
-  border-radius: 10px;
-  background: var(--fl-card);
-  color: var(--fl-navy);
-  /* 16px keeps iOS from zooming into the field on focus. */
-  font-size: 1rem;
-}
-
-.fl-input::placeholder {
-  color: #6b7a8c;
-}
-
-.dark .fl-input::placeholder {
-  color: #8fa3b8;
-}
-
-.fl-input[aria-invalid='true'] {
-  border-color: var(--fl-error);
-}
-
-select.fl-input {
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' stroke='%234fa8e0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 8 5 5 5-5'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0.75rem center;
-  padding-right: 2.5rem;
-}
-
-.fl-check {
-  width: 1.25rem;
-  height: 1.25rem;
-  flex: none;
-  margin-top: 0.125rem;
-  accent-color: var(--fl-blue);
-}
-
-.fl-error {
-  margin-top: 0.375rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--fl-error);
-}
-
-.fl-option {
-  display: flex;
-  gap: 0.75rem;
-  align-items: flex-start;
-  padding: 0.75rem 0.875rem;
-  border: 1px solid var(--fl-border);
-  border-radius: 10px;
-  background: var(--fl-card);
-  cursor: pointer;
-}
-
-.fl-option:has(input:checked) {
-  border-color: var(--fl-blue);
-  background: var(--fl-panel);
-}
-
-/* Visually hidden, but kept out of the accessibility tree too: the honeypot
-   must not be announced or reachable by keyboard. */
-.fl-hp {
-  position: absolute !important;
-  left: -10000px !important;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
 }
 
 /* Sticky navbar is 4rem; leave room above anchored sections. */

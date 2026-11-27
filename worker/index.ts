@@ -1,8 +1,7 @@
 /**
  * nubitlan-api Worker — see wrangler.toml for routing and deployment.
  *
- * GET  /api/email-security?domain=example.com[&selector=s1]
- * POST /api/solicitud   (flyer landing-page form; see src/landing/solicitud-api.ts)
+ * GET /api/email-security?domain=example.com[&selector=s1]
  *
  * The analysis lives in src/tools/email-security/analyze.ts so `npm run dev`
  * (Vite middleware) and this Worker run exactly the same code.
@@ -16,7 +15,6 @@
  */
 
 import { analyzeEmailSecurity, InputError } from '../src/tools/email-security/analyze'
-import { handleSolicitud, type SolicitudEnv } from '../src/landing/solicitud-api'
 
 const CACHE_SECONDS = 300
 
@@ -72,15 +70,8 @@ async function emailSecurity(request: Request, ctx: ExecutionContext): Promise<R
 }
 
 export default {
-  async fetch(request: Request, env: SolicitudEnv, ctx: ExecutionContext): Promise<Response> {
+  async fetch(request: Request, _env: unknown, ctx: ExecutionContext): Promise<Response> {
     const { pathname } = new URL(request.url)
-
-    // Has its own origin-restricted CORS, so it is routed before the open
-    // OPTIONS handler below.
-    if (pathname === '/api/solicitud') {
-      const ip = request.headers.get('cf-connecting-ip') ?? 'unknown'
-      return handleSolicitud(request, env, ip)
-    }
 
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: CORS_HEADERS })
 

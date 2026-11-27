@@ -57,16 +57,5 @@ export const FOOTER_LEGAL: NavLink[] = [
   { label: 'Términos y Condiciones', to: '/terminos' },
 ]
 
-/**
- * WhatsApp contact offered after the flyer form is sent.
- *
- * PLACEHOLDER: replace `number` with the real business number (country code
- * + number, digits only, e.g. '50371234567') before the flyers go out.
- * While it is empty the WhatsApp link is hidden rather than pointing nowhere.
- */
-export const WHATSAPP = {
-  number: '',
-} as const
-
 /** TRX Lite, the security-awareness training platform. */
 export const TRAINING_URL = 'https://trx.nubitlan.com'

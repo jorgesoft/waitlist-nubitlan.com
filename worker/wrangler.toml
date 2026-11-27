@@ -1,5 +1,4 @@
-# Cloudflare Worker for the site's API: the email security checker and the
-# request form on the flyer landing pages (/escuelas, /isp, /empresas).
+# Cloudflare Worker for the site's API (currently the email security checker).
 #
 # nubitlan.com is a static site on DigitalOcean App Platform behind the
 # Cloudflare proxy, so it cannot run server code itself. This Worker is
@@ -17,16 +16,3 @@ workers_dev = true
 routes = [
   { pattern = "nubitlan.com/api/*", zone_name = "nubitlan.com" },
 ]
-
-# Where /api/solicitud sends its notification (see deliverSolicitud in
-# src/landing/solicitud-api.ts — delivery is still a placeholder).
-[vars]
-NOTIFY_TO = "contact@nubitlan.com"
-
-# Per-IP rate limit for /api/solicitud: 3 submissions a minute. The handler
-# falls back to an in-memory limit if this binding is missing.
-# https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/
-[[ratelimits]]
-name = "SOLICITUD_LIMITER"
-namespace_id = "1001"
-simple = { limit = 3, period = 60 }

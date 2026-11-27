@@ -6,15 +6,16 @@ import {
   CheckIcon,
   ClipboardCheckIcon,
   GraduationCapIcon,
+  LinkedinIcon,
+  MailIcon,
   MapPinIcon,
   ScaleIcon,
 } from 'lucide-react'
 
 import './landing.css'
 import { asset } from '@/lib/asset'
-import { SELF_ASSESSMENT, TRAINING_URL } from '@/lib/site'
-import { AUDIENCES, OBLIGATIONS, STEPS } from './audiences'
-import { RequestForm } from './RequestForm'
+import { SELF_ASSESSMENT, SITE, TRAINING_URL } from '@/lib/site'
+import { AUDIENCES, OBLIGATIONS, STEPS, type Audience } from './audiences'
 import type { AudienceSlug } from './slugs'
 
 /**
@@ -148,16 +149,36 @@ export default function AudienceLandingPage({ slug }: { slug: AudienceSlug }) {
         </div>
       </section>
 
-      {/* 5. Formulario */}
+      {/* 5. Contacto: no form, so the page itself collects no personal data. */}
       <section aria-labelledby="solicitud-titulo" className="px-4 pb-14 sm:px-6 sm:pb-20">
         <div id="solicitud" className="fl-panel mx-auto max-w-3xl p-5 sm:p-10">
           <h2 id="solicitud-titulo" className="text-2xl font-extrabold text-balance sm:text-3xl">
             Solicite su evaluación gratuita
           </h2>
           <p className="mt-2 leading-relaxed">
-            Sin costo y sin compromiso. Le contactaremos para coordinar una reunión corta.
+            Sin costo y sin compromiso. Escríbanos por correo o por LinkedIn y le contactaremos para
+            coordinar una reunión corta.
           </p>
-          <RequestForm audience={audience} />
+
+          <div className="mt-6 grid gap-3 sm:grid-cols-2">
+            <a href={mailtoHref(audience)} className="fl-btn">
+              <MailIcon className="size-5" aria-hidden="true" />
+              Escribir por correo
+            </a>
+            <a href={SITE.linkedin} className="fl-btn fl-btn-outline" target="_blank" rel="noopener">
+              <LinkedinIcon className="size-5" aria-hidden="true" />
+              Escribir por LinkedIn
+            </a>
+          </div>
+
+          <p className="mt-5 text-[0.9375rem] leading-relaxed">
+            Nuestro correo:{' '}
+            <a href={`mailto:${SITE.email}`} className="fl-link">
+              {SITE.email}
+            </a>
+            . Para agilizar, indíquenos su nombre, cargo, {audience.organizationNoun.toLowerCase()}, teléfono
+            o WhatsApp y qué servicio le interesa.
+          </p>
         </div>
       </section>
 
@@ -178,12 +199,14 @@ export default function AudienceLandingPage({ slug }: { slug: AudienceSlug }) {
               name="Jorge Carrillo Silva"
               credential="CISSP · M.S. Ciberseguridad, NYU"
               role="Co-fundador"
+              linkedin="https://www.linkedin.com/in/jorgeecsilva/"
             />
             <Founder
               photo="/pictures/chris-192.webp"
               name="Chris Sánchez"
               credential="Abogado especializado en ciberseguridad y protección de datos"
               role="Co-fundador"
+              linkedin="https://www.linkedin.com/in/chrisitlaw/"
             />
           </ul>
 
@@ -238,11 +261,13 @@ function Founder({
   name,
   credential,
   role,
+  linkedin,
 }: {
   photo: string
   name: string
   credential: string
   role: string
+  linkedin: string
 }) {
   return (
     <li className="fl-card flex items-center gap-4 p-4 sm:p-5">
@@ -259,9 +284,32 @@ function Founder({
         <p className="text-lg font-bold text-[var(--fl-navy)]">{name}</p>
         <p className="fl-accent mt-0.5 font-semibold">{credential}</p>
         <p className="mt-0.5 text-sm">{role} de Nubitlan</p>
+        <a href={linkedin} className="fl-link mt-1 inline-flex items-center gap-1 text-sm" target="_blank" rel="noopener">
+          <LinkedinIcon className="size-4" aria-hidden="true" />
+          LinkedIn<span className="sr-only"> de {name}</span>
+        </a>
       </div>
     </li>
   )
+}
+
+/** Opens the visitor's mail app with a subject and a short template. */
+function mailtoHref(audience: Audience): string {
+  const body = [
+    'Hola, equipo de Nubitlan:',
+    '',
+    'Me interesa la evaluación gratuita.',
+    '',
+    'Nombre completo:',
+    'Cargo:',
+    `${audience.organizationNoun}:`,
+    'Teléfono / WhatsApp:',
+    'Número aproximado de empleados:',
+    'Servicio de interés (capacitación, plan de ciberseguridad y cumplimiento, o ambos):',
+    '',
+    `(Enviado desde nubitlan.com/${audience.slug})`,
+  ].join('\n')
+  return `mailto:${SITE.email}?subject=${encodeURIComponent(audience.emailSubject)}&body=${encodeURIComponent(body)}`
 }
 
 /** Faint line-drawn cloud, as on the printed flyers. */

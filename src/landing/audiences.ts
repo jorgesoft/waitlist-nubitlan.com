@@ -40,10 +40,9 @@ export interface Audience {
   lpdpBody: string
   /** Who the training is for, completing "Cursos cortos en línea para …". */
   trainingFor: string
-  organizationLabel: string
-  organizationPlaceholder: string
-  /** Prefilled WhatsApp message after a successful submission. */
-  whatsappText: string
+  /** Prefilled email: subject line and the word for "organization". */
+  emailSubject: string
+  organizationNoun: string
 }
 
 export const AUDIENCES: Record<AudienceSlug, Audience> = {
@@ -79,9 +78,8 @@ export const AUDIENCES: Record<AudienceSlug, Audience> = {
     lpdpBody:
       'Su institución maneja datos de menores de edad y de sus familias: nombres, fechas de nacimiento, notas, información de salud y contactos de madres, padres y responsables. La Ley de Protección de Datos Personales le exige protegerlos, y los datos de niñas, niños y adolescentes requieren un cuidado especial.',
     trainingFor: 'docentes y personal administrativo',
-    organizationLabel: 'Nombre de la institución',
-    organizationPlaceholder: 'Colegio …',
-    whatsappText: 'Hola, envié una solicitud desde nubitlan.com/escuelas y quisiera más información.',
+    emailSubject: 'Evaluación gratuita para mi institución educativa',
+    organizationNoun: 'Institución',
   },
 
   isp: {
@@ -116,9 +114,8 @@ export const AUDIENCES: Record<AudienceSlug, Audience> = {
     lpdpBody:
       'Su empresa guarda el registro de cada abonado: DUI, dirección de instalación, teléfono y datos de facturación y pago. La Ley de Protección de Datos Personales le exige proteger esa información y usarla solo para prestar el servicio.',
     trainingFor: 'técnicos, atención al cliente y cobros',
-    organizationLabel: 'Nombre de la empresa / ISP',
-    organizationPlaceholder: 'Mi ISP, S.A. de C.V.',
-    whatsappText: 'Hola, envié una solicitud desde nubitlan.com/isp y quisiera más información.',
+    emailSubject: 'Evaluación gratuita para mi ISP',
+    organizationNoun: 'Empresa / ISP',
   },
 
   empresas: {
@@ -153,9 +150,8 @@ export const AUDIENCES: Record<AudienceSlug, Audience> = {
     lpdpBody:
       'Su empresa trata datos de clientes y empleados: nombres, DUI, teléfonos, direcciones, planillas e historial de compras. La Ley de Protección de Datos Personales le exige protegerlos y usarlos solo para el fin con que los recogió.',
     trainingFor: 'todo su personal',
-    organizationLabel: 'Nombre de la empresa',
-    organizationPlaceholder: 'Mi empresa, S.A. de C.V.',
-    whatsappText: 'Hola, envié una solicitud desde nubitlan.com/empresas y quisiera más información.',
+    emailSubject: 'Evaluación gratuita para mi empresa',
+    organizationNoun: 'Empresa',
   },
 }
 
@@ -180,7 +176,7 @@ export const OBLIGATIONS = [
 ]
 
 export const STEPS = [
-  { title: 'Llene el formulario', body: 'Toma menos de dos minutos.' },
+  { title: 'Escríbanos', body: 'Por correo o por LinkedIn, con unos datos básicos.' },
   { title: 'Le contactamos para una reunión corta', body: 'Por teléfono, videollamada o en persona.' },
   { title: 'Recibe su plan y acceso a la capacitación', body: 'Sin costo y sin compromiso.' },
 ]

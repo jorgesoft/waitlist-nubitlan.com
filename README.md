@@ -70,16 +70,9 @@ lives in `src/landing/audiences.ts`, SEO in `src/lib/seo.ts`, social cards in
   (`src/entry-server.tsx`) and preloads their chunk and font, so they paint
   before JavaScript runs; the browser then hydrates. No analytics or other
   third-party requests.
-- **Form:** posts to `POST /api/solicitud` on the Worker
-  (`src/landing/solicitud-api.ts`; the same code runs under `npm run dev`).
-  Validation is shared with the browser (`src/landing/solicitud.ts`) and
-  drops any field that is not on the form. Spam: honeypot, minimum fill time,
-  per-IP rate limit (`SOLICITUD_LIMITER` binding).
-- **Delivery is a placeholder:** `deliverSolicitud` only writes each
-  submission to the Worker log (`npx wrangler tail nubitlan-api`). Wire it to
-  a store and an email to `NOTIFY_TO` before relying on it.
-- **WhatsApp:** set `WHATSAPP.number` in `src/lib/site.ts`; the link stays
-  hidden while it is empty.
+- **Contact:** no form. Visitors write by email (a `mailto:` with a
+  per-audience subject and a short template) or on LinkedIn, so the pages
+  collect no personal data themselves.
 
 ## PR previews
 
