@@ -1,5 +1,9 @@
 # Accessibility Enhancements - Readiness Evaluation Feature
 
+> **Outdated styling:** this document predates the current design and
+> mentions Bootstrap 5, which the site no longer uses. For colors, fonts and
+> components see [STYLE_GUIDE.md](./STYLE_GUIDE.md).
+
 ## Overview
 This document outlines the accessibility enhancements implemented for the readiness evaluation quiz feature to ensure WCAG 2.1 AA compliance.
 

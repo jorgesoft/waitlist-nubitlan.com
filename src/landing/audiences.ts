@@ -1,15 +1,4 @@
-import type { LucideIcon } from 'lucide-react'
-import {
-  DatabaseZapIcon,
-  FileXIcon,
-  LockKeyholeIcon,
-  MailWarningIcon,
-  PauseCircleIcon,
-  RouterIcon,
-  ShieldAlertIcon,
-  WifiOffIcon,
-} from 'lucide-react'
-
+import type { PixelIconName } from '@/components/pixel/icon'
 import type { AudienceSlug } from './slugs'
 
 /**
@@ -22,7 +11,6 @@ import type { AudienceSlug } from './slugs'
  */
 
 export interface Risk {
-  icon: LucideIcon
   title: string
   body: string
 }
@@ -32,7 +20,11 @@ export interface Audience {
   seo: { title: string; description: string }
   /** Small label above the headline. */
   eyebrow: string
+  /** The question; `headlineHighlight` (a substring) gets the sky gradient. */
   headline: string
+  headlineHighlight: string
+  /** Completes "Hablemos de su …" in the contact band. */
+  contactNoun: string
   subtitle: string
   risks: [Risk, Risk, Risk]
   /** Why the LPDP applies to this audience in particular. */
@@ -55,21 +47,20 @@ export const AUDIENCES: Record<AudienceSlug, Audience> = {
     },
     eyebrow: 'Para escuelas y colegios',
     headline: '¿Su institución está protegida de ataques cibernéticos?',
+    headlineHighlight: 'ataques cibernéticos',
+    contactNoun: 'institución',
     subtitle:
       'Nubitlan ayuda sin costo a escuelas y colegios de Apopa a proteger los datos de sus estudiantes y a cumplir la ley.',
     risks: [
       {
-        icon: FileXIcon,
         title: 'Pérdida de expedientes',
         body: 'Notas, títulos y datos de estudiantes y exalumnos pueden ser borrados o robados.',
       },
       {
-        icon: PauseCircleIcon,
         title: 'Clases y trámites detenidos',
         body: 'Sin sistemas, la matrícula, las notas y la actividad educativa se detienen.',
       },
       {
-        icon: ShieldAlertIcon,
         title: 'Daño a la reputación',
         body: 'Una filtración rompe la confianza de los padres de familia.',
       },
@@ -91,21 +82,20 @@ export const AUDIENCES: Record<AudienceSlug, Audience> = {
     },
     eyebrow: 'Para proveedores de internet',
     headline: '¿Su red está protegida de ataques cibernéticos?',
+    headlineHighlight: 'ataques cibernéticos',
+    contactNoun: 'red',
     subtitle:
       'Nubitlan ayuda sin costo a proveedores de internet locales a proteger su red, sus equipos y los datos de sus clientes.',
     risks: [
       {
-        icon: WifiOffIcon,
         title: 'Caída del servicio',
         body: 'Ataques DDoS o ransomware pueden dejar sin internet a sus clientes.',
       },
       {
-        icon: RouterIcon,
         title: 'Equipos secuestrados',
         body: 'Routers y equipos MikroTik vulnerables pueden ser tomados por atacantes y usados en botnets.',
       },
       {
-        icon: DatabaseZapIcon,
         title: 'Robo de datos de clientes',
         body: 'DUIs, direcciones y datos de pago pueden ser filtrados.',
       },
@@ -127,21 +117,20 @@ export const AUDIENCES: Record<AudienceSlug, Audience> = {
     },
     eyebrow: 'Para empresas',
     headline: '¿Su empresa está protegida de ataques cibernéticos?',
+    headlineHighlight: 'ataques cibernéticos',
+    contactNoun: 'empresa',
     subtitle:
       'Nubitlan ayuda sin costo a empresas de Apopa a proteger sus sistemas y los datos de sus clientes, y a cumplir la ley.',
     risks: [
       {
-        icon: LockKeyholeIcon,
         title: 'Sistemas secuestrados',
         body: 'Un ransomware puede bloquear su facturación, inventario y ventas.',
       },
       {
-        icon: MailWarningIcon,
         title: 'Fraudes por correo',
         body: 'Correos falsos pueden engañar a su personal para hacer pagos o entregar contraseñas.',
       },
       {
-        icon: DatabaseZapIcon,
         title: 'Robo de datos de clientes',
         body: 'Datos de clientes y empleados pueden quedar expuestos.',
       },
@@ -156,20 +145,24 @@ export const AUDIENCES: Record<AudienceSlug, Audience> = {
 }
 
 /** Plain-language LPDP obligations, the same for every audience. */
-export const OBLIGATIONS = [
+export const OBLIGATIONS: { icon: PixelIconName; title: string; body: string }[] = [
   {
+    icon: 'check',
     title: 'Pedir consentimiento',
     body: 'Informe qué datos pide y para qué, y obtenga la autorización de la persona antes de usarlos.',
   },
   {
+    icon: 'target',
     title: 'Usar los datos solo para su finalidad',
     body: 'Use cada dato solo para el fin que informó. Para otro uso, debe avisar y pedir autorización.',
   },
   {
+    icon: 'lock',
     title: 'Aplicar medidas de seguridad',
     body: 'Proteja la información con accesos controlados, contraseñas con doble factor, respaldos y equipos actualizados.',
   },
   {
+    icon: 'users',
     title: 'Atender solicitudes de los titulares',
     body: 'Las personas pueden pedirle ver, corregir o eliminar sus datos, y usted debe responder dentro del plazo de ley.',
   },
@@ -192,6 +185,6 @@ export const STEPS = {
   },
   help: {
     title: 'Pida ayuda a Nubitlan',
-    body: '¿Necesita apoyo con su plan de ciberseguridad o con el cumplimiento de la ley? Escríbanos por correo o por LinkedIn y coordinamos una reunión corta.',
+    body: '¿Necesita apoyo con su plan de ciberseguridad o con el cumplimiento de la ley? Escríbanos y coordinamos una reunión corta.',
   },
 }

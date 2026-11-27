@@ -21,6 +21,9 @@ Welcome to the Readiness Application documentation!
 ### Deployment
 - [Deployment Checklist](./DEPLOYMENT_CHECKLIST.md) - Pre-deployment verification steps
 
+### Design
+- [Style Guide](./STYLE_GUIDE.md) - Palette, typography, page anatomy, buttons and icons
+
 ### Accessibility
 - [Accessibility Enhancements](./accessibility-enhancements.md) - Accessibility features
 - [Accessibility Validation](./accessibility-validation.md) - Testing and validation
@@ -51,6 +54,7 @@ docs/
 ├── ANALYTICS_EVENTS.md                # Analytics documentation
 ├── ANALYTICS_SETUP_COMPLETE.md        # Analytics summary
 ├── DEPLOYMENT_CHECKLIST.md            # Deployment guide
+├── STYLE_GUIDE.md                     # Visual design and page anatomy
 ├── accessibility-enhancements.md      # Accessibility features
 ├── accessibility-validation.md        # Accessibility testing
 └── scripts/

@@ -1,5 +1,9 @@
 # Accessibility and Performance Validation Report
 
+> **Outdated styling:** this document predates the current design and
+> mentions Bootstrap 5, which the site no longer uses. For colors, fonts and
+> components see [STYLE_GUIDE.md](./STYLE_GUIDE.md).
+
 ## Date: November 7, 2025
 
 ## Overview

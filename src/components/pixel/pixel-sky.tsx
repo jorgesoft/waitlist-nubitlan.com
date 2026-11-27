@@ -44,15 +44,31 @@ export function PixelSky({
   children,
   className,
   showClouds = true,
+  mobileLite = false,
   ...props
-}: React.ComponentProps<'div'> & { showClouds?: boolean }) {
+}: React.ComponentProps<'div'> & {
+  showClouds?: boolean
+  /**
+   * Phones get static pixel clouds instead of the WebGL sky, which costs
+   * seconds of main-thread time on a mid-range Android. For pages opened
+   * from a QR code on mobile data (/escuelas, /isp, /empresas).
+   */
+  mobileLite?: boolean
+}) {
   return (
     <div
       className={cn('relative isolate overflow-hidden', className)}
       {...props}
     >
       <div className="sky-wash absolute inset-0 -z-30" aria-hidden="true" />
-      {showClouds ? <VantaSky className="-z-10" /> : null}
+      {showClouds ? <VantaSky className="-z-10" minWidth={mobileLite ? 768 : undefined} /> : null}
+      {showClouds && mobileLite ? (
+        <div aria-hidden="true" className="absolute inset-0 -z-20 md:hidden">
+          <PixelCloud width={200} opacity={0.7} className="absolute top-10 -left-8" />
+          <PixelCloud width={160} opacity={0.6} className="absolute top-1/3 -right-6" />
+          <PixelCloud width={140} opacity={0.5} className="absolute bottom-16 left-1/4" />
+        </div>
+      ) : null}
       {children}
     </div>
   )
